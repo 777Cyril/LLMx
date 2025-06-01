@@ -171,30 +171,32 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  .col-a svg {
+}
+
+.col-a svg {
     width: 100%;
     height: auto;
-    margin-bottom: 0.75rem;
-  }
-  
-  /* Right panel (content + mirrored logo) */
-  .col-b {
+    margin-bottom: .75rem;
+}
+
+.col-b {
     display: flex;
     flex-direction: column;
     justify-content: end;
-  }
-  .col-b svg {
+}
+
+.col-b svg {
     width: 100%;
     height: auto;
-  }
-  .col-b .content {
+}
+
+.col-b .content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     padding-bottom: 1.5rem;
-  }
-  
+}
+
   /* When body.left: left panel is off-screen; right panel visible */
   body.left .col-a {
     transform: translate(100%, 0);
