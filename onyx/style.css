@@ -170,7 +170,7 @@
   .col-a {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-between;
   }
   .col-a svg {
     width: 100%;
