@@ -170,8 +170,7 @@
   .col-a {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    text-align: right; /* will flip in JS */
+    justify-content: end;
   }
   .col-a svg {
     width: 100%;
@@ -183,7 +182,7 @@
   .col-b {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: end;
   }
   .col-b svg {
     width: 100%;
@@ -284,7 +283,7 @@
   /* ─── INSTALL BUTTON STYLING ────────────────────────────────────────────────────────── */
   
   .install-btn {
-    display: inline-block;
+    /*display: inline-block; */
     background: var(--color-surface-primary);
     color: var(--color-content-primary);
     padding: 0.75rem 1.5rem;
@@ -316,6 +315,13 @@
     }
     .hide-small {
       display: none;
+    }
+    .about p {
+        text-wrap: wrap !important;
+    }
+
+    .colophon small {
+        transform: rotate(-90deg) !important;
     }
   }
   
