@@ -285,8 +285,8 @@
   
   .install-btn {
     display: inline-block;
-    background: #000;
-    color: #fff;
+    background: var(--color-surface-primary);
+    color: var(--color-content-primary);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-size: 1rem;
