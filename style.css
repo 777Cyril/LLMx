@@ -419,7 +419,7 @@
           transform: rotate(-90deg) !important;
       }
 
-      #theme-toggle {
+     /* #theme-toggle {
         all: unset;
         display: inline;
         background: none;
@@ -437,5 +437,5 @@
       #theme-toggle:hover {
         animation: flash .2s step-start infinite;
       }      
-      
+      */
   }
