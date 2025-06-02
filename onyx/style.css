@@ -114,7 +114,7 @@
     font-feature-settings: 'ss03' on;
   }
   
-  h1, h2, h3, h4, h5, h6, small, p {
+  h1, h2, h3, h4, h5, h6, small, p, ul, li {
     opacity: 0;
     animation: load-in 2.5s 0.5s ease-in forwards;
   }
