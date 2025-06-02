@@ -211,6 +211,9 @@
   body.right .col-b {
     transform: translate(100%, 0);
   }
+
+  body.left .col-a { text-align: right; }
+  body.right .col-a { text-align: left; }
   
   /* Skew animations for SVG logos & text */
   body.left .logo.first > svg,
@@ -253,7 +256,7 @@
   small {
     font-family: "GT Alpina Typewriter", Courier, monospace;
     font-size: 0.75rem;
-    text-transform: uppercase;
+   /* text-transform: uppercase; */
     letter-spacing: 0.031rem;
   }
   

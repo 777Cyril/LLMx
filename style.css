@@ -172,9 +172,7 @@
   
   svg path:nth-last-of-type(6) {
       animation: load-in .5s 550ms step-start forwards;
-  }
-  
-  
+  } 
   
   /* STYLES */
   
