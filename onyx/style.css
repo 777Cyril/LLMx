@@ -141,7 +141,7 @@ body.left main>section>*:not(.logo)  {
     animation: skew-left forwards calc(var(--anim-base-time) * 3) ease-out;
 }
 
-h1, h2, h3, h4, h5, h6, small, p {
+h1, h2, h3, h4, h5, h6, small, p, ul, li {
     opacity: 0;
     animation: load-in 2.5s .5s ease-in forwards;
 }
@@ -192,7 +192,7 @@ em, h3 {
     font-style: normal;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p, h1, h2, h3, h4, h5, h6, ul, li {
     font-size: 1.5rem;
     line-height: 1.1;
     font-weight: 300;
