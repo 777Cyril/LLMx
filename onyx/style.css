@@ -315,6 +315,12 @@
     html {
       font-size: 75%;
     }
+
+    main {
+      max-width: 100% !important;
+      padding: 0 1rem;
+  }
+  
     .hide-large {
       display: initial;
     }
