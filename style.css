@@ -312,6 +312,7 @@
 
   body.left .resources-scroll ul {
       direction: ltr;
+      padding-left: 1rem;
   }
 
   .resources-scroll::-webkit-scrollbar {
@@ -430,18 +431,28 @@
   /* MEDIA QUERIES */
   
   @media screen and (max-width: 600px) {
-  
+
       :root {
           --anim-scale-factor: 120%;
           --anim-skew-factor: 5deg;
       }
-  
+
       main>section {
           width: 65%;
       }
-  
+
       body.left .col-a { transform: translate(calc(100vw - 100%), 0) }
       body.left .col-b { transform: translate(0, 0) }
+
+      /* Mobile: Apply same scrollbar positioning as desktop */
+      body.left .resources-scroll {
+          direction: rtl;
+      }
+
+      body.left .resources-scroll ul {
+          direction: ltr;
+          padding-left: 1rem;
+      }
       body.right .col-a { transform: translate(0, 0) }
       body.right .col-b { transform: translate(calc(100vw - 100%), 0) }
   
