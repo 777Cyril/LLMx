@@ -305,6 +305,12 @@
       padding-right: 1rem;
   }
 
+  /* Left-side content: move scrollbar to left border */
+  body.left .resources-scroll {
+      padding-right: 0;
+      padding-left: 1rem;
+  }
+
   .resources-scroll::-webkit-scrollbar {
       width: 4px;
   }
