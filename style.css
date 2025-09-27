@@ -298,27 +298,27 @@
       padding-bottom: 1.5rem;
   }
 
-  /* Infinite scrolling for knowledge page */
-  .col-b .content.scrollable {
-      height: 100vh;
+  /* Scrollable resources container for knowledge page */
+  .resources-scroll {
+      max-height: 60vh;
       overflow-y: auto;
       padding-right: 1rem;
   }
 
-  .col-b .content.scrollable::-webkit-scrollbar {
+  .resources-scroll::-webkit-scrollbar {
       width: 4px;
   }
 
-  .col-b .content.scrollable::-webkit-scrollbar-track {
+  .resources-scroll::-webkit-scrollbar-track {
       background: transparent;
   }
 
-  .col-b .content.scrollable::-webkit-scrollbar-thumb {
+  .resources-scroll::-webkit-scrollbar-thumb {
       background: var(--color-content-primary);
       border-radius: 2px;
   }
 
-  .col-b .content.scrollable::-webkit-scrollbar-thumb:hover {
+  .resources-scroll::-webkit-scrollbar-thumb:hover {
       background: var(--color-content-primary);
   }
 
