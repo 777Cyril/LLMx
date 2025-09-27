@@ -297,6 +297,58 @@
       gap: 1.5rem;
       padding-bottom: 1.5rem;
   }
+
+  /* Infinite scrolling for knowledge page */
+  .col-b .content.scrollable {
+      height: 100vh;
+      overflow-y: auto;
+      padding-right: 1rem;
+  }
+
+  .col-b .content.scrollable::-webkit-scrollbar {
+      width: 4px;
+  }
+
+  .col-b .content.scrollable::-webkit-scrollbar-track {
+      background: transparent;
+  }
+
+  .col-b .content.scrollable::-webkit-scrollbar-thumb {
+      background: var(--color-content-primary);
+      border-radius: 2px;
+  }
+
+  .col-b .content.scrollable::-webkit-scrollbar-thumb:hover {
+      background: var(--color-content-primary);
+  }
+
+  /* Resource list styling */
+  .resources ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+
+  .resources li {
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .resources li:last-child {
+      border-bottom: none;
+  }
+
+  .resources a {
+      display: block;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      transition: all 0.2s ease;
+  }
+
+  .resources a:hover {
+      transform: translateX(0.5rem);
+  }
   
   /* ANIMATION */
   
