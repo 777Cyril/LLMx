@@ -556,54 +556,90 @@
     display: none;
   }
 
-  .mini-player {
-    width: 250px;
-    padding: 14px 16px;
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 450px;
+    height: 56px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    position: relative;
-    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateX(0);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
   }
 
-  html.darkmode .mini-player {
+  html.darkmode .status-bar {
     background: rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .mini-player:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
-    opacity: 1 !important;
-  }
-
-  .mini-player.hidden {
-    transform: translateX(350px);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .mini-player.faded {
-    opacity: 0.4;
+  .status-bar.hidden {
+    transform: translateY(100%);
   }
 
   #youtube-player {
     display: none;
   }
 
+  .track-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-content-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .player-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .control-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-content-primary);
+    background: transparent;
+    color: var(--color-content-primary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .control-btn:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+  }
+
+  .play-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
   .close-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border: none;
     background: transparent;
     color: var(--color-content-primary);
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -619,54 +655,6 @@
     background: rgba(0, 0, 0, 0.05);
   }
 
-  .player-info {
-    margin-bottom: 10px;
-    padding-right: 20px;
-  }
-
-  .track-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-content-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.3;
-  }
-
-  .player-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .control-btn {
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--color-content-primary);
-    background: transparent;
-    color: var(--color-content-primary);
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-  }
-
-  .control-btn:hover {
-    background: var(--color-content-primary);
-    color: var(--color-surface-primary);
-  }
-
-  .play-btn {
-    width: 42px;
-    height: 42px;
-    font-size: 16px;
-  }
-
   @media (max-width: 768px) {
     #music-player-container {
       bottom: 16px;
@@ -679,9 +667,10 @@
       font-size: 18px;
     }
 
-    .mini-player {
-      width: 240px;
-      padding: 12px 14px;
+    .status-bar {
+      width: 100%;
+      padding: 0 16px;
+      gap: 12px;
     }
 
     .track-name {
@@ -689,14 +678,20 @@
     }
 
     .control-btn {
-      width: 32px;
-      height: 32px;
-      font-size: 13px;
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
     }
 
     .play-btn {
-      width: 38px;
-      height: 38px;
-      font-size: 15px;
+      width: 34px;
+      height: 34px;
+      font-size: 14px;
+    }
+
+    .close-btn {
+      width: 26px;
+      height: 26px;
+      font-size: 16px;
     }
   }
