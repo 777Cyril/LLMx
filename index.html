@@ -81,8 +81,8 @@
     </main>
     
 
-    <!-- Spotify Player -->
-    <div id="spotify-player-container">
+    <!-- Music Player -->
+    <div id="music-player-container">
         <button id="music-toggle" class="music-button" aria-label="Toggle music player">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="currentColor"/>
@@ -92,13 +92,10 @@
         <div id="player-overlay" class="player-overlay hidden">
             <div class="player-content">
                 <button id="close-player" class="close-btn">&times;</button>
-                <div id="auth-section">
-                    <button id="spotify-login" class="spotify-login-btn">Connect Spotify</button>
-                </div>
-                <div id="player-section" class="hidden">
+                <div id="player-section">
+                    <div id="youtube-player"></div>
                     <div id="track-info">
-                        <div id="track-name">No track playing</div>
-                        <div id="track-artist">-</div>
+                        <div id="track-name">Loading...</div>
                     </div>
                     <div id="player-controls">
                         <button id="prev-btn" class="control-btn">⏮</button>
@@ -110,8 +107,8 @@
         </div>
     </div>
 
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
-    <script src="spotify-player.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="music-player.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>

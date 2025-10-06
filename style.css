@@ -522,13 +522,17 @@
       */
   }
 
-  /* SPOTIFY PLAYER */
+  /* MUSIC PLAYER */
 
-  #spotify-player-container {
+  #music-player-container {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 1000;
+  }
+
+  #youtube-player {
+    display: none;
   }
 
   .music-button {
@@ -597,39 +601,15 @@
     opacity: 0.7;
   }
 
-  .spotify-login-btn {
-    width: 100%;
-    padding: 16px 24px;
-    background: var(--color-content-primary);
-    color: var(--color-surface-primary);
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-
-  .spotify-login-btn:hover {
-    opacity: 0.9;
-  }
-
   #track-info {
     text-align: center;
     margin-bottom: 24px;
   }
 
   #track-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 8px;
     color: var(--color-content-primary);
-  }
-
-  #track-artist {
-    font-size: 14px;
-    color: var(--color-content-primary);
-    opacity: 0.7;
   }
 
   #player-controls {
@@ -669,7 +649,7 @@
   }
 
   @media (max-width: 768px) {
-    #spotify-player-container {
+    #music-player-container {
       bottom: 16px;
       right: 16px;
     }
