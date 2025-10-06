@@ -16,6 +16,7 @@ const YOUTUBE_CONFIG = {
 
 let player;
 let isPlaying = false;
+let fadeTimeout;
 
 // UI Elements
 const playToggle = document.getElementById('play-toggle');
@@ -42,14 +43,39 @@ closePlayerBtn.addEventListener('click', () => {
     }
 });
 
+// Hover behavior - restore full opacity
+miniPlayer.addEventListener('mouseenter', () => {
+    clearTimeout(fadeTimeout);
+    miniPlayer.classList.remove('faded');
+});
+
+miniPlayer.addEventListener('mouseleave', () => {
+    if (isPlaying) {
+        startFadeTimeout();
+    }
+});
+
 function showMiniPlayer() {
     playToggle.classList.add('hidden');
     miniPlayer.classList.remove('hidden');
+    miniPlayer.classList.remove('faded');
+    startFadeTimeout();
 }
 
 function hideMiniPlayer() {
     miniPlayer.classList.add('hidden');
+    miniPlayer.classList.remove('faded');
     playToggle.classList.remove('hidden');
+    clearTimeout(fadeTimeout);
+}
+
+function startFadeTimeout() {
+    clearTimeout(fadeTimeout);
+    fadeTimeout = setTimeout(() => {
+        if (isPlaying && !miniPlayer.matches(':hover')) {
+            miniPlayer.classList.add('faded');
+        }
+    }, 3000);
 }
 
 // YouTube API Ready
@@ -92,9 +118,12 @@ function onPlayerStateChange(event) {
         isPlaying = true;
         updatePlayPauseButton(true);
         updateTrackInfo();
+        startFadeTimeout();
     } else if (event.data === YT.PlayerState.PAUSED) {
         isPlaying = false;
         updatePlayPauseButton(false);
+        clearTimeout(fadeTimeout);
+        miniPlayer.classList.remove('faded');
     } else if (event.data === YT.PlayerState.ENDED) {
         isPlaying = false;
         updatePlayPauseButton(false);
