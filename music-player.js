@@ -34,13 +34,25 @@ musicPlayer.addEventListener('click', (e) => {
     // Don't toggle if clicking on control buttons
     if (e.target.closest('.control-btn')) return;
 
-    if (!isExpanded) {
+    if (!isExpanded && player) {
         expandPlayer();
-        if (player && !isPlaying) {
-            player.playVideo();
+        if (!isPlaying) {
+            // Play a random video from the shuffled playlist
+            playRandomSong();
         }
     }
 });
+
+function playRandomSong() {
+    // Get playlist and play random index
+    const playlist = player.getPlaylist();
+    if (playlist && playlist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * playlist.length);
+        player.playVideoAt(randomIndex);
+    } else {
+        player.playVideo();
+    }
+}
 
 function expandPlayer() {
     musicPlayer.classList.add('expanded');
@@ -56,24 +68,38 @@ function collapsePlayer() {
 let collapseTimeout;
 function resetCollapseTimeout() {
     clearTimeout(collapseTimeout);
-    if (isPlaying) {
+    if (isPlaying && isExpanded) {
         collapseTimeout = setTimeout(() => {
-            if (!musicPlayer.matches(':hover')) {
-                collapsePlayer();
-            }
+            collapsePlayer();
         }, 5000);
     }
 }
+
+// Touch/interaction tracking for mobile
+let lastInteractionTime = Date.now();
 
 musicPlayer.addEventListener('mouseenter', () => {
     if (isPlaying && !isExpanded) {
         expandPlayer();
     }
     clearTimeout(collapseTimeout);
+    lastInteractionTime = Date.now();
 });
 
 musicPlayer.addEventListener('mouseleave', () => {
     if (isPlaying) {
+        resetCollapseTimeout();
+    }
+});
+
+// Track touches on mobile
+musicPlayer.addEventListener('touchstart', () => {
+    lastInteractionTime = Date.now();
+    clearTimeout(collapseTimeout);
+});
+
+musicPlayer.addEventListener('touchend', () => {
+    if (isPlaying && isExpanded) {
         resetCollapseTimeout();
     }
 });

@@ -633,6 +633,7 @@
   .control-btn svg {
     width: 16px;
     height: 16px;
+    display: block;
   }
 
   .play-btn {
@@ -640,11 +641,16 @@
     height: 36px;
     opacity: 1;
     transform: scale(1);
+    padding-left: 2px;
   }
 
   .play-btn svg {
     width: 18px;
     height: 18px;
+  }
+
+  .music-player:not(.expanded) .play-btn {
+    padding-left: 0;
   }
 
   .music-player:not(.expanded) .control-btn:not(.play-btn) {
@@ -684,8 +690,16 @@
       height: 32px;
     }
 
+    .play-btn {
+      padding-left: 2px;
+    }
+
     .play-btn svg {
       width: 16px;
       height: 16px;
+    }
+
+    .music-player:not(.expanded) .play-btn {
+      padding-left: 0;
     }
   }
