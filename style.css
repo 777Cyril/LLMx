@@ -524,142 +524,129 @@
 
   /* MUSIC PLAYER */
 
-  #music-player-container {
+  .music-player {
     position: fixed;
     bottom: 24px;
     right: 24px;
+    height: 56px;
+    width: 56px;
+    background: var(--color-surface-primary);
+    border: 2px solid var(--color-content-primary);
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
     z-index: 1000;
+    cursor: pointer;
+  }
+
+  .music-player.expanded {
+    width: 280px;
+    cursor: default;
   }
 
   #youtube-player {
     display: none;
   }
 
-  .music-button {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: 2px solid var(--color-content-primary);
-    background: var(--color-surface-primary);
+  .track-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--color-content-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .music-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  .player-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  }
-
-  .player-overlay.hidden {
-    display: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     opacity: 0;
+    transition: opacity 0.3s ease;
+    min-width: 0;
   }
 
-  .player-content {
-    background: var(--color-surface-primary);
-    border: 2px solid var(--color-content-primary);
-    border-radius: 12px;
-    padding: 32px;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
+  .music-player.expanded .track-name {
+    opacity: 1;
   }
 
-  .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 32px;
-    color: var(--color-content-primary);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  .close-btn:hover {
-    opacity: 0.7;
-  }
-
-  #track-info {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  #track-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-content-primary);
-  }
-
-  #player-controls {
+  .player-controls {
     display: flex;
-    justify-content: center;
-    gap: 16px;
+    align-items: center;
+    gap: 8px;
   }
 
   .control-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid var(--color-content-primary);
-    background: var(--color-surface-primary);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
     color: var(--color-content-primary);
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+  }
+
+  .music-player.expanded .control-btn {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .control-btn:hover {
-    background: var(--color-content-primary);
-    color: var(--color-surface-primary);
+    background: rgba(0, 0, 0, 0.05);
   }
 
-  .control-btn.play {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
+  .play-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    opacity: 1;
+    transform: scale(1);
   }
 
-  .hidden {
-    display: none !important;
+  .music-player:not(.expanded) .control-btn:not(.play-btn) {
+    display: none;
+  }
+
+  .music-player:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
-    #music-player-container {
+    .music-player {
       bottom: 16px;
       right: 16px;
-    }
-
-    .music-button {
       width: 48px;
       height: 48px;
+      border-radius: 24px;
+      padding: 0 12px;
     }
 
-    .player-content {
-      padding: 24px;
+    .music-player.expanded {
+      width: 260px;
+    }
+
+    .track-name {
+      font-size: 13px;
+    }
+
+    .control-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
+
+    .play-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
     }
   }

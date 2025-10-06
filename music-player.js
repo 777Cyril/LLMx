@@ -16,31 +16,61 @@ const YOUTUBE_CONFIG = {
 
 let player;
 let isPlaying = false;
+let isExpanded = false;
 
 // UI Elements
-const musicToggle = document.getElementById('music-toggle');
-const playerOverlay = document.getElementById('player-overlay');
-const closePlayer = document.getElementById('close-player');
+const musicPlayer = document.getElementById('music-player');
 const playPauseBtn = document.getElementById('play-pause-btn');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const trackName = document.getElementById('track-name');
 
-// Event Listeners
-musicToggle.addEventListener('click', () => {
-    playerOverlay.classList.remove('hidden');
-    if (player && !isPlaying) {
-        player.playVideo();
+// Toggle player expansion
+musicPlayer.addEventListener('click', (e) => {
+    // Don't toggle if clicking on control buttons
+    if (e.target.closest('.control-btn')) return;
+
+    if (!isExpanded) {
+        expandPlayer();
+        if (player && !isPlaying) {
+            player.playVideo();
+        }
     }
 });
 
-closePlayer.addEventListener('click', () => {
-    playerOverlay.classList.add('hidden');
+function expandPlayer() {
+    musicPlayer.classList.add('expanded');
+    isExpanded = true;
+}
+
+function collapsePlayer() {
+    musicPlayer.classList.remove('expanded');
+    isExpanded = false;
+}
+
+// Auto-collapse after inactivity (optional - can be removed if you want it always expanded when playing)
+let collapseTimeout;
+function resetCollapseTimeout() {
+    clearTimeout(collapseTimeout);
+    if (isPlaying) {
+        collapseTimeout = setTimeout(() => {
+            if (!musicPlayer.matches(':hover')) {
+                collapsePlayer();
+            }
+        }, 5000);
+    }
+}
+
+musicPlayer.addEventListener('mouseenter', () => {
+    if (isPlaying && !isExpanded) {
+        expandPlayer();
+    }
+    clearTimeout(collapseTimeout);
 });
 
-playerOverlay.addEventListener('click', (e) => {
-    if (e.target === playerOverlay) {
-        playerOverlay.classList.add('hidden');
+musicPlayer.addEventListener('mouseleave', () => {
+    if (isPlaying) {
+        resetCollapseTimeout();
     }
 });
 
@@ -62,21 +92,25 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    trackName.textContent = 'Ready to play';
+    trackName.textContent = '';
 
-    playPauseBtn.addEventListener('click', () => {
+    playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         if (isPlaying) {
             player.pauseVideo();
         } else {
             player.playVideo();
+            expandPlayer();
         }
     });
 
-    prevBtn.addEventListener('click', () => {
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         player.previousVideo();
     });
 
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         player.nextVideo();
     });
 }
@@ -86,9 +120,12 @@ function onPlayerStateChange(event) {
         isPlaying = true;
         updatePlayPauseButton(true);
         updateTrackInfo();
+        expandPlayer();
+        resetCollapseTimeout();
     } else if (event.data === YT.PlayerState.PAUSED) {
         isPlaying = false;
         updatePlayPauseButton(false);
+        clearTimeout(collapseTimeout);
     } else if (event.data === YT.PlayerState.ENDED) {
         isPlaying = false;
         updatePlayPauseButton(false);

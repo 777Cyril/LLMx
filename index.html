@@ -82,28 +82,13 @@
     
 
     <!-- Music Player -->
-    <div id="music-player-container">
-        <button id="music-toggle" class="music-button" aria-label="Toggle music player">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="currentColor"/>
-            </svg>
-        </button>
-
-        <div id="player-overlay" class="player-overlay hidden">
-            <div class="player-content">
-                <button id="close-player" class="close-btn">&times;</button>
-                <div id="player-section">
-                    <div id="youtube-player"></div>
-                    <div id="track-info">
-                        <div id="track-name">Loading...</div>
-                    </div>
-                    <div id="player-controls">
-                        <button id="prev-btn" class="control-btn">⏮</button>
-                        <button id="play-pause-btn" class="control-btn play">▶</button>
-                        <button id="next-btn" class="control-btn">⏭</button>
-                    </div>
-                </div>
-            </div>
+    <div id="music-player" class="music-player">
+        <div id="youtube-player"></div>
+        <div id="track-name" class="track-name"></div>
+        <div class="player-controls">
+            <button id="prev-btn" class="control-btn" aria-label="Previous track">◀</button>
+            <button id="play-pause-btn" class="control-btn play-btn" aria-label="Play/Pause">▶</button>
+            <button id="next-btn" class="control-btn" aria-label="Next track">▶</button>
         </div>
     </div>
 
