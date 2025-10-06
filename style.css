@@ -524,63 +524,118 @@
 
   /* MUSIC PLAYER */
 
-  .music-player {
+  #music-player-container {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    height: 56px;
+    z-index: 1000;
+  }
+
+  .play-toggle {
     width: 56px;
-    background: var(--color-surface-primary);
+    height: 56px;
+    border-radius: 50%;
     border: 2px solid var(--color-content-primary);
-    border-radius: 28px;
+    background: var(--color-surface-primary);
+    color: var(--color-content-primary);
+    font-size: 20px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 0 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    z-index: 1000;
-    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .music-player.expanded {
-    width: 280px;
-    cursor: default;
+  .play-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .play-toggle.hidden {
+    display: none;
+  }
+
+  .mini-player {
+    width: 300px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  html.darkmode .mini-player {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mini-player:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+  }
+
+  .mini-player.hidden {
+    display: none;
   }
 
   #youtube-player {
     display: none;
   }
 
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--color-content-primary);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    line-height: 1;
+  }
+
+  .close-btn:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .player-info {
+    margin-bottom: 12px;
+  }
+
   .track-name {
-    flex: 1;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-content-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    min-width: 0;
-  }
-
-  .music-player.expanded .track-name {
-    opacity: 1;
+    line-height: 1.4;
   }
 
   .player-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 12px;
   }
 
   .control-btn {
-    width: 32px;
-    height: 32px;
-    border: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-content-primary);
     background: transparent;
     color: var(--color-content-primary);
     font-size: 16px;
@@ -588,50 +643,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
     border-radius: 50%;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
-  }
-
-  .music-player.expanded .control-btn {
-    opacity: 1;
-    transform: scale(1);
+    transition: all 0.2s ease;
   }
 
   .control-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
   }
 
   .play-btn {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     font-size: 18px;
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .music-player:not(.expanded) .control-btn:not(.play-btn) {
-    display: none;
-  }
-
-  .music-player:hover {
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
-    .music-player {
+    #music-player-container {
       bottom: 16px;
       right: 16px;
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
-      padding: 0 12px;
     }
 
-    .music-player.expanded {
-      width: 260px;
+    .play-toggle {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+
+    .mini-player {
+      width: 280px;
+      padding: 14px 18px;
     }
 
     .track-name {
@@ -639,14 +680,14 @@
     }
 
     .control-btn {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       font-size: 14px;
     }
 
     .play-btn {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       font-size: 16px;
     }
   }
