@@ -27,7 +27,7 @@ const trackName = document.getElementById('track-name');
 
 // Play/pause SVG icons
 const playIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l10 6-10 6V2z"/></svg>';
-const pauseIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><rect x="4" y="2" width="3" height="12"/><rect x="9" y="2" width="3" height="12"/></svg>';
+const pauseIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><rect x="4.5" y="2" width="2.5" height="12"/><rect x="9" y="2" width="2.5" height="12"/></svg>';
 
 // Toggle player expansion
 musicPlayer.addEventListener('click', (e) => {
@@ -44,12 +44,30 @@ musicPlayer.addEventListener('click', (e) => {
 });
 
 function playRandomSong() {
-    // Get playlist and play random index
-    const playlist = player.getPlaylist();
-    if (playlist && playlist.length > 0) {
-        const randomIndex = Math.floor(Math.random() * playlist.length);
-        player.playVideoAt(randomIndex);
-    } else {
+    // YouTube's embedded player API has limitations with shuffle
+    // We'll manually select a random video from the playlist
+    try {
+        const playlist = player.getPlaylist();
+        if (playlist && playlist.length > 0) {
+            const randomIndex = Math.floor(Math.random() * playlist.length);
+            console.log('Playing random index:', randomIndex, 'of', playlist.length);
+            player.playVideoAt(randomIndex);
+        } else {
+            // Fallback: try to load playlist info and play random
+            setTimeout(() => {
+                const retryPlaylist = player.getPlaylist();
+                if (retryPlaylist && retryPlaylist.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * retryPlaylist.length);
+                    console.log('Retry: Playing random index:', randomIndex);
+                    player.playVideoAt(randomIndex);
+                } else {
+                    // Last resort: just play
+                    player.playVideo();
+                }
+            }, 500);
+        }
+    } catch (error) {
+        console.log('Error playing random song:', error);
         player.playVideo();
     }
 }
@@ -57,6 +75,9 @@ function playRandomSong() {
 function expandPlayer() {
     musicPlayer.classList.add('expanded');
     isExpanded = true;
+
+    // Force reflow to ensure animation triggers properly on mobile
+    void trackName.offsetWidth;
 }
 
 function collapsePlayer() {
