@@ -4,14 +4,16 @@ let currentSide = "left";
 function applyTimeBasedTheme() {
     const now = new Date();
     const hour = now.getHours();
-  
-    if (hour >= 19 || hour < 7) {
-      document.documentElement.classList.add('darkmode');
-    } else {
-      document.documentElement.classList.remove('darkmode');
-    }
+
+    // Temporarily disable dark mode to test light background color
+    // if (hour >= 19 || hour < 7) {
+    //   document.documentElement.classList.add('darkmode');
+    // } else {
+    //   document.documentElement.classList.remove('darkmode');
+    // }
+    document.documentElement.classList.remove('darkmode');
   }
-  
+
   applyTimeBasedTheme();
 
   
