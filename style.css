@@ -38,7 +38,7 @@
   :root {
     /*  --color-content-primary: #AA0000;
       --color-surface-primary: #FFFFFF; */
-      --color-content-primary: #FF0000;
+      --color-content-primary: #AA0000;
       --color-surface-primary: #FFFFFF;
       --anim-base-time: 100ms;
       --anim-scale-factor: 130%;
