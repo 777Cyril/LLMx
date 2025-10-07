@@ -17,6 +17,8 @@ const YOUTUBE_CONFIG = {
 let player;
 let isPlaying = false;
 let isExpanded = false;
+let shuffledPlaylist = [];
+let currentShuffleIndex = 0;
 
 // UI Elements
 const musicPlayer = document.getElementById('music-player');
@@ -27,10 +29,10 @@ const trackName = document.getElementById('track-name');
 
 // Play/pause SVG icons
 const playIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2l10 6-10 6V2z"/></svg>';
-const pauseIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><rect x="4.5" y="2" width="2.5" height="12"/><rect x="9" y="2" width="2.5" height="12"/></svg>';
+const pauseIcon = '<svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><rect x="5" y="2" width="2" height="12"/><rect x="9" y="2" width="2" height="12"/></svg>';
 
 // Toggle player expansion
-musicPlayer.addEventListener('click', (e) => {
+musicPlayer.addEventListener('click', async (e) => {
     // Don't toggle if clicking on control buttons
     if (e.target.closest('.control-btn')) return;
 
@@ -38,38 +40,62 @@ musicPlayer.addEventListener('click', (e) => {
         expandPlayer();
         if (!isPlaying) {
             // Play a random video from the shuffled playlist
-            playRandomSong();
+            await playRandomSong();
         }
     }
 });
 
-function playRandomSong() {
-    // YouTube's embedded player API has limitations with shuffle
-    // We'll manually select a random video from the playlist
+// Also handle touch events explicitly for mobile
+musicPlayer.addEventListener('touchend', async (e) => {
+    // Don't toggle if clicking on control buttons
+    if (e.target.closest('.control-btn')) return;
+
+    if (!isExpanded && player && !isPlaying) {
+        e.preventDefault();
+        expandPlayer();
+        await playRandomSong();
+    }
+}, { passive: false });
+
+async function playRandomSong() {
+    // Use our pre-shuffled playlist
     try {
-        const playlist = player.getPlaylist();
-        if (playlist && playlist.length > 0) {
-            const randomIndex = Math.floor(Math.random() * playlist.length);
-            console.log('Playing random index:', randomIndex, 'of', playlist.length);
-            player.playVideoAt(randomIndex);
+        if (shuffledPlaylist.length > 0) {
+            const videoIndex = shuffledPlaylist[currentShuffleIndex];
+            console.log('Playing shuffled index:', videoIndex, 'from position', currentShuffleIndex);
+            await player.playVideoAt(videoIndex);
+            currentShuffleIndex = (currentShuffleIndex + 1) % shuffledPlaylist.length;
         } else {
-            // Fallback: try to load playlist info and play random
-            setTimeout(() => {
-                const retryPlaylist = player.getPlaylist();
-                if (retryPlaylist && retryPlaylist.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * retryPlaylist.length);
-                    console.log('Retry: Playing random index:', randomIndex);
-                    player.playVideoAt(randomIndex);
-                } else {
-                    // Last resort: just play
-                    player.playVideo();
-                }
-            }, 500);
+            // Fallback: try to get playlist and shuffle
+            const playlist = player.getPlaylist();
+            if (playlist && playlist.length > 0) {
+                shufflePlaylist(playlist.length);
+                const videoIndex = shuffledPlaylist[currentShuffleIndex];
+                console.log('Late shuffle: Playing index:', videoIndex);
+                await player.playVideoAt(videoIndex);
+                currentShuffleIndex = (currentShuffleIndex + 1) % shuffledPlaylist.length;
+            } else {
+                await player.playVideo();
+            }
         }
     } catch (error) {
         console.log('Error playing random song:', error);
-        player.playVideo();
+        await player.playVideo();
     }
+}
+
+function shufflePlaylist(playlistLength) {
+    // Create array of indices
+    shuffledPlaylist = Array.from({ length: playlistLength }, (_, i) => i);
+
+    // Fisher-Yates shuffle
+    for (let i = shuffledPlaylist.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledPlaylist[i], shuffledPlaylist[j]] = [shuffledPlaylist[j], shuffledPlaylist[i]];
+    }
+
+    currentShuffleIndex = 0;
+    console.log('Shuffled playlist order:', shuffledPlaylist);
 }
 
 function expandPlayer() {
@@ -143,29 +169,46 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    // Enable shuffle mode
-    player.setShuffle(true);
-
     trackName.textContent = '';
 
-    playPauseBtn.addEventListener('click', (e) => {
+    // Get playlist and shuffle it
+    const playlist = player.getPlaylist();
+    if (playlist && playlist.length > 0) {
+        shufflePlaylist(playlist.length);
+    } else {
+        // If playlist isn't loaded yet, try again after a delay
+        setTimeout(() => {
+            const retryPlaylist = player.getPlaylist();
+            if (retryPlaylist && retryPlaylist.length > 0) {
+                shufflePlaylist(retryPlaylist.length);
+            }
+        }, 1000);
+    }
+
+    playPauseBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
+        e.preventDefault();
         if (isPlaying) {
-            player.pauseVideo();
+            await player.pauseVideo();
         } else {
-            player.playVideo();
+            await player.playVideo();
             expandPlayer();
         }
     });
 
-    prevBtn.addEventListener('click', (e) => {
+    prevBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        player.previousVideo();
+        e.preventDefault();
+        // Go back in shuffled order
+        currentShuffleIndex = (currentShuffleIndex - 2 + shuffledPlaylist.length) % shuffledPlaylist.length;
+        await playRandomSong();
     });
 
-    nextBtn.addEventListener('click', (e) => {
+    nextBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        player.nextVideo();
+        e.preventDefault();
+        // Play next in shuffled order
+        await playRandomSong();
     });
 }
 
