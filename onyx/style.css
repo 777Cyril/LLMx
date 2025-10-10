@@ -38,8 +38,8 @@ h1, h2, h3, h4, h5, h6 {
 :root {
   /*  --color-content-primary: #AA0000;
     --color-surface-primary: #FFFFFF; */
-    --color-content-primary: #000000;
-    --color-surface-primary: #F4F4F8;
+    --color-content-primary: #AA0000;
+    --color-surface-primary: #FFFFFF;
     --anim-base-time: 100ms;
     --anim-scale-factor: 130%;
     --anim-skew-factor: 7deg;
