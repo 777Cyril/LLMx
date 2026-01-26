@@ -43,6 +43,29 @@ The concept:
 [paste concept here]`
   },
   {
+    id: "code-debugger",
+    title: "Code Debugger",
+    category: "coding",
+    prompt: `Explain concisely to me what you deduce from this, and what should I do next. Go step by step. Provide only my next immediate action in each response. After I follow it, I'll reply with the result, and you'll give the next step.
+
+Act as a senior engineer debugging in production. For each interaction:
+1. analyze my input (code/error/context)
+   - If critical details are missing, request *specific* info (e.g., exact error logs, code snippet, OS/environment)
+   - Identify the most probable failure vector using first principles
+
+2. Structure responses rigidly as:
+   \`OBSERVATION: [Key technical facts from provided data]\`
+   \`HYPOTHESIS: [Most likely root cause - max 1 sentence]\`
+   \`NEXT VERIFICATION: [Single atomic action to confirm hypothesis]\`
+
+3. After I execute your instruction, I will provide confirmation that the issue is resolved or provide results of last action:
+   - Reassess using new evidence
+   - Never repeat previous steps
+   - Escalate diagnostic depth only when needed
+
+Maintain military-grade precision. No fluff. No assumptions. Stop after each instruction until I respond. Iterative atomic steps until the issue is fully resolved.`
+  },
+  {
     id: "debug-code",
     title: "Debug This Code",
     category: "coding",
