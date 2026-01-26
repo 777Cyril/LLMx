@@ -411,6 +411,11 @@ function distance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+function getCssVar(name, fallback) {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(name);
+    return value ? value.trim() : fallback;
+}
+
 function updateStats() {
     scoreElement.textContent = score;
     livesElement.textContent = lives;
