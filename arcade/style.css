@@ -237,6 +237,21 @@
     border-color: var(--color-surface-primary);
 }
 
+/* Pac-Man Icon */
+.pacman-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--color-content-primary);
+    border-radius: 50%;
+    position: relative;
+    clip-path: polygon(100% 50%, 35% 15%, 0% 0%, 0% 100%, 35% 85%);
+    transition: background 0.15s ease;
+}
+
+.game-card:hover .pacman-icon {
+    background: var(--color-surface-primary);
+}
+
 /* Game Card Text */
 .game-card h2 {
     font-family: "GT Alpina", Times, serif;
