@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Space Invaders - LLMx Arcade</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="Space Invaders - LLMx Arcade" />
+  <meta property="og:url" content="https://llmxai.co/arcade/spaceinvaders/" />
+  <meta property="og:image" content="https://llmxai.co/LLMx2.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Classic Space Invaders, LLMx style" />
+
+  <!-- Global favicon (shared) -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Page-specific stylesheet -->
+  <link rel="stylesheet" href="/arcade/spaceinvaders/style.css" />
+
+  <!-- Critical inline styles -->
+  <style>
+    .invaders-page h1, .invaders-page h2, .invaders-page p, .invaders-page small, .invaders-page span { opacity: 1; animation: none; }
+    .invaders-page svg path { opacity: 1; animation: none; }
+  </style>
+</head>
+
+<body>
+  <div class="invaders-page">
+    <!-- Header -->
+    <header class="game-header">
+      <a href="/arcade/" class="logo-link">
+        <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
+            <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
+            <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
+            <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
+          </g>
+        </svg>
+      </a>
+      <h1>Space Invaders</h1>
+    </header>
+
+    <!-- Game Container -->
+    <main class="game-wrapper">
+      <div class="board-container">
+        <canvas class="game-canvas" id="invaders-canvas"></canvas>
+
+        <!-- Overlay for start/pause/game over -->
+        <div class="game-overlay" id="game-overlay">
+          <div class="overlay-content">
+            <h2 id="overlay-title">Space Invaders</h2>
+            <p id="overlay-message">Press Start to play</p>
+            <button class="game-btn" id="start-btn">Start</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Stats Panel -->
+    <section class="stats-panel">
+      <div class="stat">
+        <small>Score</small>
+        <span id="score">0</span>
+      </div>
+      <div class="stat">
+        <small>Level</small>
+        <span id="level">1</span>
+      </div>
+      <div class="stat">
+        <small>Lives</small>
+        <span id="lives">3</span>
+      </div>
+      <div class="stat">
+        <small>Best</small>
+        <span id="high-score">0</span>
+      </div>
+    </section>
+
+    <!-- Controls Info -->
+    <section class="controls-info">
+      <small>
+        <span class="desktop-only">Arrow keys or A/D to move | Space to shoot | P to pause</span>
+        <span class="mobile-only">Swipe to move | Tap to shoot | Two-finger tap to pause</span>
+      </small>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/scripts.js"></script>
+  <script src="/arcade/spaceinvaders/spaceinvaders.js"></script>
+</body>
+</html>

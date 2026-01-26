@@ -237,6 +237,66 @@
     border-color: var(--color-surface-primary);
 }
 
+/* Space Invaders Icon */
+.invaders-icon {
+    width: 6px;
+    height: 6px;
+    background: var(--color-content-primary);
+    box-shadow:
+        16px 0 0 0 var(--color-content-primary),
+        8px 8px 0 0 var(--color-content-primary),
+        16px 8px 0 0 var(--color-content-primary),
+        24px 8px 0 0 var(--color-content-primary),
+        32px 8px 0 0 var(--color-content-primary),
+        0 16px 0 0 var(--color-content-primary),
+        8px 16px 0 0 var(--color-content-primary),
+        16px 16px 0 0 var(--color-content-primary),
+        24px 16px 0 0 var(--color-content-primary),
+        32px 16px 0 0 var(--color-content-primary),
+        40px 16px 0 0 var(--color-content-primary),
+        0 24px 0 0 var(--color-content-primary),
+        8px 24px 0 0 var(--color-content-primary),
+        16px 24px 0 0 var(--color-content-primary),
+        24px 24px 0 0 var(--color-content-primary),
+        32px 24px 0 0 var(--color-content-primary),
+        40px 24px 0 0 var(--color-content-primary),
+        0 32px 0 0 var(--color-content-primary),
+        16px 32px 0 0 var(--color-content-primary),
+        24px 32px 0 0 var(--color-content-primary),
+        40px 32px 0 0 var(--color-content-primary),
+        8px 40px 0 0 var(--color-content-primary),
+        32px 40px 0 0 var(--color-content-primary);
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.game-card:hover .invaders-icon {
+    background: var(--color-surface-primary);
+    box-shadow:
+        16px 0 0 0 var(--color-surface-primary),
+        8px 8px 0 0 var(--color-surface-primary),
+        16px 8px 0 0 var(--color-surface-primary),
+        24px 8px 0 0 var(--color-surface-primary),
+        32px 8px 0 0 var(--color-surface-primary),
+        0 16px 0 0 var(--color-surface-primary),
+        8px 16px 0 0 var(--color-surface-primary),
+        16px 16px 0 0 var(--color-surface-primary),
+        24px 16px 0 0 var(--color-surface-primary),
+        32px 16px 0 0 var(--color-surface-primary),
+        40px 16px 0 0 var(--color-surface-primary),
+        0 24px 0 0 var(--color-surface-primary),
+        8px 24px 0 0 var(--color-surface-primary),
+        16px 24px 0 0 var(--color-surface-primary),
+        24px 24px 0 0 var(--color-surface-primary),
+        32px 24px 0 0 var(--color-surface-primary),
+        40px 24px 0 0 var(--color-surface-primary),
+        0 32px 0 0 var(--color-surface-primary),
+        16px 32px 0 0 var(--color-surface-primary),
+        24px 32px 0 0 var(--color-surface-primary),
+        40px 32px 0 0 var(--color-surface-primary),
+        8px 40px 0 0 var(--color-surface-primary),
+        32px 40px 0 0 var(--color-surface-primary);
+}
+
 /* Pac-Man Icon */
 .pacman-icon {
     width: 30px;
