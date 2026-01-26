@@ -205,6 +205,18 @@ Play devil's advocate. Challenge this idea by:
 Be thorough but constructive.`
   },
   {
+    id: "expert-roundtable",
+    title: "Expert Roundtable",
+    category: "thinking",
+    prompt: `Simulate a roundtable of three experts discussing [TOPIC]
+
+Expert 1: [Fill in with your preferred expert]
+
+Expert 2: [Fill in with your preferred expert]
+
+Expert 3: [Fill in with your preferred expert]`
+  },
+  {
     id: "write-email",
     title: "Professional Email",
     category: "writing",
