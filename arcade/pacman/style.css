@@ -149,10 +149,10 @@
     animation: chomp 0.2s linear infinite;
 }
 
-.cell.pacman.dir-right { --pacman-rotation: 0deg; }
-.cell.pacman.dir-left { --pacman-rotation: 180deg; }
-.cell.pacman.dir-up { --pacman-rotation: -90deg; }
-.cell.pacman.dir-down { --pacman-rotation: 90deg; }
+.cell.pacman.dir-right { --pacman-rotation: 180deg; }
+.cell.pacman.dir-left { --pacman-rotation: 0deg; }
+.cell.pacman.dir-up { --pacman-rotation: 90deg; }
+.cell.pacman.dir-down { --pacman-rotation: -90deg; }
 
 @keyframes chomp {
     0%, 100% { background: conic-gradient(var(--pacman-body) 0deg 320deg, transparent 320deg 360deg); }
