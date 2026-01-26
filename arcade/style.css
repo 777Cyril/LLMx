@@ -148,6 +148,46 @@
     background: var(--color-surface-primary);
 }
 
+/* Pong Icon */
+.pong-icon {
+    width: 70%;
+    height: 60%;
+    position: relative;
+}
+
+.pong-icon .paddle {
+    position: absolute;
+    width: 6px;
+    height: 60%;
+    background: var(--color-content-primary);
+}
+
+.pong-icon .paddle.left {
+    left: 10%;
+    top: 20%;
+}
+
+.pong-icon .paddle.right {
+    right: 10%;
+    top: 20%;
+}
+
+.pong-icon .ball {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-content-primary);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.game-card:hover .pong-icon .paddle,
+.game-card:hover .pong-icon .ball {
+    background: var(--color-surface-primary);
+}
+
 /* Game Card Text */
 .game-card h2 {
     font-family: "GT Alpina", Times, serif;
