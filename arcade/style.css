@@ -188,6 +188,55 @@
     background: var(--color-surface-primary);
 }
 
+/* Asteroids Icon */
+.asteroids-icon {
+    width: 70%;
+    height: 60%;
+    position: relative;
+}
+
+.asteroids-icon .ship {
+    position: absolute;
+    left: 20%;
+    top: 55%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 18px solid var(--color-content-primary);
+    transform: rotate(-20deg);
+}
+
+.asteroids-icon .rock,
+.asteroids-icon .rock.small {
+    position: absolute;
+    border: 2px solid var(--color-content-primary);
+    border-radius: 40%;
+}
+
+.asteroids-icon .rock {
+    width: 18px;
+    height: 18px;
+    right: 18%;
+    top: 20%;
+}
+
+.asteroids-icon .rock.small {
+    width: 10px;
+    height: 10px;
+    right: 40%;
+    top: 50%;
+}
+
+.game-card:hover .asteroids-icon .ship {
+    border-bottom-color: var(--color-surface-primary);
+}
+
+.game-card:hover .asteroids-icon .rock,
+.game-card:hover .asteroids-icon .rock.small {
+    border-color: var(--color-surface-primary);
+}
+
 /* Game Card Text */
 .game-card h2 {
     font-family: "GT Alpina", Times, serif;

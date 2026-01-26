@@ -427,6 +427,7 @@ function initPointerControls() {
     const gameArea = document.querySelector('.pong-page');
     let touchStartX = 0;
     let touchStartY = 0;
+    let touchStartedOnCanvas = false;
     const SWIPE_THRESHOLD = 20;
 
     const movePaddleTo = (clientY) => {
@@ -434,6 +435,16 @@ function initPointerControls() {
         const y = clientY - rect.top;
         player.y = y - player.height / 2;
         clampPaddle(player);
+    };
+
+    const isTouchOnCanvas = (clientX, clientY) => {
+        const rect = canvas.getBoundingClientRect();
+        return (
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom
+        );
     };
 
     gameArea.addEventListener('mousemove', (e) => {
@@ -445,6 +456,12 @@ function initPointerControls() {
         if (gameState !== 'playing' && gameState !== 'paused') return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+        touchStartedOnCanvas = isTouchOnCanvas(touchStartX, touchStartY);
+
+        // If touch is on canvas and playing, move paddle immediately
+        if (touchStartedOnCanvas && gameState === 'playing') {
+            movePaddleTo(touchStartY);
+        }
     }, { passive: true });
 
     gameArea.addEventListener('touchmove', (e) => {
@@ -462,15 +479,15 @@ function initPointerControls() {
         const absX = Math.abs(deltaX);
         const absY = Math.abs(deltaY);
 
-        if (absX < SWIPE_THRESHOLD && absY < SWIPE_THRESHOLD) {
+        // Only pause/resume if tap was OUTSIDE the canvas
+        if (absX < SWIPE_THRESHOLD && absY < SWIPE_THRESHOLD && !touchStartedOnCanvas) {
             if (gameState === 'playing') {
                 pauseGame();
-            } else {
+            } else if (gameState === 'paused') {
                 resumeGame();
             }
-        } else if (absY > absX) {
-            movePaddleTo(touchEndY);
         }
+        // If on canvas, just move paddle (already handled in touchstart/touchmove)
     }, { passive: true });
 
     gameArea.addEventListener('touchmove', (e) => {
