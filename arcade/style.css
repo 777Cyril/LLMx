@@ -241,15 +241,14 @@
 .pacman-icon {
     width: 30px;
     height: 30px;
-    background: var(--color-content-primary);
+    background: conic-gradient(var(--color-content-primary) 0deg 70deg, transparent 70deg 110deg, var(--color-content-primary) 110deg 360deg);
     border-radius: 50%;
     position: relative;
-    clip-path: polygon(100% 50%, 35% 15%, 0% 0%, 0% 100%, 35% 85%);
     transition: background 0.15s ease;
 }
 
 .game-card:hover .pacman-icon {
-    background: var(--color-surface-primary);
+    background: conic-gradient(var(--color-surface-primary) 0deg 70deg, transparent 70deg 110deg, var(--color-surface-primary) 110deg 360deg);
 }
 
 /* Game Card Text */
