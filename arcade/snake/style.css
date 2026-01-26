@@ -1,7 +1,7 @@
 /* SNAKE PAGE STYLES */
 
 :root {
-    --snake-body: #51bbfe;
+    --snake-body: #e9d758;
     --snake-head: #12421e;
     --snake-food: #ff0000;
     --snake-grid: rgba(0, 0, 0, 0.08);
