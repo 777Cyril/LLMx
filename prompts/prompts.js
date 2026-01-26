@@ -247,6 +247,9 @@ Write in a tone that matches the brand: [casual/luxurious/technical/etc.]`
   }
 ];
 
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+
 // DOM Elements
 const promptsList = document.getElementById('prompts-list');
 const modalOverlay = document.getElementById('modal-overlay');
@@ -399,3 +402,5 @@ document.addEventListener('keydown', (e) => {
 
 // Initialize
 renderPrompts();
+
+}); // End DOMContentLoaded

@@ -18,7 +18,14 @@
   <!-- Shared stylesheet -->
   <link rel="stylesheet" href="/style.css" />
   <!-- Page-specific stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/prompts/style.css" />
+
+  <!-- Critical inline styles to prevent FOUC -->
+  <style>
+    .modal-overlay { opacity: 0; visibility: hidden; position: fixed; }
+    .prompts-header .logo-link { display: block; width: 120px; }
+    .prompts-header .logo-link svg { width: 100%; height: auto; }
+  </style>
 </head>
 
 <body>
