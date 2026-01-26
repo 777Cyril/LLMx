@@ -181,6 +181,36 @@
     font-size: 1rem;
 }
 
+/* Difficulty */
+.difficulty-panel {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    opacity: 0.5;
+}
+
+.difficulty-panel select {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid var(--color-content-primary);
+    background: transparent;
+    color: inherit;
+}
+
+.difficulty-panel select:focus {
+    outline: 1px solid var(--color-content-primary);
+    outline-offset: 2px;
+}
+
 /* Controls Info */
 .controls-info {
     margin-top: 0.5rem;
@@ -232,6 +262,14 @@
 
     .stats-panel span {
         font-size: 0.8rem;
+    }
+
+    .difficulty-panel {
+        font-size: 0.5rem;
+    }
+
+    .difficulty-panel select {
+        font-size: 0.5rem;
     }
 
     .desktop-only {

@@ -11,11 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
 const WIN_SCORE = 7;
 const BALL_SPEED = 4.2;
 const BALL_SPEED_INCREMENT = 0.2;
-const AI_SPEED = 3.6;
 const PADDLE_MARGIN = 16;
 const PADDLE_WIDTH = 10;
 const PADDLE_HEIGHT_RATIO = 0.18;
 const BALL_SIZE = 10;
+const POINT_RESET_DELAY = 900;
+
+const DIFFICULTY_LEVELS = {
+    easy: { aiSpeed: 2.8, reactionDelay: 200, maxBallSpeed: 7 },
+    medium: { aiSpeed: 3.6, reactionDelay: 140, maxBallSpeed: 8 },
+    hard: { aiSpeed: 4.4, reactionDelay: 90, maxBallSpeed: 9 },
+    champion: { aiSpeed: 5.2, reactionDelay: 60, maxBallSpeed: 10 }
+};
 
 // ============================================
 // GAME STATE
@@ -36,6 +43,9 @@ let highScore = 0;
 let gameLoop = null;
 let gameState = 'idle'; // 'idle', 'playing', 'paused', 'gameover'
 let keysPressed = new Set();
+let currentDifficulty = 'medium';
+let serveTimeout = null;
+let awaitingServe = false;
 
 // ============================================
 // DOM ELEMENTS
@@ -49,6 +59,7 @@ const overlayElement = document.getElementById('game-overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayMessage = document.getElementById('overlay-message');
 const startBtn = document.getElementById('start-btn');
+const difficultySelect = document.getElementById('difficulty-select');
 
 // ============================================
 // INITIALIZATION
@@ -67,6 +78,14 @@ function init() {
     startBtn.addEventListener('click', handleStartButton);
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
+    difficultySelect.addEventListener('change', handleDifficultyChange);
+
+    const savedDifficulty = localStorage.getItem('pong-difficulty');
+    if (savedDifficulty && DIFFICULTY_LEVELS[savedDifficulty]) {
+        currentDifficulty = savedDifficulty;
+        difficultySelect.value = savedDifficulty;
+    }
+    applyDifficulty(currentDifficulty);
 
     initPointerControls();
 
@@ -97,7 +116,10 @@ function initGameObjects() {
         y: (canvas.height / pixelRatio - paddleHeight) / 2,
         width: PADDLE_WIDTH,
         height: paddleHeight,
-        speed: AI_SPEED
+        speed: DIFFICULTY_LEVELS[currentDifficulty].aiSpeed,
+        targetY: (canvas.height / pixelRatio - paddleHeight) / 2,
+        lastReaction: 0,
+        reactionDelay: DIFFICULTY_LEVELS[currentDifficulty].reactionDelay
     };
 
     resetBall(Math.random() > 0.5 ? 1 : -1);
@@ -112,6 +134,11 @@ function startGame() {
     cpuScore = 0;
     updateStats();
     initGameObjects();
+    awaitingServe = false;
+    if (serveTimeout) {
+        clearTimeout(serveTimeout);
+        serveTimeout = null;
+    }
     gameState = 'playing';
     hideOverlay();
 
@@ -142,16 +169,22 @@ function updatePlayer() {
 }
 
 function updateCpu() {
-    const targetY = ball.y - cpu.height / 2;
-    if (cpu.y < targetY) {
+    if (!ball || awaitingServe) return;
+    const now = performance.now();
+    if (now - cpu.lastReaction >= cpu.reactionDelay) {
+        cpu.targetY = ball.y - cpu.height / 2;
+        cpu.lastReaction = now;
+    }
+    if (cpu.y < cpu.targetY) {
         cpu.y += cpu.speed;
-    } else if (cpu.y > targetY) {
+    } else if (cpu.y > cpu.targetY) {
         cpu.y -= cpu.speed;
     }
     clampPaddle(cpu);
 }
 
 function updateBall() {
+    if (!ball || awaitingServe) return;
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -173,7 +206,7 @@ function updateBall() {
             endGame('CPU Wins', 'Try again?');
             return;
         }
-        resetBall(1);
+        scheduleServe(1);
     } else if (ball.x > canvas.width / pixelRatio) {
         playerScore++;
         updateStats();
@@ -181,7 +214,7 @@ function updateBall() {
             endGame('You Win', 'Nice rally');
             return;
         }
-        resetBall(-1);
+        scheduleServe(-1);
     }
 }
 
@@ -199,7 +232,7 @@ function reflectBall(paddle, direction) {
     const ballCenter = ball.y + ball.size / 2;
     const offset = (ballCenter - paddleCenter) / (paddle.height / 2);
 
-    const speed = Math.min(ball.speed + BALL_SPEED_INCREMENT, 8);
+    const speed = Math.min(ball.speed + BALL_SPEED_INCREMENT, ball.maxSpeed);
     const angle = offset * (Math.PI / 4);
 
     ball.speed = speed;
@@ -221,9 +254,20 @@ function resetBall(direction) {
         y: canvasHeight / 2 - BALL_SIZE / 2,
         size: BALL_SIZE,
         speed: BALL_SPEED,
+        maxSpeed: DIFFICULTY_LEVELS[currentDifficulty].maxBallSpeed,
         vx: BALL_SPEED * direction,
         vy: BALL_SPEED * (Math.random() * 1.5 - 0.75)
     };
+}
+
+function scheduleServe(direction) {
+    awaitingServe = true;
+    if (serveTimeout) clearTimeout(serveTimeout);
+    ball = null;
+    serveTimeout = setTimeout(() => {
+        resetBall(direction);
+        awaitingServe = false;
+    }, POINT_RESET_DELAY);
 }
 
 function clampPaddle(paddle) {
@@ -248,6 +292,11 @@ function resumeGame() {
 function endGame(title, message) {
     gameState = 'gameover';
     if (gameLoop) cancelAnimationFrame(gameLoop);
+    if (serveTimeout) {
+        clearTimeout(serveTimeout);
+        serveTimeout = null;
+    }
+    awaitingServe = false;
 
     if (playerScore > highScore) {
         highScore = playerScore;
@@ -270,7 +319,9 @@ function render() {
     drawCenterLine(width, height);
     drawPaddle(player);
     drawPaddle(cpu);
-    drawBall();
+    if (ball) {
+        drawBall();
+    }
 }
 
 function drawCenterLine(width, height) {
@@ -352,6 +403,26 @@ function handleKeyUp(e) {
     keysPressed.delete(e.key);
 }
 
+function handleDifficultyChange(e) {
+    const value = e.target.value;
+    if (!DIFFICULTY_LEVELS[value]) return;
+    currentDifficulty = value;
+    localStorage.setItem('pong-difficulty', value);
+    applyDifficulty(value);
+}
+
+function applyDifficulty(level) {
+    const settings = DIFFICULTY_LEVELS[level];
+    if (!settings) return;
+    if (cpu) {
+        cpu.speed = settings.aiSpeed;
+        cpu.reactionDelay = settings.reactionDelay;
+    }
+    if (ball) {
+        ball.maxSpeed = settings.maxBallSpeed;
+    }
+}
+
 function initPointerControls() {
     const gameArea = document.querySelector('.pong-page');
     let touchStartX = 0;
@@ -421,8 +492,10 @@ function handleResize() {
 
     player.y *= scaleY;
     cpu.y *= scaleY;
-    ball.x *= scaleX;
-    ball.y *= scaleY;
+    if (ball) {
+        ball.x *= scaleX;
+        ball.y *= scaleY;
+    }
     clampPaddle(player);
     clampPaddle(cpu);
 }
