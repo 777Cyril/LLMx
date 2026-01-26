@@ -18,7 +18,6 @@
     flex-direction: column;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none;
     overflow: hidden;
 }
 
@@ -84,6 +83,7 @@
     border: 2px solid var(--color-content-primary);
     background: var(--color-surface-primary);
     display: block;
+    touch-action: none;
 }
 
 /* Game Overlay */
@@ -99,6 +99,7 @@
     justify-content: center;
     opacity: 1;
     transition: opacity 0.2s ease;
+    touch-action: auto;
 }
 
 .game-overlay.hidden {
@@ -141,6 +142,7 @@
     color: #fff;
     cursor: crosshair;
     transition: all 0.15s ease;
+    touch-action: manipulation;
 }
 
 .game-btn:hover {
