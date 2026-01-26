@@ -477,6 +477,7 @@ function resumeGame() {
 function initTouchControls() {
     const gameArea = document.querySelector('.invaders-page');
     const SWIPE_THRESHOLD = 18;
+    let isDragging = false;
 
     gameArea.addEventListener('touchstart', (e) => {
         if (gameState !== 'playing' && gameState !== 'paused') return;
@@ -490,6 +491,19 @@ function initTouchControls() {
         }
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+        isDragging = true;
+    }, { passive: true });
+
+    gameArea.addEventListener('touchmove', (e) => {
+        if (gameState !== 'playing' || !isDragging) return;
+        const touchX = e.touches[0].clientX;
+        const deltaX = touchX - touchStartX;
+        player.x += deltaX;
+        touchStartX = touchX;
+
+        const maxX = canvas.width / pixelRatio - player.width / 2;
+        const minX = player.width / 2;
+        player.x = Math.max(minX, Math.min(player.x, maxX));
     }, { passive: true });
 
     gameArea.addEventListener('touchend', (e) => {
@@ -503,6 +517,8 @@ function initTouchControls() {
         const absX = Math.abs(deltaX);
         const absY = Math.abs(deltaY);
 
+        isDragging = false;
+
         if (absX < SWIPE_THRESHOLD && absY < SWIPE_THRESHOLD) {
             if (gameState === 'playing') {
                 shoot();
@@ -512,9 +528,6 @@ function initTouchControls() {
             return;
         }
 
-        if (absX > absY) {
-            player.x += deltaX;
-        }
     }, { passive: true });
 
     gameArea.addEventListener('touchmove', (e) => {
