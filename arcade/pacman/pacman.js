@@ -99,6 +99,10 @@ function init() {
     highScoreElement.textContent = highScore;
 
     createMaze();
+    createBoardCells();
+    initPacman();
+    initGhosts();
+    updateStats();
     render();
 
     startBtn.addEventListener('click', handleStartButton);
