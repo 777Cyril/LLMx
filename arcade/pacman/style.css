@@ -142,21 +142,21 @@
     content: '';
     width: 80%;
     height: 80%;
-    background: conic-gradient(var(--pacman-body) 0deg 300deg, transparent 300deg 360deg);
+    background: conic-gradient(var(--pacman-body) 0deg 70deg, transparent 70deg 110deg, var(--pacman-body) 110deg 360deg);
     border-radius: 50%;
     position: absolute;
     transform: rotate(var(--pacman-rotation, 0deg));
     animation: chomp 0.2s linear infinite;
 }
 
-.cell.pacman.dir-right { --pacman-rotation: 180deg; }
-.cell.pacman.dir-left { --pacman-rotation: 0deg; }
-.cell.pacman.dir-up { --pacman-rotation: 90deg; }
-.cell.pacman.dir-down { --pacman-rotation: -90deg; }
+.cell.pacman.dir-right { --pacman-rotation: 0deg; }
+.cell.pacman.dir-left { --pacman-rotation: 180deg; }
+.cell.pacman.dir-up { --pacman-rotation: -90deg; }
+.cell.pacman.dir-down { --pacman-rotation: 90deg; }
 
 @keyframes chomp {
-    0%, 100% { background: conic-gradient(var(--pacman-body) 0deg 320deg, transparent 320deg 360deg); }
-    50% { background: conic-gradient(var(--pacman-body) 0deg 280deg, transparent 280deg 360deg); }
+    0%, 100% { background: conic-gradient(var(--pacman-body) 0deg 75deg, transparent 75deg 105deg, var(--pacman-body) 105deg 360deg); }
+    50% { background: conic-gradient(var(--pacman-body) 0deg 60deg, transparent 60deg 120deg, var(--pacman-body) 120deg 360deg); }
 }
 
 /* Ghosts */
