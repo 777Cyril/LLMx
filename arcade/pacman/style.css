@@ -142,49 +142,21 @@
     content: '';
     width: 80%;
     height: 80%;
-    background-color: var(--pacman-body);
+    background: conic-gradient(var(--pacman-body) 0deg 300deg, transparent 300deg 360deg);
     border-radius: 50%;
     position: absolute;
+    transform: rotate(var(--pacman-rotation, 0deg));
+    animation: chomp 0.2s linear infinite;
 }
 
-.cell.pacman.dir-right::after {
-    clip-path: polygon(100% 50%, 40% 0%, 0% 0%, 0% 100%, 40% 100%);
-    animation: chomp-right 0.2s linear infinite;
-}
+.cell.pacman.dir-right { --pacman-rotation: 0deg; }
+.cell.pacman.dir-left { --pacman-rotation: 180deg; }
+.cell.pacman.dir-up { --pacman-rotation: -90deg; }
+.cell.pacman.dir-down { --pacman-rotation: 90deg; }
 
-.cell.pacman.dir-left::after {
-    clip-path: polygon(0% 50%, 60% 0%, 100% 0%, 100% 100%, 60% 100%);
-    animation: chomp-left 0.2s linear infinite;
-}
-
-.cell.pacman.dir-up::after {
-    clip-path: polygon(50% 0%, 0% 60%, 0% 100%, 100% 100%, 100% 60%);
-    animation: chomp-up 0.2s linear infinite;
-}
-
-.cell.pacman.dir-down::after {
-    clip-path: polygon(50% 100%, 0% 40%, 0% 0%, 100% 0%, 100% 40%);
-    animation: chomp-down 0.2s linear infinite;
-}
-
-@keyframes chomp-right {
-    0%, 100% { clip-path: polygon(100% 50%, 40% 0%, 0% 0%, 0% 100%, 40% 100%); }
-    50% { clip-path: polygon(100% 50%, 50% 20%, 0% 0%, 0% 100%, 50% 80%); }
-}
-
-@keyframes chomp-left {
-    0%, 100% { clip-path: polygon(0% 50%, 60% 0%, 100% 0%, 100% 100%, 60% 100%); }
-    50% { clip-path: polygon(0% 50%, 50% 20%, 100% 0%, 100% 100%, 50% 80%); }
-}
-
-@keyframes chomp-up {
-    0%, 100% { clip-path: polygon(50% 0%, 0% 60%, 0% 100%, 100% 100%, 100% 60%); }
-    50% { clip-path: polygon(50% 0%, 20% 50%, 0% 100%, 100% 100%, 80% 50%); }
-}
-
-@keyframes chomp-down {
-    0%, 100% { clip-path: polygon(50% 100%, 0% 40%, 0% 0%, 100% 0%, 100% 40%); }
-    50% { clip-path: polygon(50% 100%, 20% 50%, 0% 0%, 100% 0%, 80% 50%); }
+@keyframes chomp {
+    0%, 100% { background: conic-gradient(var(--pacman-body) 0deg 320deg, transparent 320deg 360deg); }
+    50% { background: conic-gradient(var(--pacman-body) 0deg 280deg, transparent 280deg 360deg); }
 }
 
 /* Ghosts */
