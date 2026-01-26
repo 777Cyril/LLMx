@@ -65,22 +65,7 @@ Act as a senior engineer debugging in production. For each interaction:
 
 Maintain military-grade precision. No fluff. No assumptions. Stop after each instruction until I respond. Iterative atomic steps until the issue is fully resolved.`
   },
-  {
-    id: "debug-code",
-    title: "Debug This Code",
-    category: "coding",
-    prompt: `Analyze the following code and identify any bugs, errors, or potential issues.
-
-For each issue found:
-1. Explain what the problem is
-2. Explain why it's a problem
-3. Provide the corrected code
-4. Suggest any improvements for better practices
-
-Here is the code:
-[paste code here]`
-  },
-  {
+    {
     id: "information-request-protocol",
     title: "Information Request Protocol",
     category: "research",
@@ -307,24 +292,7 @@ Include:
 
 Aim for depth while remaining accessible.`
   },
-  {
-    id: "story-prompt",
-    title: "Story Starter",
-    category: "creative",
-    prompt: `Write the opening scene (300-500 words) of a story with the following elements:
-
-Genre: [your genre]
-Setting: [time and place]
-Main character: [brief description]
-Opening situation: [what's happening]
-
-Make the opening:
-- Hook the reader immediately
-- Establish voice and tone
-- Create intrigue or tension
-- Show, don't tell`
-  },
-  {
+    {
     id: "code-review",
     title: "Code Review",
     category: "coding",
@@ -389,25 +357,7 @@ SPECIAL INSTRUCTIONS
 
 INPUT:`
   },
-  {
-    id: "meeting-notes",
-    title: "Structure Meeting Notes",
-    category: "writing",
-    prompt: `Transform the following raw meeting notes into a structured summary:
-
-Raw notes:
-[paste notes here]
-
-Format the output as:
-1. **Meeting Purpose**
-2. **Attendees** (if mentioned)
-3. **Key Discussion Points**
-4. **Decisions Made**
-5. **Action Items** (with owners and deadlines if mentioned)
-6. **Open Questions**
-7. **Next Steps**`
-  },
-  {
+    {
     id: "pros-cons",
     title: "Pros and Cons Analysis",
     category: "thinking",
