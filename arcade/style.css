@@ -1,0 +1,214 @@
+/* ARCADE PAGE STYLES */
+
+/* Page Container */
+.arcade-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.arcade-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.arcade-header .logo-link {
+    display: block;
+    width: 120px;
+    transition: opacity 0.2s ease;
+}
+
+.arcade-header .logo-link:hover {
+    opacity: 0.6;
+    animation: none;
+}
+
+.arcade-header .logo-link svg {
+    width: 100%;
+    height: auto;
+}
+
+.arcade-header h1 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    visibility: visible;
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    text-overflow: clip;
+    padding: 0;
+}
+
+/* Games Grid */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    flex: 1;
+}
+
+/* Game Card */
+.game-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-content-primary);
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+}
+
+.game-card:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+    cursor: crosshair;
+    animation: none;
+}
+
+.game-card:hover .game-preview {
+    border-color: var(--color-surface-primary);
+}
+
+.game-card.coming-soon {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Game Preview Box */
+.game-preview {
+    aspect-ratio: 1;
+    border: 1px solid var(--color-content-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s ease;
+}
+
+/* Tetris Icon */
+.tetris-icon {
+    width: 60%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 2px;
+}
+
+.tetris-icon::before,
+.tetris-icon::after {
+    content: '';
+    background: var(--color-content-primary);
+    transition: background 0.15s ease;
+}
+
+.game-card:hover .tetris-icon::before,
+.game-card:hover .tetris-icon::after {
+    background: var(--color-surface-primary);
+}
+
+.tetris-icon::before {
+    grid-column: 1 / 3;
+    grid-row: 2 / 4;
+}
+
+.tetris-icon::after {
+    grid-column: 2 / 4;
+    grid-row: 3 / 5;
+}
+
+/* Snake Icon */
+.snake-icon {
+    width: 60%;
+    height: 4px;
+    background: var(--color-content-primary);
+    position: relative;
+}
+
+.snake-icon::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-content-primary);
+}
+
+/* Game Card Text */
+.game-card h2 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 0.25rem;
+    padding: 0;
+}
+
+.game-card p {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    opacity: 0.6;
+    padding: 0;
+}
+
+/* Footer */
+.arcade-footer {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.arcade-footer small {
+    opacity: 0.5;
+}
+
+.arcade-footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.arcade-footer a:hover {
+    animation: flash .2s step-start infinite;
+    cursor: crosshair;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+    .arcade-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .arcade-header {
+        margin-bottom: 2rem;
+    }
+
+    .arcade-header .logo-link {
+        width: 80px;
+    }
+
+    .arcade-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .game-card {
+        padding: 1rem;
+    }
+
+    .game-card h2 {
+        font-size: 1.1rem;
+    }
+}

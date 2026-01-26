@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Arcade by LLMx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="Arcade by LLMx" />
+  <meta property="og:url" content="https://llmxai.co/arcade/" />
+  <meta property="og:image" content="https://llmxai.co/LLMx2.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Retro games, LLMx style" />
+
+  <!-- Global favicon (shared) -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="/style.css" />
+  <!-- Page-specific stylesheet -->
+  <link rel="stylesheet" href="/arcade/style.css" />
+
+  <!-- Critical inline styles -->
+  <style>
+    .arcade-page h1, .arcade-page h2, .arcade-page p, .arcade-page small { opacity: 1; animation: none; }
+    .arcade-page svg path { opacity: 1; animation: none; }
+  </style>
+</head>
+
+<body>
+  <div class="arcade-page">
+    <!-- Header -->
+    <header class="arcade-header">
+      <a href="/" class="logo-link">
+        <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
+            <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
+            <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
+            <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
+          </g>
+        </svg>
+      </a>
+      <h1>Arcade</h1>
+    </header>
+
+    <!-- Games Grid -->
+    <section class="games-grid">
+      <a href="/arcade/tetris/" class="game-card">
+        <div class="game-preview tetris-preview">
+          <div class="tetris-icon"></div>
+        </div>
+        <h2>Tetris</h2>
+        <p>Classic block-stacking puzzle</p>
+      </a>
+
+      <div class="game-card coming-soon">
+        <div class="game-preview snake-preview">
+          <div class="snake-icon"></div>
+        </div>
+        <h2>Snake</h2>
+        <p>Coming soon</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="arcade-footer">
+      <small><a href="/">Back to LLMx</a></small>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/scripts.js"></script>
+</body>
+</html>
