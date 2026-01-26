@@ -148,19 +148,26 @@ Article:
 [paste article here]`
   },
   {
-    id: "brainstorm-ideas",
-    title: "Brainstorm Ideas",
-    category: "creative",
-    prompt: `I need creative ideas for the following challenge:
+    id: "prd-outline",
+    title: "PRD Outline",
+    category: "product",
+    prompt: `Create a PRD outline for the following initiative:
 
-[describe your challenge here]
+Initiative: [name]
+Context: [why now]
+Target users: [personas]
 
-Please generate 10 diverse ideas ranging from:
-- Safe and conventional approaches
-- Moderately creative solutions
-- Wild, unconventional possibilities
+Include:
+- Problem statement
+- Goals and success metrics
+- Non-goals
+- User stories / JTBD
+- Functional requirements
+- UX notes / flows
+- Dependencies and risks
+- Open questions
 
-For each idea, provide a one-sentence explanation of why it could work.`
+Keep it concise and action-ready.`
   },
   {
     id: "refactor-code",
@@ -390,23 +397,41 @@ Structure your explanation as:
 7. **Practice** - How can I apply or test this knowledge?`
   },
   {
-    id: "product-description",
-    title: "Product Description",
-    category: "creative",
-    prompt: `Write a compelling product description for:
+    id: "roadmap-prioritization",
+    title: "Roadmap Prioritization",
+    category: "product",
+    prompt: `Help me prioritize the following initiatives:
 
-Product: [your product]
-Target audience: [who it's for]
-Key features: [list main features]
-Unique selling point: [what makes it special]
+Initiatives:
+- [initiative 1] (impact, effort, confidence)
+- [initiative 2] (impact, effort, confidence)
+- [initiative 3] (impact, effort, confidence)
 
-The description should:
-- Lead with the benefit, not the feature
-- Paint a picture of the transformation
-- Address potential objections
-- End with a clear call to action
+Use RICE or ICE scoring. Output a table with:
+- Initiative
+- Score breakdown
+- Total score
+- 1-2 sentence rationale
 
-Write in a tone that matches the brand: [casual/luxurious/technical/etc.]`
+End with a recommended top 3 and why.`
+  },
+  {
+    id: "feedback-synthesis",
+    title: "User Feedback Synthesis",
+    category: "product",
+    prompt: `Synthesize the following user feedback for a PM readout:
+
+Feedback:
+[paste quotes or notes here]
+
+Deliver:
+- Top themes (3-6) with evidence snippets
+- Ranked pain points
+- Opportunities / feature ideas
+- Risks or edge cases
+- Suggested next experiments or research
+
+Keep it structured and executive-friendly.`
   }
 ];
 
