@@ -147,6 +147,8 @@ function init() {
     // Event listeners
     startBtn.addEventListener('click', handleStartButton);
     document.addEventListener('keydown', handleKeyDown);
+    holdGridElement.addEventListener('click', handleHoldClick);
+    holdGridElement.addEventListener('touchstart', handleHoldTouch, { passive: false });
 
     // Touch/swipe controls
     initTouchControls();
@@ -698,6 +700,19 @@ function handleKeyDown(e) {
     }
 }
 
+function handleHoldClick(e) {
+    if (gameState !== 'playing') return;
+    e.stopPropagation();
+    holdCurrentPiece();
+}
+
+function handleHoldTouch(e) {
+    if (gameState !== 'playing') return;
+    e.preventDefault();
+    e.stopPropagation();
+    holdCurrentPiece();
+}
+
 // ============================================
 // TOUCH / SWIPE CONTROLS
 // ============================================
@@ -708,7 +723,10 @@ function initTouchControls() {
     let touchStartTime = 0;
     let lastTapTime = 0;
     let longPressTimer = null;
-    const SWIPE_THRESHOLD = 30;
+    let lastMoveX = 0;
+    let lastMoveY = 0;
+    let gestureMoved = false;
+    const SWIPE_THRESHOLD = 15;
     const TAP_THRESHOLD = 10;
     const DOUBLE_TAP_DELAY = 300;
     const LONG_PRESS_DELAY = 500;
@@ -721,6 +739,9 @@ function initTouchControls() {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         touchStartTime = Date.now();
+        lastMoveX = touchStartX;
+        lastMoveY = touchStartY;
+        gestureMoved = false;
 
         // Start long press timer
         longPressTimer = setTimeout(() => {
@@ -729,10 +750,30 @@ function initTouchControls() {
     }, { passive: true });
 
     gameArea.addEventListener('touchmove', (e) => {
+        if (gameState !== 'playing') return;
+
         // Cancel long press on move
         if (longPressTimer) {
             clearTimeout(longPressTimer);
             longPressTimer = null;
+        }
+
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        const deltaX = touchX - lastMoveX;
+        const deltaY = touchY - lastMoveY;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        if (absX >= SWIPE_THRESHOLD && absX >= absY) {
+            const steps = Math.floor(absX / SWIPE_THRESHOLD);
+            const direction = deltaX > 0 ? 1 : -1;
+            for (let i = 0; i < steps; i++) {
+                movePiece(direction, 0);
+            }
+            lastMoveX = touchX;
+            lastMoveY = touchY;
+            gestureMoved = true;
         }
     }, { passive: true });
 
@@ -743,6 +784,11 @@ function initTouchControls() {
         if (longPressTimer) {
             clearTimeout(longPressTimer);
             longPressTimer = null;
+        }
+
+        if (gestureMoved) {
+            gestureMoved = false;
+            return;
         }
 
         const touchEndX = e.changedTouches[0].clientX;
@@ -756,20 +802,7 @@ function initTouchControls() {
 
         // Check for tap (minimal movement)
         if (absX < TAP_THRESHOLD && absY < TAP_THRESHOLD && touchDuration < 300) {
-            const now = Date.now();
-            if (now - lastTapTime < DOUBLE_TAP_DELAY) {
-                // Double tap - hold
-                holdCurrentPiece();
-                lastTapTime = 0;
-            } else {
-                // Single tap - rotate
-                lastTapTime = now;
-                setTimeout(() => {
-                    if (lastTapTime !== 0) {
-                        rotatePiece(1);
-                    }
-                }, DOUBLE_TAP_DELAY);
-            }
+            rotatePiece(1);
             return;
         }
 
@@ -785,9 +818,9 @@ function initTouchControls() {
             } else {
                 // Vertical swipe
                 if (deltaY > 0) {
-                    softDrop(); // Down
+                    hardDrop(); // Down = hard drop
                 } else {
-                    hardDrop(); // Up
+                    holdCurrentPiece(); // Up = hold
                 }
             }
         }

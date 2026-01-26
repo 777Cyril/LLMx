@@ -2,26 +2,28 @@
 
 /* Tetromino Colors */
 :root {
-    --color-I: #177E89;
+    --color-I: #12421e;
     --color-O: #FFC857;
-    --color-T: #DB3A34;
-    --color-S: #00A676;
-    --color-Z: #084C61;
-    --color-J: #323031;
-    --color-L: #F7F9F9;
+    --color-T: #ff0000;
+    --color-S: #51291e;
+    --color-Z: #8332ac;
+    --color-J: #51bbfe;
+    --color-L: #2e2aa8;
 }
 
 /* Page Container */
 .tetris-page {
-    max-width: 500px;
+    max-width: 100vw;
     margin: 0 auto;
-    padding: 1rem;
-    min-height: 100vh;
+    padding: 0.5rem;
+    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
+    overflow: hidden;
 }
 
 /* Header */
@@ -29,7 +31,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
 }
 
 .game-header .logo-link {
@@ -64,9 +67,10 @@
 .game-wrapper {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
     flex: 1;
+    min-height: 0;
 }
 
 /* Side Panels */
@@ -109,6 +113,9 @@
 /* Board Container */
 .board-container {
     position: relative;
+    height: 100%;
+    max-height: calc(100vh - 180px);
+    aspect-ratio: 1 / 2;
 }
 
 /* Game Board */
@@ -116,8 +123,8 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(20, 1fr);
-    width: 200px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     border: 2px solid var(--color-content-primary);
     background: var(--color-surface-primary);
 }
@@ -141,13 +148,13 @@ html.darkmode .game-board .cell {
 .cell.L { background-color: var(--color-L); }
 
 /* Ghost Piece */
-.cell.ghost-I { background-color: rgba(23, 126, 137, 0.3); }
-.cell.ghost-O { background-color: rgba(255, 200, 87, 0.3); }
-.cell.ghost-T { background-color: rgba(219, 58, 52, 0.3); }
-.cell.ghost-S { background-color: rgba(0, 166, 118, 0.3); }
-.cell.ghost-Z { background-color: rgba(8, 76, 97, 0.3); }
-.cell.ghost-J { background-color: rgba(50, 48, 49, 0.3); }
-.cell.ghost-L { background-color: rgba(200, 200, 200, 0.3); }
+.cell.ghost-I { background-color: rgba(18, 66, 30, 0.6); }
+.cell.ghost-O { background-color: rgba(255, 200, 87, 0.6); }
+.cell.ghost-T { background-color: rgba(255, 0, 0, 0.6); }
+.cell.ghost-S { background-color: rgba(81, 41, 30, 0.6); }
+.cell.ghost-Z { background-color: rgba(131, 50, 172, 0.6); }
+.cell.ghost-J { background-color: rgba(81, 187, 254, 0.6); }
+.cell.ghost-L { background-color: rgba(46, 42, 168, 0.6); }
 
 /* Game Overlay */
 .game-overlay {
@@ -216,11 +223,12 @@ html.darkmode .game-board .cell {
     display: flex;
     justify-content: center;
     gap: 1.5rem;
-    margin-top: 1rem;
-    padding: 0.75rem 0;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
     border-top: 1px solid var(--color-content-primary);
     border-bottom: 1px solid var(--color-content-primary);
     opacity: 0.15;
+    flex-shrink: 0;
 }
 
 .stats-panel .stat {
@@ -245,8 +253,9 @@ html.darkmode .game-board .cell {
 
 /* Controls Info */
 .controls-info {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .controls-info small {
@@ -282,41 +291,58 @@ html.darkmode .game-board .cell {
 /* Mobile Responsive */
 @media screen and (max-width: 600px) {
     .tetris-page {
-        padding: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .game-header {
+        margin-bottom: 0.5rem;
     }
 
     .game-header .logo-link {
-        width: 60px;
+        width: 50px;
     }
 
     .game-header h1 {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .game-wrapper {
-        gap: 0.5rem;
+        gap: 0.35rem;
     }
 
     .side-panel {
-        min-width: 50px;
+        min-width: 40px;
+    }
+
+    .side-panel small {
+        font-size: 0.5rem;
     }
 
     .mini-grid {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
     }
 
-    .game-board {
-        width: 160px;
-        height: 320px;
+    .board-container {
+        max-height: calc(100dvh - 140px);
     }
 
     .stats-panel {
-        gap: 1rem;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+    }
+
+    .stats-panel small {
+        font-size: 0.5rem;
     }
 
     .stats-panel span {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+    }
+
+    .controls-info {
+        margin-top: 0.5rem;
     }
 
     .desktop-only {
@@ -330,17 +356,16 @@ html.darkmode .game-board .cell {
 
 /* Very small screens */
 @media screen and (max-width: 360px) {
-    .game-board {
-        width: 140px;
-        height: 280px;
-    }
-
     .mini-grid {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
     }
 
     .side-panel {
-        min-width: 40px;
+        min-width: 32px;
+    }
+
+    .board-container {
+        max-height: calc(100dvh - 120px);
     }
 }
