@@ -284,6 +284,52 @@ Code to review:
 [paste code here]`
   },
   {
+    id: "meeting-minutes",
+    title: "Meeting Minutes",
+    category: "writing",
+    prompt: `You are an expert chief of staff, executive assistant, and strategic analyst in one. Given the following raw meeting transcript, perform deep summarization and structured synthesis with the following goals:
+
+⸻
+
+OUTPUT STRUCTURE
+
+1. Key Insights
+    •    Boil down to the 3–7 most important decisions, themes, or ideas.
+    •    Group them by topic or objective.
+    •    Highlight any strategic shifts, areas of disagreement, or high-leverage takeaways.
+
+2. Action Items
+    •    List clear next steps using the format: [Owner] – [Action] – [Due Date]
+    •    If an owner or deadline isn't mentioned, infer one logically or flag as [Unassigned] or [No Due Date]
+    •    Flag vague actions (e.g., "we should look into…") with [Clarification Needed]
+
+3. Deliverables
+    •    List all outputs to be created (e.g. reports, presentations, models, follow-up docs)
+    •    Add context: what it is, who it's for, and why it matters
+
+4. Open Questions / Follow-ups
+    •    Highlight unresolved questions, blocked tasks, or dependencies
+    •    Note anything that needs to close the loop
+
+5. Polished Meeting Minutes
+    •    A one-pager that reads like an email you'd send to an exec
+    •    Start with the Meeting Name, Date, and Purpose
+    •    Then give a 2–3 paragraph summary of what was discussed, what was decided, and what's next
+    •    Write in clear, neutral business tone
+
+⸻
+
+SPECIAL INSTRUCTIONS
+    •    Clean up messy speech, repetition, and filler
+    •    Attribute comments where possible ("Alex proposed…", "Riya expressed concern about…")
+    •    Capture moments of disagreement or ambiguity without editorializing
+    •    If something sounds important but unclear (e.g., "Let's sync offline"), flag it under [Follow-up Required]
+
+⸻
+
+INPUT:`
+  },
+  {
     id: "meeting-notes",
     title: "Structure Meeting Notes",
     category: "writing",
