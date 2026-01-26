@@ -49,6 +49,7 @@ let gameState = 'idle';
 let keysPressed = new Set();
 let touchStartX = 0;
 let touchStartY = 0;
+let audioContext = null;
 
 // ============================================
 // DOM ELEMENTS
@@ -85,6 +86,43 @@ function init() {
 
     initTouchControls();
     window.addEventListener('resize', handleResize);
+}
+
+function playTone(type) {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+
+    const now = audioContext.currentTime;
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    if (type === 'shoot') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(520, now);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    } else if (type === 'hit') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(240, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    } else if (type === 'damage') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(60, now + 0.28);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    }
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    osc.start(now);
+    osc.stop(now + 0.35);
 }
 
 function resizeCanvas() {
@@ -283,6 +321,7 @@ function handleCollisions() {
             if (rectsOverlap(bullet, invader)) {
                 playerBullets[bulletIndex].hit = true;
                 invaders[invaderIndex].hit = true;
+                playTone('hit');
                 score += 10 + (ROWS - invader.row) * 2;
             }
         });
@@ -295,6 +334,7 @@ function handleCollisions() {
     invaderBullets.forEach((bullet) => {
         if (rectsOverlap(bullet, player)) {
             bullet.hit = true;
+            playTone('damage');
             loseLife();
         }
     });
@@ -453,6 +493,7 @@ function shoot() {
         width: 4,
         height: 10
     });
+    playTone('shoot');
 }
 
 function pauseGame() {
