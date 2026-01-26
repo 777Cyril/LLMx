@@ -1,0 +1,382 @@
+/* PROMPTS PAGE STYLES */
+
+/* Override default body animations for this page */
+.prompts-page h1,
+.prompts-page h2,
+.prompts-page h3,
+.prompts-page p,
+.prompts-page small {
+    opacity: 1;
+    animation: none;
+}
+
+.prompts-page svg path {
+    opacity: 1;
+    animation: none;
+}
+
+/* Page Container */
+.prompts-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+}
+
+/* Header */
+.prompts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.prompts-header .logo-link {
+    display: block;
+    width: 120px;
+    transition: opacity 0.2s ease;
+}
+
+.prompts-header .logo-link:hover {
+    opacity: 0.6;
+    animation: none;
+}
+
+.prompts-header .logo-link svg {
+    width: 100%;
+    height: auto;
+}
+
+.prompts-header h1 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    visibility: visible;
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    text-overflow: clip;
+    padding: 0;
+}
+
+/* Filters */
+.filters {
+    margin-bottom: 1.5rem;
+}
+
+.filter-label {
+    display: block;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-content-primary);
+    background: transparent;
+    color: var(--color-content-primary);
+    cursor: crosshair;
+    transition: all 0.15s ease;
+}
+
+.chip:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+}
+
+.chip.active {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+}
+
+/* Divider */
+.divider {
+    border: none;
+    border-top: 1px solid var(--color-content-primary);
+    opacity: 0.15;
+    margin: 1.5rem 0;
+}
+
+/* Prompts Label */
+.prompts-label {
+    margin-bottom: 1rem;
+}
+
+.prompts-label small {
+    opacity: 0.5;
+}
+
+/* Prompts List */
+.prompts-list {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Prompt Item */
+.prompt-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(170, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+html.darkmode .prompt-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.prompt-item:hover {
+    background: rgba(170, 0, 0, 0.03);
+}
+
+html.darkmode .prompt-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.prompt-item:last-child {
+    border-bottom: none;
+}
+
+.prompt-title {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    padding: 0;
+}
+
+.prompt-preview {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    opacity: 0.6;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 0;
+}
+
+.prompt-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.prompt-category {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--color-content-primary);
+    opacity: 0.7;
+}
+
+.copy-btn {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-content-primary);
+    background: transparent;
+    color: var(--color-content-primary);
+    cursor: crosshair;
+    transition: all 0.15s ease;
+}
+
+.copy-btn:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+}
+
+.copy-btn.copied {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 1000;
+    padding: 1.5rem;
+}
+
+html.darkmode .modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal */
+.modal {
+    background: var(--color-surface-primary);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--color-content-primary);
+    cursor: crosshair;
+    padding: 0.5rem;
+    line-height: 1;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+.modal-close:hover {
+    opacity: 1;
+}
+
+.modal-category {
+    display: inline-block;
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.031rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--color-content-primary);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.modal-title {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.75rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
+.modal-content {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    white-space: pre-wrap;
+}
+
+.modal-copy {
+    display: block;
+    margin-left: auto;
+}
+
+/* Scrollbar for modal */
+.modal::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: var(--color-content-primary);
+    border-radius: 2px;
+}
+
+/* Fade animation for filtering */
+.prompt-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.prompt-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.prompt-item.hidden {
+    display: none;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+    .prompts-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .prompts-header {
+        margin-bottom: 2rem;
+    }
+
+    .prompts-header .logo-link {
+        width: 80px;
+    }
+
+    .prompts-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .filter-chips {
+        gap: 0.4rem;
+    }
+
+    .chip {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.65rem;
+    }
+
+    .prompt-title {
+        font-size: 1.25rem;
+    }
+
+    .prompt-preview {
+        font-size: 0.9rem;
+    }
+
+    .modal {
+        padding: 1.5rem;
+        max-height: 90vh;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        padding-right: 2rem;
+    }
+}
