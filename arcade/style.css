@@ -143,6 +143,11 @@
     background: var(--color-content-primary);
 }
 
+.game-card:hover .snake-icon,
+.game-card:hover .snake-icon::before {
+    background: var(--color-surface-primary);
+}
+
 /* Game Card Text */
 .game-card h2 {
     font-family: "GT Alpina", Times, serif;
