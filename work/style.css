@@ -1,0 +1,170 @@
+/* WORK PAGE STYLES */
+
+/* Page Container */
+.work-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.work-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+}
+
+.work-header .logo-link {
+    display: block;
+    width: 120px;
+    transition: opacity 0.2s ease;
+}
+
+.work-header .logo-link:hover {
+    opacity: 0.6;
+    animation: none;
+}
+
+.work-header .logo-link svg {
+    width: 100%;
+    height: auto;
+}
+
+.work-header h1 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    visibility: visible;
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    text-overflow: clip;
+    padding: 0;
+}
+
+/* Projects List */
+.projects-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Project Card */
+.project-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--color-content-primary);
+    padding: 2rem 2.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+}
+
+.project-card:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+    cursor: crosshair;
+    animation: none;
+}
+
+.project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.project-category {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    opacity: 0.5;
+}
+
+.project-card:hover .project-category {
+    opacity: 0.7;
+}
+
+.project-title {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 2rem;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+}
+
+.project-description {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    opacity: 0.7;
+    padding: 0;
+    margin: 0;
+}
+
+.project-arrow {
+    font-size: 1.5rem;
+    opacity: 0.4;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.project-card:hover .project-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+/* Footer */
+.work-footer {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.work-footer small {
+    opacity: 0.5;
+}
+
+.work-footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.work-footer a:hover {
+    animation: flash .2s step-start infinite;
+    cursor: crosshair;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+    .work-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .work-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .work-header .logo-link {
+        width: 80px;
+    }
+
+    .work-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .project-card {
+        padding: 1.5rem;
+    }
+
+    .project-title {
+        font-size: 1.5rem;
+    }
+
+    .project-description {
+        font-size: 0.9rem;
+    }
+}
