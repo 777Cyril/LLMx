@@ -85,7 +85,7 @@ html.darkmode .case-page,
 .case-hero-image {
     width: 100%;
     max-width: 564px;
-    margin: -4rem auto 3rem;
+    margin: -4rem auto 2rem;
     padding: 0;
     position: relative;
     z-index: 2;
@@ -94,6 +94,7 @@ html.darkmode .case-page,
 .case-hero-image img {
     width: 100%;
     height: auto;
+    max-height: 260px;
     display: block;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
@@ -144,7 +145,7 @@ html.darkmode .case-page,
 }
 
 .case-section-two-col:first-of-type {
-    border-top: 1px solid var(--color-divider);
+    border-top: none;
 }
 
 /* Left Column - Label */
