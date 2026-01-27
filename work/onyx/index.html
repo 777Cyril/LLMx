@@ -150,29 +150,15 @@
           <p class="takeaway-subtitle">Architecture</p>
         </div>
         <div class="section-right">
-          <h3 class="takeaway-detail-title">Local-first design removes friction</h3>
+          <h3 class="takeaway-detail-title">Local-first removes friction</h3>
           <div class="takeaway-content">
-            <h4>Instant install, zero onboarding</h4>
-            <p>The moment the extension is added, it's fully functional—no oauth flow, OAuth pop-ups, or API keys. Users can paste their first prompt in seconds instead of wrestling with a sign-up wall.</p>
-
-            <h4>Offline-proof</h4>
-            <p>chrome.storage.sync reads synchronously from disk and transparently syncs later when a network is available. The picker works on airplanes, firewalls, and inside locked-down corporate laptops.</p>
-
-            <h4>No backend, no bill</h4>
-            <p>Eliminating a server removed:</p>
             <ul>
-              <li>hosting fees,</li>
-              <li>database encryption / backups,</li>
-              <li>compliance checklists (GDPR, SOC-2),</li>
-              <li>incident on-call.</li>
+              <li><strong>Plug and play</strong><br>Add the extension and start saving prompts—no sign-up, no API keys, no set-up wizard.</li>
+              <li><strong>Always available</strong><br>Prompts stay in the browser, so they work on airplanes, behind corporate firewalls, and offline.</li>
+              <li><strong>Zero overhead</strong><br>No server to host, monitor, or secure. That means $0 monthly cost and no on-call pages at 3 a.m.</li>
+              <li><strong>Fast store approval</strong><br>The only Chrome permission we request is storage. With no remote calls or analytics, review finished in six hours.</li>
+              <li><strong>Built-in privacy</strong><br>Because data never leaves the device we can say, plainly, "Your prompts stay in your browser." Users trust that.</li>
             </ul>
-            <p>Total monthly ops cost: $0.</p>
-
-            <h4>Approval made easy</h4>
-            <p>Chrome Web Store reviewers flag remote code and analytics. By serving a static bundle and using only the storage permission, our first-try submission passed in 6 hours.</p>
-
-            <h4>Privacy as a feature</h4>
-            <p>Prompts never leave the user's machine. Marketing write-up shifted from "secure" to "data never leaves your browser"—a stronger, simpler guarantee.</p>
           </div>
         </div>
       </section>
@@ -184,28 +170,16 @@
           <p class="takeaway-subtitle">User Experience</p>
         </div>
         <div class="section-right">
-          <h3 class="takeaway-detail-title">Small, focused UX matters</h3>
+          <h3 class="takeaway-detail-title">Small, focused UX wins</h3>
           <div class="takeaway-content">
-            <h4>Load-time budget: &lt; 50 ms</h4>
-            <p>The popup ships as a single, tree-shaken JS bundle (~28 KB gzip). Vite's HTML plugin inlines only what's needed; no framework runtime, no analytics, no fonts. The extension is visible before the browser's paint metrics even register.</p>
+            <ul>
+              <li><strong>Loads in &lt; 50 ms</strong><br>The popup is a single 28 KB script—no frameworks, no web fonts. It appears before the browser records a paint.</li>
+              <li><strong>Keyboard-first flow</strong><br>Type x/ to open the picker, use arrows to highlight, press Enter to insert (or Shift + Enter on Claude). Esc closes it. Mouse is optional.</li>
+              <li><strong>One screen, one job</strong><br>The popup shows a list and an add/edit form. A separate Options page repeats the same UI for bulk edits. No tabs, no buried settings.</li>
+              <li><strong>Safe interactions</strong><br>Edit mode is clearly labeled and cancelable. Deletes are hidden until hover, with an "Undo" snackbar coming next.</li>
+            </ul>
 
-            <h4>Zero-click muscle-memory</h4>
-            <p>"x / " instantly spawns the picker at the caret—no modal, no mouse travel. Arrow-keys + Enter (or Shift + Enter on Claude) confirm; Esc dismisses. Every action is keyboard-first, aligning with how power-users already write prompts.</p>
-
-            <div class="takeaway-image">
-              <img src="/work/onyx/onyx-snippet-picker.png" alt="Onyx snippet picker interface showing real-time search" />
-            </div>
-
-            <h4>No accounts, no sync latency</h4>
-            <p>Snippets live in chrome.storage.sync. The very first write is synchronous; subsequent reads are in-memory cached. Cold-start to first render: ~4 ms. Nothing touches a server, so the tool works offline and never leaks data.</p>
-
-            <h4>Interface density: one screen, one task</h4>
-            <p>The popup shows exactly one thing: your list and a form. Options.html duplicates it for larger edits. No settings, no theme toggles, no hidden tabs—every extra button removed.</p>
-
-            <h4>Recoverable actions by design</h4>
-            <p>Edit mode is inline, cancellable, and visually separated with a black "editing" badge. Delete has a hover-only affordance and an "undo" snackbar in the next release. Users never wonder "did I just lose something?"</p>
-
-            <p><strong>Result:</strong> most testers added their first snippet in &lt; 20 s, inserted it in chat in &lt; 10 s, and—crucially—forgot the extension was even running. That invisibility is the metric we optimized for.</p>
+            <p><strong>Result:</strong> New users added a snippet in under 20 seconds, inserted it in chat in under 10, and then forgot the extension was running—that invisible speed is exactly what we aimed for.</p>
           </div>
         </div>
       </section>
