@@ -77,12 +77,47 @@
       <small>
         <span class="desktop-only">Arrow keys or WASD to move | P to pause</span>
         <span class="mobile-only">Swipe to move | Tap to pause</span>
+        <span class="music-toggle-wrapper">
+          <button id="music-toggle" class="music-toggle" aria-label="Toggle music">♪</button>
+        </span>
       </small>
     </section>
   </div>
 
+  <!-- Background Music -->
+  <audio id="background-music" loop>
+    <source src="/arcade/background-music.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Scripts -->
   <script src="/scripts.js"></script>
   <script src="/arcade/snake/snake.js"></script>
+  <script>
+    // Background music toggle
+    const music = document.getElementById('background-music');
+    const musicToggle = document.getElementById('music-toggle');
+    let musicEnabled = localStorage.getItem('musicEnabled') !== 'false';
+
+    musicToggle.classList.toggle('active', musicEnabled);
+
+    musicToggle.addEventListener('click', () => {
+      musicEnabled = !musicEnabled;
+      musicToggle.classList.toggle('active', musicEnabled);
+      localStorage.setItem('musicEnabled', musicEnabled);
+
+      if (musicEnabled) {
+        music.play().catch(e => console.log('Music play failed:', e));
+      } else {
+        music.pause();
+      }
+    });
+
+    // Auto-play music when game starts if enabled
+    document.getElementById('start-btn').addEventListener('click', () => {
+      if (musicEnabled) {
+        music.play().catch(e => console.log('Music play failed:', e));
+      }
+    });
+  </script>
 </body>
 </html>
