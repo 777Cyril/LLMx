@@ -179,6 +179,10 @@
               <li><strong>Safe interactions</strong><br>Edit mode is clearly labeled and cancelable. Deletes are hidden until hover, with an "Undo" snackbar coming next.</li>
             </ul>
 
+            <div class="takeaway-image">
+              <img src="/work/onyx/onyx-snippet-picker.png" alt="Onyx snippet picker interface showing real-time search" />
+            </div>
+
             <p><strong>Result:</strong> New users added a snippet in under 20 seconds, inserted it in chat in under 10, and then forgot the extension was running—that invisible speed is exactly what we aimed for.</p>
           </div>
         </div>
@@ -193,6 +197,8 @@
         <div class="section-right">
           <h3 class="takeaway-detail-title">Respect host-site constraints - design graceful fall-backs</h3>
           <div class="takeaway-content">
+            <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
+
             <h4>Why we stopped forcing Enter on Claude</h4>
             <ul>
               <li><strong>Too risky</strong> – If our code ever misses the key, Claude still fires Send and the user ships an unfinished message.</li>
