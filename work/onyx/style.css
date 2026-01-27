@@ -130,7 +130,7 @@ html.darkmode .case-page,
 
 /* Main Content */
 .case-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 4rem 4rem;
 }
@@ -188,7 +188,6 @@ html.darkmode .case-page,
     line-height: 1.4;
     margin: 0;
     padding: 0;
-    max-width: 700px;
 }
 
 /* Deliverables List */
@@ -313,7 +312,6 @@ html.darkmode .case-page,
     opacity: 0.7;
     margin: 0;
     padding: 0;
-    max-width: 700px;
 }
 
 /* CTA Section */
@@ -368,6 +366,20 @@ html.darkmode .case-page,
 /* Takeaway Content Tables & Lists */
 .takeaway-content {
     margin-top: 1rem;
+}
+
+.takeaway-image {
+    margin: 2rem 0;
+    max-width: 100%;
+}
+
+.takeaway-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
 }
 
 .takeaway-content p {
