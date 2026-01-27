@@ -88,7 +88,6 @@ html.darkmode .case-page,
     margin: -4rem auto 2rem;
     padding: 0;
     position: relative;
-    left: 25px;
     z-index: 2;
 }
 
@@ -107,7 +106,6 @@ html.darkmode .case-page,
     margin: -4rem auto 3rem;
     padding: 0;
     position: relative;
-    left: 25px;
     z-index: 2;
 }
 
