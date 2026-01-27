@@ -153,7 +153,7 @@ html.darkmode .case-page,
 }
 
 .section-label {
-    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
@@ -182,9 +182,9 @@ html.darkmode .case-page,
 }
 
 .section-right p {
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.2rem;
-    line-height: 1.7;
+    font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
+    font-size: 2.4rem;
+    line-height: 1.4;
     margin: 0;
     padding: 0;
     max-width: 700px;
@@ -201,9 +201,9 @@ html.darkmode .case-page,
 }
 
 .deliverables-list li {
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.15rem;
-    line-height: 1.5;
+    font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
+    font-size: 2.4rem;
+    line-height: 1.4;
     padding: 0;
     padding-left: 1.25rem;
     position: relative;
@@ -235,7 +235,7 @@ html.darkmode .case-page,
 }
 
 .outcome-number {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 4.5rem;
     font-weight: 300;
     line-height: 1;
@@ -244,7 +244,7 @@ html.darkmode .case-page,
 }
 
 .outcome-label {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.1rem;
     line-height: 1.4;
     opacity: 0.7;
@@ -280,9 +280,9 @@ html.darkmode .case-page,
 }
 
 .takeaway-description {
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
+    font-size: 2.4rem;
+    line-height: 1.4;
     opacity: 0.7;
     margin: 0;
     padding: 0;
@@ -396,7 +396,7 @@ html.darkmode .case-page,
     }
 
     .section-right p {
-        font-size: 1.1rem;
+        font-size: 2.4rem;
     }
 
     .outcomes-grid {
@@ -413,7 +413,7 @@ html.darkmode .case-page,
     }
 
     .takeaway-description {
-        font-size: 1.05rem;
+        font-size: 2.4rem;
     }
 
     .case-cta {
