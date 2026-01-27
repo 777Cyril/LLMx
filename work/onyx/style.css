@@ -252,42 +252,58 @@ html.darkmode .case-page,
     max-width: 280px;
 }
 
-/* Takeaways Section */
-.takeaways-grid {
+/* Takeaways Summary Section */
+.takeaways-summary {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem;
 }
 
-.takeaway-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.takeaway-number {
-    font-family: "GT Alpina Typewriter", Courier, monospace;
-    font-size: 0.7rem;
-    opacity: 0.4;
-}
-
-.takeaway-title {
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
+.takeaway-summary-item {
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.65rem;
+    line-height: 1.4;
     margin: 0;
     padding: 0;
 }
 
-.takeaway-description {
+/* Takeaway Detail Sections */
+.takeaway-big-number {
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding: 0;
+}
+
+.takeaway-subtitle {
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    opacity: 1;
+}
+
+.takeaway-detail-title {
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 1rem 0;
+    padding: 0;
+}
+
+.takeaway-detail-text {
     font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
     font-size: 1.4rem;
     line-height: 1.4;
     opacity: 0.7;
     margin: 0;
     padding: 0;
-    max-width: 600px;
+    max-width: 700px;
 }
 
 /* CTA Section */
@@ -388,7 +404,7 @@ html.darkmode .case-page,
 }
 
 .takeaway-content h4 {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
     margin: 1.5rem 0 0.5rem;
@@ -515,11 +531,19 @@ html.darkmode .case-page,
         font-size: 4rem;
     }
 
-    .takeaway-title {
-        font-size: 1.2rem;
+    .takeaway-summary-item {
+        font-size: 1.4rem;
     }
 
-    .takeaway-description {
+    .takeaway-big-number {
+        font-size: 4rem;
+    }
+
+    .takeaway-detail-title {
+        font-size: 1.5rem;
+    }
+
+    .takeaway-detail-text {
         font-size: 1.4rem;
     }
 

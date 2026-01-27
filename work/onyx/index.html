@@ -129,86 +129,110 @@
         </div>
       </section>
 
-      <!-- Takeaways Section -->
+      <!-- Takeaways Summary Section -->
       <section class="case-section-two-col">
         <div class="section-left">
-          <span class="section-label">Takeaways</span>
+          <span class="section-label">3 Big Takeaways</span>
         </div>
         <div class="section-right">
-          <div class="takeaways-grid">
-            <div class="takeaway-item">
-              <span class="takeaway-number">01</span>
-              <h3 class="takeaway-title">Local-first design removes friction</h3>
-              <p class="takeaway-description">Storing data in browser storage avoids server costs, accounts, and cloud sync complexity.</p>
+          <div class="takeaways-summary">
+            <p class="takeaway-summary-item">01. Local-first design removes friction</p>
+            <p class="takeaway-summary-item">02. Small, focused UX matters</p>
+            <p class="takeaway-summary-item">03. Respect host-site constraints - design graceful fall-backs</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Takeaway 01 -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <h2 class="takeaway-big-number">01.</h2>
+          <p class="takeaway-subtitle">Architecture</p>
+        </div>
+        <div class="section-right">
+          <h3 class="takeaway-detail-title">Local-first design removes friction</h3>
+          <p class="takeaway-detail-text">Storing data in browser storage avoids server costs, accounts, and cloud sync complexity.</p>
+        </div>
+      </section>
+
+      <!-- Takeaway 02 -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <h2 class="takeaway-big-number">02.</h2>
+          <p class="takeaway-subtitle">User Experience</p>
+        </div>
+        <div class="section-right">
+          <h3 class="takeaway-detail-title">Small, focused UX matters</h3>
+          <p class="takeaway-detail-text">Users adopt tools that are fast, predictable, and unobtrusive.</p>
+        </div>
+      </section>
+
+      <!-- Takeaway 03 -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <h2 class="takeaway-big-number">03.</h2>
+          <p class="takeaway-subtitle">Technical Constraints</p>
+        </div>
+        <div class="section-right">
+          <h3 class="takeaway-detail-title">Respect host-site constraints - design graceful fall-backs</h3>
+          <div class="takeaway-content">
+            <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Attempt</th>
+                  <th>Technique</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bubble-phase listener</td>
+                  <td>document.addEventListener('keydown', …)</td>
+                  <td>Fires after Claude's React handler; message already sent.</td>
+                </tr>
+                <tr>
+                  <td>Capture-phase listener</td>
+                  <td>Same call with useCapture = true, plus e.stopImmediatePropagation()</td>
+                  <td>Claude still sees the event—its input sits in a shadow DOM with its own capture listeners that run first.</td>
+                </tr>
+                <tr>
+                  <td>Shadow-DOM retargeting</td>
+                  <td>Attach listener to shadowRoot.host</td>
+                  <td>Claude re-creates the host node on every render; listener is lost.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>Why we stopped pushing</h4>
+            <ul>
+              <li>Risk: A missed interception fires sendMessage() prematurely—highly visible failure.</li>
+              <li>Maintenance cost: Claude's internal markup and event order can change without notice.</li>
+              <li>Performance: Re-binding listeners add overhead on every render.</li>
+            </ul>
+
+            <h4>Fallback triggers</h4>
+            <div class="trigger-item">
+              <span class="trigger-key">Shift + Enter</span>
+              <p>Ubiquitous "insert newline" shortcut; Claude does not send the message in this branch, so we can safely hijack it.</p>
             </div>
-            <div class="takeaway-item">
-              <span class="takeaway-number">02</span>
-              <h3 class="takeaway-title">Small, focused UX matters</h3>
-              <p class="takeaway-description">Users adopt tools that are fast, predictable, and unobtrusive.</p>
+            <div class="trigger-item">
+              <span class="trigger-key">Tab</span>
+              <p>Natural "cycle/confirm" key for autocomplete lists; never mapped to "Send".</p>
             </div>
-            <div class="takeaway-item">
-              <span class="takeaway-number">03</span>
-              <h3 class="takeaway-title">Respect host-site constraints - design graceful fall-backs</h3>
-              <div class="takeaway-content">
-                <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
 
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Attempt</th>
-                      <th>Technique</th>
-                      <th>Outcome</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Bubble-phase listener</td>
-                      <td>document.addEventListener('keydown', …)</td>
-                      <td>Fires after Claude's React handler; message already sent.</td>
-                    </tr>
-                    <tr>
-                      <td>Capture-phase listener</td>
-                      <td>Same call with useCapture = true, plus e.stopImmediatePropagation()</td>
-                      <td>Claude still sees the event—its input sits in a shadow DOM with its own capture listeners that run first.</td>
-                    </tr>
-                    <tr>
-                      <td>Shadow-DOM retargeting</td>
-                      <td>Attach listener to shadowRoot.host</td>
-                      <td>Claude re-creates the host node on every render; listener is lost.</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <h4>Why we stopped pushing</h4>
-                <ul>
-                  <li>Risk: A missed interception fires sendMessage() prematurely—highly visible failure.</li>
-                  <li>Maintenance cost: Claude's internal markup and event order can change without notice.</li>
-                  <li>Performance: Re-binding listeners add overhead on every render.</li>
-                </ul>
-
-                <h4>Fallback triggers</h4>
-                <div class="trigger-item">
-                  <span class="trigger-key">Shift + Enter</span>
-                  <p>Ubiquitous "insert newline" shortcut; Claude does not send the message in this branch, so we can safely hijack it.</p>
-                </div>
-                <div class="trigger-item">
-                  <span class="trigger-key">Tab</span>
-                  <p>Natural "cycle/confirm" key for autocomplete lists; never mapped to "Send".</p>
-                </div>
-
-                <h4>The final rule set</h4>
-                <div class="rule-box">
-                  <p><strong>If picker open:</strong></p>
-                  <p>Enter → confirm (except on Claude)</p>
-                  <p>Shift+Enter → confirm (all sites)</p>
-                  <p>Tab → confirm (all sites)</p>
-                  <p><strong>Else:</strong></p>
-                  <p>Let the page behave normally</p>
-                </div>
-
-                <p>By conceding one extra keystroke on a single site, we delivered a solution that is predictable, future-proof, and requires no special permissions or brittle DOM surgery—turning a blocked engineering task into a user-experience refinement.</p>
-              </div>
+            <h4>The final rule set</h4>
+            <div class="rule-box">
+              <p><strong>If picker open:</strong></p>
+              <p>Enter → confirm (except on Claude)</p>
+              <p>Shift+Enter → confirm (all sites)</p>
+              <p>Tab → confirm (all sites)</p>
+              <p><strong>Else:</strong></p>
+              <p>Let the page behave normally</p>
             </div>
+
+            <p>By conceding one extra keystroke on a single site, we delivered a solution that is predictable, future-proof, and requires no special permissions or brittle DOM surgery—turning a blocked engineering task into a user-experience refinement.</p>
           </div>
         </div>
       </section>
