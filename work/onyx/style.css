@@ -94,7 +94,7 @@ html.darkmode .case-page,
 .case-hero-image img {
     width: 100%;
     height: auto;
-    max-height: 260px;
+    max-height: 340px;
     display: block;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
