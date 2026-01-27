@@ -199,6 +199,33 @@
           <div class="takeaway-content">
             <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
 
+            <table>
+              <thead>
+                <tr>
+                  <th>Attempt</th>
+                  <th>Technique</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bubble-phase listener</td>
+                  <td>document.addEventListener('keydown', …)</td>
+                  <td>Fires after Claude's React handler; message already sent.</td>
+                </tr>
+                <tr>
+                  <td>Capture-phase listener</td>
+                  <td>Same call with useCapture = true, plus e.stopImmediatePropagation()</td>
+                  <td>Claude still sees the event—its input sits in a shadow DOM with its own capture listeners that run first.</td>
+                </tr>
+                <tr>
+                  <td>Shadow-DOM retargeting</td>
+                  <td>Attach listener to shadowRoot.host</td>
+                  <td>Claude re-creates the host node on every render; listener is lost.</td>
+                </tr>
+              </tbody>
+            </table>
+
             <h4>Why we stopped forcing Enter on Claude</h4>
             <ul>
               <li><strong>Too risky</strong> – If our code ever misses the key, Claude still fires Send and the user ships an unfinished message.</li>
