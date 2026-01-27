@@ -88,6 +88,8 @@ html.darkmode .case-page,
     margin: -15rem auto -14rem;
     padding: 0 4rem;
     aspect-ratio: 1128 / 412;
+    position: relative;
+    z-index: 2;
 }
 
 .case-hero-image img {
@@ -105,6 +107,8 @@ html.darkmode .case-page,
     margin: -15rem auto -14rem;
     padding: 0 4rem;
     aspect-ratio: 1128 / 412;
+    position: relative;
+    z-index: 2;
 }
 
 .case-hero-image-placeholder .placeholder-box {
@@ -391,7 +395,6 @@ html.darkmode .case-page,
     .case-hero-image,
     .case-hero-image-placeholder {
         padding: 0 1.5rem;
-        transform: translateY(-2rem);
     }
 
     .case-content {
