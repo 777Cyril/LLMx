@@ -262,9 +262,19 @@ html.darkmode .case-page,
 .takeaway-summary-item {
     font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.65rem;
+    font-weight: 700;
     line-height: 1.4;
     margin: 0;
     padding: 0;
+    color: var(--color-content-primary);
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s ease;
+}
+
+.takeaway-summary-item:hover {
+    color: #555555;
+    cursor: crosshair;
 }
 
 /* Takeaway Detail Sections */
