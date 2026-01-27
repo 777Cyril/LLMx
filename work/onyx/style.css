@@ -84,7 +84,7 @@ html.darkmode .case-page,
 /* Hero Image */
 .case-hero-image {
     width: 100%;
-    max-width: 1400px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 0 4rem;
     transform: translateY(-3rem);
@@ -100,7 +100,7 @@ html.darkmode .case-page,
 /* Placeholder for missing image */
 .case-hero-image-placeholder {
     width: 100%;
-    max-width: 1400px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 0 4rem;
     transform: translateY(-3rem);
