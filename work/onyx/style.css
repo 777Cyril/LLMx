@@ -85,18 +85,16 @@ html.darkmode .case-page,
 .case-hero-image {
     width: 100%;
     max-width: 1128px;
-    margin: -15rem auto -14rem;
-    padding: 0 4rem;
-    aspect-ratio: 1128 / 412;
+    margin: -8rem 4rem 4rem auto;
+    padding: 0;
     position: relative;
     z-index: 2;
 }
 
 .case-hero-image img {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
-    object-fit: contain;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
@@ -104,35 +102,20 @@ html.darkmode .case-page,
 .case-hero-image-placeholder {
     width: 100%;
     max-width: 1128px;
-    margin: -15rem auto -14rem;
-    padding: 0 4rem;
-    aspect-ratio: 1128 / 412;
+    margin: -8rem 4rem 4rem auto;
+    padding: 0;
     position: relative;
     z-index: 2;
 }
 
 .case-hero-image-placeholder .placeholder-box {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 1128 / 412;
     background: linear-gradient(135deg, #e8e4e0 0%, #d4cfc9 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-}
-
-@media screen and (min-width: 750px) {
-    .case-hero-image,
-    .case-hero-image-placeholder {
-        margin-top: -17rem;
-    }
-}
-
-@media screen and (min-width: 1100px) {
-    .case-hero-image,
-    .case-hero-image-placeholder {
-        margin-top: -26rem;
-    }
 }
 
 .case-hero-image-placeholder .placeholder-text {
@@ -394,6 +377,7 @@ html.darkmode .case-page,
 
     .case-hero-image,
     .case-hero-image-placeholder {
+        margin: -4rem auto 3rem;
         padding: 0 1.5rem;
     }
 
