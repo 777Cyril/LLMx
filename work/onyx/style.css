@@ -183,7 +183,7 @@ html.darkmode .case-page,
 
 .section-right p {
     font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
-    font-size: 2.4rem;
+    font-size: 1.1rem;
     line-height: 1.4;
     margin: 0;
     padding: 0;
@@ -202,7 +202,7 @@ html.darkmode .case-page,
 
 .deliverables-list li {
     font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
-    font-size: 2.4rem;
+    font-size: 1.1rem;
     line-height: 1.4;
     padding: 0;
     padding-left: 1.25rem;
@@ -281,7 +281,7 @@ html.darkmode .case-page,
 
 .takeaway-description {
     font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
-    font-size: 2.4rem;
+    font-size: 1.1rem;
     line-height: 1.4;
     opacity: 0.7;
     margin: 0;
@@ -396,7 +396,7 @@ html.darkmode .case-page,
     }
 
     .section-right p {
-        font-size: 2.4rem;
+        font-size: 1.1rem;
     }
 
     .outcomes-grid {
@@ -413,7 +413,7 @@ html.darkmode .case-page,
     }
 
     .takeaway-description {
-        font-size: 2.4rem;
+        font-size: 1.1rem;
     }
 
     .case-cta {
