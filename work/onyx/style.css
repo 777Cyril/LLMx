@@ -5,7 +5,7 @@ html.darkmode .case-page,
     --color-content-primary: #000000;
     --color-surface-primary: #FFFFFF;
     --color-accent: #AA0000;
-    --color-hero-bg: #3C3C3C;
+    --color-hero-bg: #d4df9e;
     --color-hero-text: #FFFFFF;
     --color-divider: rgba(0, 0, 0, 0.12);
 }
@@ -71,7 +71,7 @@ html.darkmode .case-page,
 }
 
 .case-hero .hero-subtitle {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.65rem;
     font-weight: 300;
     line-height: 1.4;
