@@ -148,8 +148,66 @@
             </div>
             <div class="takeaway-item">
               <span class="takeaway-number">03</span>
-              <h3 class="takeaway-title">Iterative debugging and deployment wins</h3>
-              <p class="takeaway-description">Identifying faults early (permissions, build output, responsive layout) and fixing them leads to a stable, review-ready product.</p>
+              <h3 class="takeaway-title">Respect host-site constraints - design graceful fall-backs</h3>
+              <div class="takeaway-content">
+                <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
+
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Attempt</th>
+                      <th>Technique</th>
+                      <th>Outcome</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Bubble-phase listener</td>
+                      <td>document.addEventListener('keydown', …)</td>
+                      <td>Fires after Claude's React handler; message already sent.</td>
+                    </tr>
+                    <tr>
+                      <td>Capture-phase listener</td>
+                      <td>Same call with useCapture = true, plus e.stopImmediatePropagation()</td>
+                      <td>Claude still sees the event—its input sits in a shadow DOM with its own capture listeners that run first.</td>
+                    </tr>
+                    <tr>
+                      <td>Shadow-DOM retargeting</td>
+                      <td>Attach listener to shadowRoot.host</td>
+                      <td>Claude re-creates the host node on every render; listener is lost.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h4>Why we stopped pushing</h4>
+                <ul>
+                  <li>Risk: A missed interception fires sendMessage() prematurely—highly visible failure.</li>
+                  <li>Maintenance cost: Claude's internal markup and event order can change without notice.</li>
+                  <li>Performance: Re-binding listeners add overhead on every render.</li>
+                </ul>
+
+                <h4>Fallback triggers</h4>
+                <div class="trigger-item">
+                  <span class="trigger-key">Shift + Enter</span>
+                  <p>Ubiquitous "insert newline" shortcut; Claude does not send the message in this branch, so we can safely hijack it.</p>
+                </div>
+                <div class="trigger-item">
+                  <span class="trigger-key">Tab</span>
+                  <p>Natural "cycle/confirm" key for autocomplete lists; never mapped to "Send".</p>
+                </div>
+
+                <h4>The final rule set</h4>
+                <div class="rule-box">
+                  <p><strong>If picker open:</strong></p>
+                  <p>Enter → confirm (except on Claude)</p>
+                  <p>Shift+Enter → confirm (all sites)</p>
+                  <p>Tab → confirm (all sites)</p>
+                  <p><strong>Else:</strong></p>
+                  <p>Let the page behave normally</p>
+                </div>
+
+                <p>By conceding one extra keystroke on a single site, we delivered a solution that is predictable, future-proof, and requires no special permissions or brittle DOM surgery—turning a blocked engineering task into a user-experience refinement.</p>
+              </div>
             </div>
           </div>
         </div>
