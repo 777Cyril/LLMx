@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Onyx Case Study - LLMx</title>
+  <title>Onyx - LLMx</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Open Graph / Social Preview -->
@@ -20,96 +20,153 @@
   <!-- Page-specific stylesheet -->
   <link rel="stylesheet" href="/work/onyx/style.css" />
 
-  <!-- Critical inline styles -->
+  <!-- Force light mode and disable animations -->
   <style>
-    .case-page h1, .case-page h2, .case-page h3, .case-page p, .case-page small, .case-page li { opacity: 1; animation: none; }
-    .case-page svg path { opacity: 1; animation: none; }
+    .case-page h1, .case-page h2, .case-page h3, .case-page p, .case-page small, .case-page span, .case-page li {
+      opacity: 1;
+      animation: none;
+    }
+    .case-page svg path {
+      opacity: 1;
+      animation: none;
+    }
+    /* Force light mode background on body */
+    body:has(.case-page) {
+      background: #FFFFFF;
+    }
   </style>
 </head>
 
 <body>
   <div class="case-page">
-    <!-- Header -->
-    <header class="case-header">
-      <a href="/work/" class="logo-link">
-        <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g>
-            <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
-            <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
-            <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
-            <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
-          </g>
-        </svg>
-      </a>
-      <span class="case-label">Case Study</span>
-    </header>
-
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="case-hero">
-      <h1>Onyx</h1>
-      <p class="hero-subtitle">Prompt Snippet Manager for Chrome</p>
-    </section>
+      <header class="case-hero-header">
+        <a href="/work/" class="logo-link">
+          <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="white"/>
+              <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="white"/>
+              <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="white"/>
+              <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="white"/>
+            </g>
+          </svg>
+        </a>
+      </header>
 
-    <!-- Overview -->
-    <section class="case-section">
-      <h2>Overview</h2>
-      <p>Onyx is a lightweight browser extension for saving and inserting reusable prompt snippets. It was built with a local-first mindset to eliminate backend complexity and protect user data. The design prioritizes speed and simplicity over feature bloat. It integrates with Chrome's popup interface and handles snippet persistence reliably. The extension is live and usable across websites and text fields.</p>
-    </section>
-
-    <!-- Value Propositions -->
-    <section class="case-section">
-      <h2>Value Propositions</h2>
-      <ol class="value-list">
-        <li>Quickly save and recall prompt snippets anywhere in the browser.</li>
-        <li>Minimal UI that stays out of the way.</li>
-        <li>Works fully offline/local — no cloud storage required.</li>
-        <li>Fast insert into text fields with a popup and hotkeys.</li>
-        <li>Simple add/edit/delete snippet management.</li>
-        <li>Published on Chrome Web Store with low friction install.</li>
-      </ol>
-    </section>
-
-    <!-- Outcomes -->
-    <section class="case-section">
-      <h2>Outcomes</h2>
-      <ul class="outcome-list">
-        <li>Successfully published on the Chrome Web Store and approved.</li>
-        <li>Users can reliably store and reuse prompts with consistent, stable behavior.</li>
-      </ul>
-    </section>
-
-    <!-- Takeaways -->
-    <section class="case-section takeaways-section">
-      <h2>Takeaways</h2>
-
-      <div class="takeaway">
-        <span class="takeaway-number">01</span>
-        <h3>Local-first design removes friction</h3>
-        <p>Storing data in browser storage avoids server costs, accounts, and cloud sync complexity.</p>
-      </div>
-
-      <div class="takeaway">
-        <span class="takeaway-number">02</span>
-        <h3>Small, focused UX matters</h3>
-        <p>Users adopt tools that are fast, predictable, and unobtrusive.</p>
-      </div>
-
-      <div class="takeaway">
-        <span class="takeaway-number">03</span>
-        <h3>Iterative debugging and deployment wins</h3>
-        <p>Identifying faults early (permissions, build output, responsive layout) and fixing them leads to a stable, review-ready product.</p>
+      <div class="case-hero-content">
+        <h1>Onyx</h1>
+        <p class="hero-subtitle">Bridging the gap between prompts and productivity with a local-first browser extension</p>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="case-cta">
-      <a href="/onyx/" class="cta-button">Install Onyx &rarr;</a>
-    </section>
+    <!-- Hero Image Placeholder (replace with actual screenshot when available) -->
+    <div class="case-hero-image-placeholder">
+      <div class="placeholder-box">
+        <span class="placeholder-text">Screenshot Coming Soon</span>
+      </div>
+    </div>
 
-    <!-- Footer -->
-    <footer class="case-footer">
-      <a href="/work/">&larr; Back to Work</a>
-    </footer>
+    <!-- Main Content -->
+    <div class="case-content">
+      <!-- Visit Section -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <span class="section-label">Visit</span>
+          <a href="/onyx/" class="section-link">llmxai.co/onyx</a>
+        </div>
+        <div class="section-right">
+          <ul class="deliverables-list">
+            <li>Chrome Extension Development</li>
+            <li>Local-First Architecture</li>
+            <li>UI/UX Design</li>
+            <li>Chrome Web Store Publishing</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Overview Section -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <span class="section-label">Overview</span>
+        </div>
+        <div class="section-right">
+          <p>Onyx is a lightweight browser extension for saving and inserting reusable prompt snippets. It was built with a local-first mindset to eliminate backend complexity and protect user data. The design prioritizes speed and simplicity over feature bloat. It integrates with Chrome's popup interface and handles snippet persistence reliably. The extension is live and usable across websites and text fields.</p>
+        </div>
+      </section>
+
+      <!-- Value Props Section -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <span class="section-label">Value</span>
+        </div>
+        <div class="section-right">
+          <ul class="deliverables-list">
+            <li>Quickly save and recall prompt snippets anywhere in the browser</li>
+            <li>Minimal UI that stays out of the way</li>
+            <li>Works fully offline/local — no cloud storage required</li>
+            <li>Fast insert into text fields with a popup and hotkeys</li>
+            <li>Simple add/edit/delete snippet management</li>
+            <li>Published on Chrome Web Store with low friction install</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Outcomes Section -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <span class="section-label">Outcomes</span>
+        </div>
+        <div class="section-right">
+          <div class="outcomes-grid">
+            <div class="outcome-item">
+              <span class="outcome-number">1</span>
+              <span class="outcome-label">Successfully published and approved on the Chrome Web Store</span>
+            </div>
+            <div class="outcome-item">
+              <span class="outcome-number">100%</span>
+              <span class="outcome-label">Local storage — no server costs, no accounts, no cloud sync complexity</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Takeaways Section -->
+      <section class="case-section-two-col">
+        <div class="section-left">
+          <span class="section-label">Takeaways</span>
+        </div>
+        <div class="section-right">
+          <div class="takeaways-grid">
+            <div class="takeaway-item">
+              <span class="takeaway-number">01</span>
+              <h3 class="takeaway-title">Local-first design removes friction</h3>
+              <p class="takeaway-description">Storing data in browser storage avoids server costs, accounts, and cloud sync complexity.</p>
+            </div>
+            <div class="takeaway-item">
+              <span class="takeaway-number">02</span>
+              <h3 class="takeaway-title">Small, focused UX matters</h3>
+              <p class="takeaway-description">Users adopt tools that are fast, predictable, and unobtrusive.</p>
+            </div>
+            <div class="takeaway-item">
+              <span class="takeaway-number">03</span>
+              <h3 class="takeaway-title">Iterative debugging and deployment wins</h3>
+              <p class="takeaway-description">Identifying faults early (permissions, build output, responsive layout) and fixing them leads to a stable, review-ready product.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="case-cta">
+        <a href="/onyx/" class="cta-button">Install Onyx &rarr;</a>
+      </section>
+
+      <!-- Footer -->
+      <footer class="case-footer">
+        <a href="/work/">&larr; Back to Work</a>
+      </footer>
+    </div>
   </div>
 
   <!-- Scripts -->

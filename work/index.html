@@ -20,10 +20,20 @@
   <!-- Page-specific stylesheet -->
   <link rel="stylesheet" href="/work/style.css" />
 
-  <!-- Critical inline styles -->
+  <!-- Force light mode and disable animations -->
   <style>
-    .work-page h1, .work-page h2, .work-page p, .work-page small { opacity: 1; animation: none; }
-    .work-page svg path { opacity: 1; animation: none; }
+    .work-page h1, .work-page h2, .work-page h3, .work-page p, .work-page small, .work-page span {
+      opacity: 1;
+      animation: none;
+    }
+    .work-page svg path {
+      opacity: 1;
+      animation: none;
+    }
+    /* Force light mode background on body */
+    body:has(.work-page) {
+      background: #FFFFFF;
+    }
   </style>
 </head>
 
@@ -41,24 +51,32 @@
           </g>
         </svg>
       </a>
-      <h1>Work</h1>
     </header>
 
-    <!-- Projects List -->
-    <section class="projects-list">
-      <a href="/work/onyx/" class="project-card">
-        <div class="project-info">
-          <small class="project-category">Chrome Extension</small>
-          <h2 class="project-title">Onyx</h2>
-          <p class="project-description">Prompt snippet manager for the browser</p>
-        </div>
-        <span class="project-arrow">&rarr;</span>
-      </a>
+    <!-- Section Label -->
+    <span class="section-label">Select Work</span>
+
+    <!-- Projects Grid -->
+    <section class="projects-grid">
+      <article class="project-item">
+        <h2 class="project-title">Onyx</h2>
+        <p class="project-description">A lightweight browser extension for saving and inserting reusable prompt snippets with a local-first design.</p>
+        <a href="/work/onyx/" class="project-link">View case study</a>
+      </article>
+
+      <!-- Future projects can be added here -->
+      <!--
+      <article class="project-item">
+        <h2 class="project-title">Project Name</h2>
+        <p class="project-description">Brief description of the project and its impact.</p>
+        <a href="/work/project/" class="project-link">View case study</a>
+      </article>
+      -->
     </section>
 
     <!-- Footer -->
     <footer class="work-footer">
-      <small><a href="/">Back to LLMx</a></small>
+      <a href="/">&larr; Back to LLMx</a>
     </footer>
   </div>
 

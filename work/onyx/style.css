@@ -1,198 +1,303 @@
-/* CASE STUDY PAGE STYLES */
+/* ONYX CASE STUDY STYLES */
+/* Force light mode - override darkmode variables */
+html.darkmode .case-page,
+.case-page {
+    --color-content-primary: #000000;
+    --color-surface-primary: #FFFFFF;
+    --color-accent: #AA0000;
+    --color-hero-bg: #5C4A3D;
+    --color-hero-text: #FFFFFF;
+    --color-divider: rgba(0, 0, 0, 0.12);
+}
 
 /* Page Container */
 .case-page {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
+    background: var(--color-surface-primary);
+    color: var(--color-content-primary);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-/* Header */
-.case-header {
+/* Hero Section */
+.case-hero {
+    background: var(--color-hero-bg);
+    color: var(--color-hero-text);
+    padding: 3rem 4rem 4rem;
+    position: relative;
+}
+
+.case-hero-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 4rem;
 }
 
-.case-header .logo-link {
+.case-hero .logo-link {
     display: block;
     width: 100px;
     transition: opacity 0.2s ease;
 }
 
-.case-header .logo-link:hover {
-    opacity: 0.6;
+.case-hero .logo-link:hover {
+    opacity: 0.7;
     animation: none;
 }
 
-.case-header .logo-link svg {
+.case-hero .logo-link svg {
     width: 100%;
     height: auto;
 }
 
-.case-label {
-    font-family: "GT Alpina Typewriter", Courier, monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05rem;
-    opacity: 0.5;
+.case-hero .logo-link svg path {
+    fill: var(--color-hero-text);
 }
 
-/* Hero */
-.case-hero {
-    text-align: center;
-    padding: 3rem 0 5rem;
+.case-hero-content {
+    max-width: 800px;
 }
 
 .case-hero h1 {
     font-family: "GT Alpina", Times, serif;
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     font-weight: 300;
-    margin-bottom: 0.75rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0 0 1rem 0;
     padding: 0;
-    letter-spacing: -0.02em;
+    visibility: visible;
+    width: auto;
+    height: auto;
+    text-indent: 0;
 }
 
-.hero-subtitle {
+.case-hero .hero-subtitle {
     font-family: "GT Alpina", Times, serif;
-    font-size: 1.1rem;
-    opacity: 0.6;
-    padding: 0;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0.85;
     margin: 0;
-}
-
-/* Sections */
-.case-section {
-    padding: 3rem 0;
-    border-top: 1px solid var(--color-content-primary);
-}
-
-.case-section h2 {
-    font-family: "GT Alpina Italic", Times, serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-bottom: 1.5rem;
     padding: 0;
-    opacity: 0.7;
+    max-width: 600px;
 }
 
-.case-section > p {
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.1rem;
-    line-height: 1.75;
-    padding: 0;
-    margin: 0;
+/* Hero Image */
+.case-hero-image {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    transform: translateY(-3rem);
 }
 
-/* Value List (numbered) */
-.value-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    counter-reset: value-counter;
+.case-hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
-.value-list li {
-    counter-increment: value-counter;
-    position: relative;
-    padding-left: 2.5rem;
-    margin-bottom: 1.25rem;
-    font-family: "GT Alpina", Times, serif;
-    font-size: 1.05rem;
-    line-height: 1.6;
+/* Placeholder for missing image */
+.case-hero-image-placeholder {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    transform: translateY(-3rem);
 }
 
-.value-list li::before {
-    content: counter(value-counter);
-    position: absolute;
-    left: 0;
-    top: 0;
+.case-hero-image-placeholder .placeholder-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #e8e4e0 0%, #d4cfc9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.case-hero-image-placeholder .placeholder-text {
     font-family: "GT Alpina Typewriter", Courier, monospace;
-    font-size: 0.85rem;
-    opacity: 0.35;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    opacity: 0.4;
+    color: var(--color-content-primary);
 }
 
-/* Outcome List */
-.outcome-list {
+/* Main Content */
+.case-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 4rem 4rem;
+}
+
+/* Two Column Section */
+.case-section-two-col {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.case-section-two-col:first-of-type {
+    border-top: 1px solid var(--color-divider);
+}
+
+/* Left Column - Label */
+.section-left {
+    padding-top: 0.25rem;
+}
+
+.section-label {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.section-link {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.section-link:hover {
+    opacity: 0.6;
+    animation: none;
+    cursor: crosshair;
+}
+
+/* Right Column - Content */
+.section-right {
+    /* Content area */
+}
+
+.section-right p {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    max-width: 700px;
+}
+
+/* Deliverables List */
+.deliverables-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.outcome-list li {
-    position: relative;
-    padding-left: 2rem;
-    margin-bottom: 1.25rem;
+.deliverables-list li {
     font-family: "GT Alpina", Times, serif;
     font-size: 1.05rem;
-    line-height: 1.6;
+    line-height: 1.5;
+    padding: 0;
+    padding-left: 1.25rem;
+    position: relative;
 }
 
-.outcome-list li::before {
-    content: "\2713";
+.deliverables-list li::before {
+    content: "";
     position: absolute;
     left: 0;
-    top: 0;
-    opacity: 0.5;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    background: var(--color-content-primary);
+    border-radius: 50%;
+    opacity: 0.4;
 }
 
-/* Takeaways */
-.takeaways-section {
-    padding-bottom: 4rem;
+/* Outcomes Section */
+.outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
 }
 
-.takeaway {
-    margin-bottom: 2.5rem;
+.outcome-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.takeaway:last-child {
-    margin-bottom: 0;
+.outcome-number {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 4rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-content-primary);
+}
+
+.outcome-label {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    opacity: 0.7;
+    max-width: 280px;
+}
+
+/* Takeaways Section */
+.takeaways-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.takeaway-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .takeaway-number {
-    display: block;
     font-family: "GT Alpina Typewriter", Courier, monospace;
     font-size: 0.7rem;
-    opacity: 0.35;
-    margin-bottom: 0.5rem;
+    opacity: 0.4;
 }
 
-.takeaway h3 {
+.takeaway-title {
     font-family: "GT Alpina", Times, serif;
     font-size: 1.25rem;
     font-weight: 400;
-    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    margin: 0;
     padding: 0;
 }
 
-.takeaway p {
+.takeaway-description {
     font-family: "GT Alpina", Times, serif;
     font-size: 1rem;
-    line-height: 1.65;
-    opacity: 0.75;
-    padding: 0;
+    line-height: 1.6;
+    opacity: 0.7;
     margin: 0;
+    padding: 0;
+    max-width: 600px;
 }
 
-/* CTA */
+/* CTA Section */
 .case-cta {
-    padding: 3rem 0;
+    padding: 4rem 0 2rem;
     text-align: center;
-    border-top: 1px solid var(--color-content-primary);
 }
 
 .cta-button {
     display: inline-block;
-    font-family: "GT Alpina Typewriter", Courier, monospace;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05rem;
-    padding: 1rem 2rem;
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
     border: 1px solid var(--color-content-primary);
     background: transparent;
     color: var(--color-content-primary);
@@ -209,14 +314,16 @@
 
 /* Footer */
 .case-footer {
-    margin-top: auto;
-    padding-top: 3rem;
+    padding: 2rem 0;
     text-align: center;
+    border-top: 1px solid var(--color-divider);
 }
 
 .case-footer a {
     font-family: "GT Alpina Typewriter", Courier, monospace;
     font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
     color: inherit;
     text-decoration: none;
     opacity: 0.5;
@@ -225,55 +332,89 @@
 
 .case-footer a:hover {
     opacity: 1;
-    animation: flash .2s step-start infinite;
+    animation: none;
     cursor: crosshair;
 }
 
 /* Mobile Responsive */
-@media screen and (max-width: 600px) {
-    .case-page {
-        padding: 1.5rem 1rem;
+@media screen and (max-width: 900px) {
+    .case-section-two-col {
+        grid-template-columns: 150px 1fr;
+        gap: 2rem;
     }
 
-    .case-header {
+    .outcomes-grid {
+        gap: 2rem;
+    }
+
+    .outcome-number {
+        font-size: 3rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .case-hero {
+        padding: 2rem 1.5rem 3rem;
+    }
+
+    .case-hero-header {
         margin-bottom: 2.5rem;
     }
 
-    .case-header .logo-link {
+    .case-hero .logo-link {
         width: 70px;
     }
 
-    .case-hero {
-        padding: 2rem 0 3rem;
-    }
-
     .case-hero h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 
-    .hero-subtitle {
-        font-size: 1rem;
+    .case-hero .hero-subtitle {
+        font-size: 1.2rem;
     }
 
-    .case-section {
+    .case-hero-image,
+    .case-hero-image-placeholder {
+        padding: 0 1.5rem;
+        transform: translateY(-2rem);
+    }
+
+    .case-content {
+        padding: 1rem 1.5rem 3rem;
+    }
+
+    .case-section-two-col {
+        grid-template-columns: 1fr;
+        gap: 1rem;
         padding: 2rem 0;
     }
 
-    .case-section > p,
-    .value-list li,
-    .outcome-list li {
+    .section-left {
+        padding-top: 0;
+    }
+
+    .section-right p {
         font-size: 1rem;
     }
 
-    .value-list li {
-        padding-left: 2rem;
+    .outcomes-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
-    .takeaway h3 {
+    .outcome-number {
+        font-size: 3.5rem;
+    }
+
+    .takeaway-title {
         font-size: 1.1rem;
     }
 
-    .takeaway p {
+    .takeaway-description {
         font-size: 0.95rem;
+    }
+
+    .case-cta {
+        padding: 3rem 0 1.5rem;
     }
 }
