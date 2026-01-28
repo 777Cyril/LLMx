@@ -188,6 +188,7 @@ html.darkmode .case-page,
     line-height: 1.4;
     margin: 0;
     padding: 0;
+    text-wrap: wrap;
 }
 
 /* Deliverables List */
@@ -389,8 +390,7 @@ html.darkmode .case-page,
     opacity: 0.7;
     margin: 0.75rem 0;
     padding: 0;
-    display: block;
-    width: auto;
+    text-wrap: wrap;
 }
 
 .takeaway-content table {
