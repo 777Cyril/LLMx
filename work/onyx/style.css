@@ -388,6 +388,9 @@ html.darkmode .case-page,
     line-height: 1.4;
     opacity: 0.7;
     margin: 0.75rem 0;
+    padding: 0;
+    display: block;
+    width: auto;
 }
 
 .takeaway-content table {
@@ -567,18 +570,6 @@ html.darkmode .case-page,
 
     .takeaway-detail-text {
         font-size: 1.4rem;
-    }
-
-    .takeaway-content p {
-        font-size: 1.4rem;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .takeaway-content .rule-box {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
     }
 
     .case-cta {
