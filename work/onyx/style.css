@@ -569,6 +569,18 @@ html.darkmode .case-page,
         font-size: 1.4rem;
     }
 
+    .takeaway-content p {
+        font-size: 1.4rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .takeaway-content .rule-box {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
     .case-cta {
         padding: 3rem 0 1.5rem;
     }
