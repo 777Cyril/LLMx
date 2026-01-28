@@ -422,6 +422,8 @@ html.darkmode .case-page,
     opacity: 0.7;
     vertical-align: top;
     line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .takeaway-content tbody tr:last-child td {
@@ -570,6 +572,43 @@ html.darkmode .case-page,
 
     .takeaway-detail-text {
         font-size: 1.4rem;
+    }
+
+    .takeaway-content table {
+        font-size: 1rem;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .takeaway-content thead,
+    .takeaway-content tbody,
+    .takeaway-content tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .takeaway-content th,
+    .takeaway-content td {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.5rem 0.6rem 0;
+        word-break: break-word;
+        hyphens: auto;
+    }
+
+    .takeaway-content th:nth-child(1),
+    .takeaway-content td:nth-child(1) {
+        width: 20%;
+    }
+
+    .takeaway-content th:nth-child(2),
+    .takeaway-content td:nth-child(2) {
+        width: 35%;
+    }
+
+    .takeaway-content th:nth-child(3),
+    .takeaway-content td:nth-child(3) {
+        width: 45%;
     }
 
     .case-cta {
