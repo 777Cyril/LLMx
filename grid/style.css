@@ -57,7 +57,7 @@ body:has(.grid-page) {
 
 /* Card Title - positioned above */
 .card-title {
-  font-family: "GT Alpina", Times, serif;
+  font-family: "HelveticaNowDisplay", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.5rem;
   font-weight: 300;
   color: #000;
