@@ -174,7 +174,7 @@ html.darkmode .case-page,
 }
 
 .section-link {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
     font-size: 1rem;
     color: var(--color-accent);
     text-decoration: none;
@@ -333,7 +333,7 @@ html.darkmode .case-page,
 
 .cta-button {
     display: inline-block;
-    font-family: "GT Alpina", Times, serif;
+    font-family: "adobe-garamond-pro", "Garamond", "Times New Roman", serif;
     font-size: 1rem;
     padding: 1rem 2.5rem;
     border: 1px solid var(--color-content-primary);
