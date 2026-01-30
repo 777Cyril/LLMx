@@ -49,7 +49,7 @@ html.darkmode .case-page,
 }
 
 .case-hero .logo-link svg path {
-    fill: var(--color-hero-text);
+    fill: var(--color-content-primary);
 }
 
 .case-hero-content {
