@@ -1,20 +1,5 @@
 /* PROMPTS PAGE STYLES */
 
-/* Override default body animations for this page */
-.prompts-page h1,
-.prompts-page h2,
-.prompts-page h3,
-.prompts-page p,
-.prompts-page small {
-    opacity: 1;
-    animation: none;
-}
-
-.prompts-page svg path {
-    opacity: 1;
-    animation: none;
-}
-
 /* Page Container */
 .prompts-page {
     max-width: 800px;
