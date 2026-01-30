@@ -1,5 +1,13 @@
 /* Grid Page Styles */
 
+/* Font */
+@font-face {
+  font-family: "HelveticaNowDisplay";
+  src: url("/assets/HelveticaNowDisplay-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* Override global animations for grid page */
 .grid-page h1, .grid-page h2, .grid-page h3, .grid-page p, .grid-page small, .grid-page span {
   opacity: 1;
