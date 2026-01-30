@@ -1,0 +1,193 @@
+/* KNOWLEDGE PAGE STYLES */
+
+/* Page Container */
+.knowledge-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.knowledge-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.knowledge-header .logo-link {
+    display: block;
+    width: 120px;
+    transition: opacity 0.2s ease;
+}
+
+.knowledge-header .logo-link:hover {
+    opacity: 0.6;
+    animation: none;
+}
+
+.knowledge-header .logo-link svg {
+    width: 100%;
+    height: auto;
+}
+
+.knowledge-header h1 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    visibility: visible;
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    text-overflow: clip;
+    padding: 0;
+}
+
+/* Intro Text */
+.knowledge-intro {
+    margin-bottom: 2.5rem;
+}
+
+.knowledge-intro h3 {
+    font-family: "GT Alpina Italic", Times, serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* Resources Grid */
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    flex: 1;
+}
+
+/* Resource Card */
+.resource-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-content-primary);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+    min-height: 180px;
+}
+
+.resource-card:hover {
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+    cursor: crosshair;
+    animation: none;
+}
+
+/* Category Badge */
+.resource-category {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+}
+
+/* Resource Title */
+.resource-card h2 {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    padding: 0;
+}
+
+/* Resource Caption */
+.resource-caption {
+    font-family: "GT Alpina", Times, serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.35;
+    opacity: 0.8;
+    margin-top: auto;
+    padding: 0;
+}
+
+.resource-card:hover .resource-caption {
+    opacity: 0.9;
+}
+
+/* Footer */
+.knowledge-footer {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.knowledge-footer small {
+    opacity: 0.5;
+}
+
+.knowledge-footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.knowledge-footer a:hover {
+    animation: flash .2s step-start infinite;
+    cursor: crosshair;
+}
+
+/* Tablet Responsive */
+@media screen and (max-width: 900px) {
+    .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+    .knowledge-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .knowledge-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .knowledge-header .logo-link {
+        width: 80px;
+    }
+
+    .knowledge-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .knowledge-intro {
+        margin-bottom: 2rem;
+    }
+
+    .knowledge-intro h3 {
+        font-size: 1.1rem;
+    }
+
+    .resources-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .resource-card {
+        padding: 1rem;
+        min-height: auto;
+    }
+
+    .resource-card h2 {
+        font-size: 1rem;
+    }
+
+    .resource-caption {
+        font-size: 0.85rem;
+    }
+}

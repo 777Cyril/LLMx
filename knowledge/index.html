@@ -10,87 +10,73 @@
   <meta property="og:url" content="https://llmxai.co/knowledge/" />
   <meta property="og:image" content="https://llmxai.co/LLMx2.jpg" />
   <meta property="og:type" content="website" />
-  <meta property="og:description" content="Resource Hub" />
+  <meta property="og:description" content="A curated collection of essential AI, LLM, and ML resources" />
 
   <!-- Global favicon (shared) -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-  <!-- Shared stylesheet -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/knowledge/style.css" />
 </head>
 
-<body class="left">
-  <main>
-    <!-- LEFT PANEL -->
-    <section class="col-a">
-      <a href="/" title="Back to LLMx Homepage">
-        <div class="logo first">
-          <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g>
-              <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
-              <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
-              <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
-              <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
-            </g>
-          </svg>
-
-          <h1>Knowledge</h1>
-          <small>RESOURCE HUB</small>
-        </div>
+<body>
+  <div class="knowledge-page">
+    <!-- Header -->
+    <header class="knowledge-header">
+      <a href="/" class="logo-link" title="Back to LLMx Homepage">
+        <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
+          <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
+          <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
+          <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
+        </svg>
       </a>
+      <h1>Knowledge</h1>
+    </header>
 
-      <div class="colophon">
-        <small>© 2025 Brooklyn, NY</small>
-      </div>
+    <!-- Intro -->
+    <section class="knowledge-intro">
+      <h3>A curated collection of AI, LLM, and ML resources—papers, essays, and media that shaped my understanding.</h3>
     </section>
 
-    <!-- RIGHT PANEL -->
-    <section class="col-b">
-      <div class="content">
-        <!-- About -->
-        <section class="about">
-          <h3>A curated collection of AI, LLM, and ML resources</h3>
-        </section>
+    <!-- Resources Grid (populated by JS) -->
+    <div class="resources-grid" id="resources-grid"></div>
 
-        <!-- Resources -->
-        <section class="resources">
-          <div class="resources-scroll">
-            <ul>
-              <li><a href="https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf" target="_blank">Attention Is All You Need</a></li>
-              <li><a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html" target="_blank">The Bitter Lesson</a></li>
-              <li><a href="https://gwern.net/doc/ai/nn/1986-rumelhart-2.pdf" target="_blank">Backpropagation (Rumelhart, 1986)</a></li>
-              <li><a href="https://openreview.net/pdf?id=Sv7DazuCn8" target="_blank">The Big World Hypothesis</a></li>
-              <li><a href="https://www.ling.upenn.edu/courses/cogs501/Rosenblatt1958.pdf" target="_blank">Perceptrons (Rosenblatt, 1958)</a></li>
-              <li><a href="https://arxiv.org/pdf/1909.08593" target="_blank">RLHF</a></li>
-              <li><a href="https://arxiv.org/pdf/2001.08361" target="_blank">Scaling Laws for Neural Language Models</a></li>
-              <li><a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf" target="_blank">A Mathematical Theory of Communication</a></li>
-              <li><a href="https://ai-2027.com/" target="_blank">AI 2027</a></li>
-              <li><a href="https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" target="_blank">ImageNet</a></li>
-              <li><a href="https://ai-timeline.org/" target="_blank">AI Timeline</a></li>
-              <li><a href="https://www.youtube.com/@DwarkeshPatel/videos" target="_blank">Dwarkesh Patel Podcast</a></li>
-              <li><a href="https://www.metislist.com/" target="_blank">The World’s Top AI Researchers</a></li>
-              <li><a href="https://huggingface.co/spaces/hesamation/primer-llm-embedding?section=what_are_embeddings" target="_blank">Hugging Face Embeddings Primer</a></li>
-              <li><a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank">Andrej Karpathy’s Deep Dive into LLMs</a></li>
-            </ul>
-          </div>
-        </section>
-      </div>
+    <!-- Footer -->
+    <footer class="knowledge-footer">
+      <small><a href="/grid/">Back to Grid</a> · © 2025 Brooklyn, NY</small>
+    </footer>
+  </div>
 
-      <!-- Right mirrored LLMx logo -->
-      <a href="/grid/" title="Back to LLMx Homepage">
-        <div class="logo last">
-          <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M464.521 120V0H545.386L573.632 53.3871L603.009 0H680V120H618.988V60.6451L586.706 120H557.492L525.372 60.6451V120H464.521Z" fill="black"/>
-            <path d="M312.413 0H373.748V77.258H457.034V120H312.413V0Z" fill="black"/>
-            <path d="M160.305 0H221.64V77.258H304.927V120H160.305V0Z" fill="black"/>
-            <path d="M63.2718 120H0.64563L30.3446 74.1935L0 33.2258H64.0788L78.7669 56.4516L91.3567 33.2258H154.628L126.544 73.5484L158.018 120H93.2936L78.6055 93.8709L63.2718 120Z" fill="black"/>
-          </svg>
-        </div>
-      </a>
-    </section>
-  </main>
+  <!-- Data and rendering -->
+  <script src="/knowledge/knowledge.js"></script>
+  <script>
+    function renderResources() {
+      const grid = document.getElementById('resources-grid');
 
-  <!-- Shared script -->
+      resources.forEach(resource => {
+        const card = document.createElement('a');
+        card.href = resource.url;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'resource-card';
+
+        card.innerHTML = `
+          <span class="resource-category">${resource.category}</span>
+          <h2>${resource.title}</h2>
+          <p class="resource-caption">${resource.caption}</p>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Render on load
+    document.addEventListener('DOMContentLoaded', renderResources);
+  </script>
+
+  <!-- Shared script for dark mode -->
   <script src="/scripts.js"></script>
 </body>
 </html>
