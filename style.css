@@ -445,7 +445,6 @@
   .menu-icon {
       position: absolute;
       top: 0.75rem;
-      left: 0.75rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -454,9 +453,16 @@
       height: 20px;
       cursor: crosshair;
       text-decoration: none;
-      opacity: 0;
-      animation: load-in 2.5s .5s ease-in forwards;
       z-index: 10;
+  }
+
+  /* Position menu icon based on column side */
+  body.left .menu-icon {
+      left: 0.75rem;
+  }
+
+  body.right .menu-icon {
+      right: 0.75rem;
   }
 
   .menu-icon span {
@@ -465,9 +471,11 @@
       height: 2px;
       background-color: var(--color-content-primary);
       border-radius: 1px;
+      opacity: 0;
+      animation: load-in 2.5s .5s ease-in forwards;
   }
 
-  .menu-icon:hover {
+  .menu-icon:hover span {
       animation: flash .2s step-start infinite;
   }
 
