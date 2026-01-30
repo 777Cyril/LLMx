@@ -1,4 +1,13 @@
 /* ONYX CASE STUDY STYLES */
+
+/* Font */
+@font-face {
+    font-family: "HelveticaNowDisplay";
+    src: url("/assets/HelveticaNowDisplay-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* Force light mode - override darkmode variables */
 html.darkmode .case-page,
 .case-page {
@@ -57,9 +66,9 @@ html.darkmode .case-page,
 }
 
 .case-hero h1 {
-    font-family: "GT Alpina", Times, serif;
+    font-family: "HelveticaNowDisplay", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 5rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1;
     letter-spacing: -0.03em;
     margin: 0 0 1rem 0;
