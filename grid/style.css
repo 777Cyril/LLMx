@@ -47,7 +47,7 @@ body:has(.grid-page) {
 }
 
 .grid-header svg path {
-  fill: #000;
+  fill: var(--color-content-primary);
 }
 
 /* Grid Container */
