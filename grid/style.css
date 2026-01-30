@@ -162,6 +162,6 @@ body:has(.grid-page) {
   }
 
   .grid-card {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
   }
 }
