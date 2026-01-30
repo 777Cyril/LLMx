@@ -67,6 +67,7 @@ html.darkmode .case-page,
     visibility: visible;
     width: auto;
     height: auto;
+    color: #ff0000;
     text-indent: 0;
 }
 
