@@ -155,13 +155,17 @@
         <div class="section-right">
           <h3 class="takeaway-detail-title">Local-first removes friction</h3>
           <div class="takeaway-content">
-            <ul>
-              <li><strong>Plug and play</strong><br>Add the extension and start saving prompts—no sign-up, no API keys, no set-up wizard.</li>
-              <li><strong>Always available</strong><br>Prompts stay in the browser, so they work on airplanes, behind corporate firewalls, and offline.</li>
-              <li><strong>Zero overhead</strong><br>No server to host, monitor, or secure. That means $0 monthly cost and no on-call pages at 3 a.m.</li>
-              <li><strong>Fast store approval</strong><br>The only Chrome permission we request is storage. With no remote calls or analytics, review finished in six hours.</li>
-              <li><strong>Built-in privacy</strong><br>Because data never leaves the device we can say, plainly, "Your prompts stay in your browser." Users trust that.</li>
-            </ul>
+            <p>We chose a local-first architecture. Not because it was trendy, but because it eliminated entire classes of problems before they appeared.</p>
+
+            <p>All snippet data lives in the browser. There is no account system, no backend, and no synchronization service to build or maintain. Installation is the onboarding flow. Users can create and insert their first prompt immediately.</p>
+
+            <p>This choice had several practical effects. The extension works offline. It works behind corporate firewalls. It works in environments where outbound requests are restricted. There is nothing to configure and nothing to break.</p>
+
+            <p>Operationally, this removed ongoing cost and complexity. No servers to host. No databases to secure. No compliance reviews. No on-call rotation. Chrome's built-in storage handles persistence and optional cross-device sync without any additional code.</p>
+
+            <p>Privacy follows naturally. Prompts never leave the user's machine. We did not need to promise security or explain encryption. We could state a simpler fact: the data stays in the browser.</p>
+
+            <p>The trade-off is obvious. There is no real-time collaboration or shared libraries. For a single-user prompt tool, this was acceptable. The reduction in friction outweighed the loss of features.</p>
           </div>
         </div>
       </section>
@@ -173,23 +177,23 @@
           <p class="takeaway-subtitle">User Experience</p>
         </div>
         <div class="section-right">
-          <h3 class="takeaway-detail-title">Small, focused UX wins</h3>
+          <h3 class="takeaway-detail-title">Small, focused UX matters</h3>
           <div class="takeaway-content">
-            <ul>
-              <li><strong>Loads in &lt; 50 ms</strong><br>The popup is a single 28 KB script—no frameworks, no web fonts. It appears before the browser records a paint.</li>
-              <li><strong>Keyboard-first flow</strong><br>Type x/ to open the picker, use arrows to highlight, press Enter to insert (or Shift + Enter on Claude). Esc closes it. Mouse is optional.</li>
-            </ul>
+            <p>The goal was not to build a rich interface. The goal was to stay out of the way.</p>
+
+            <p>The popup loads in under 50 milliseconds. It consists of a single JavaScript bundle with no external dependencies, fonts, or trackers. By the time the browser registers a paint, the interface is already visible.</p>
+
+            <p>Interaction is keyboard-first. Typing x/ opens the picker at the cursor. Arrow keys move selection. Enter confirms. Escape dismisses. The mouse is optional, not required.</p>
 
             <div class="takeaway-image">
               <img src="/work/onyx/onyx-snippet-picker.png" alt="Onyx snippet picker interface showing real-time search" />
             </div>
 
-            <ul>
-              <li><strong>One screen, one job</strong><br>The popup shows a list and an add/edit form. A separate Options page repeats the same UI for bulk edits. No tabs, no buried settings.</li>
-              <li><strong>Safe interactions</strong><br>Edit mode is clearly labeled and cancelable. Deletes are hidden until hover, with an "Undo" snackbar coming next.</li>
-            </ul>
+            <p>The UI surface area is intentionally small. The popup shows only two things: a form to add or edit a snippet, and a list of existing snippets. The options page mirrors the same interface at a larger size. There are no tabs, no settings pages, and no secondary flows.</p>
 
-            <p><strong>Result:</strong> New users added a snippet in under 20 seconds, inserted it in chat in under 10, and then forgot the extension was running—that invisible speed is exactly what we aimed for.</p>
+            <p>Actions are designed to be reversible. Edit mode is clearly marked and can be canceled. Delete actions are hidden until hover and will support undo. Users should never wonder whether they lost data.</p>
+
+            <p>In testing, most users created their first snippet in under twenty seconds and inserted it into a chat in under ten. Several forgot the extension was running at all. That invisibility was the success metric.</p>
           </div>
         </div>
       </section>
@@ -201,9 +205,11 @@
           <p class="takeaway-subtitle">Technical Constraints</p>
         </div>
         <div class="section-right">
-          <h3 class="takeaway-detail-title">Respect host-site constraints - design graceful fall-backs</h3>
+          <h3 class="takeaway-detail-title">Respect host constraints, design fallbacks</h3>
           <div class="takeaway-content">
-            <p>We spent a full afternoon trying to make Enter confirm a snippet on Claude.ai, exactly as it does on Gemini and ChatGPT. The steps we tried illustrate why "just intercept the key" is sometimes impossible:</p>
+            <p>We assumed that pressing Enter would confirm a selection everywhere. This assumption was wrong.</p>
+
+            <p>On Claude.ai, the input element intercepts Enter at a lower level and immediately sends the message. We tried several approaches: intercepting the event during bubbling, during capture, attaching listeners to shadow DOM roots, and re-binding handlers on re-renders. None were reliable.</p>
 
             <table>
               <thead>
@@ -232,31 +238,20 @@
               </tbody>
             </table>
 
-            <h4>Why we stopped forcing Enter on Claude</h4>
+            <p>The cost of failure was high. If interception failed even once, the user would accidentally send a message. That kind of error is visible, frustrating, and difficult to explain.</p>
+
+            <p>Rather than fight the platform, we added fallbacks.</p>
+
+            <p>Shift + Enter works consistently because Claude treats it as "insert newline," not "send message." Tab also works naturally as a selection key and is never mapped to sending. On sites that allow Enter to be intercepted safely, Enter behaves as expected. On Claude, it does not.</p>
+
+            <p>The final behavior is simple:</p>
             <ul>
-              <li><strong>Too risky</strong> – If our code ever misses the key, Claude still fires Send and the user ships an unfinished message.</li>
-              <li><strong>Brittle</strong> – Claude's DOM and event order change without warning; we would chase bugs forever.</li>
-              <li><strong>Wasteful</strong> – Re-attaching listeners on every render slows things down for everyone.</li>
+              <li>When the picker is open, Shift + Enter and Tab always confirm.</li>
+              <li>Enter confirms everywhere except Claude.</li>
+              <li>When the picker is closed, the page behaves normally.</li>
             </ul>
 
-            <h4>Simple fall-backs that work everywhere</h4>
-            <ul>
-              <li><strong>Shift + Enter</strong> – Claude treats this as "new line," so we can safely use it as Confirm.</li>
-              <li><strong>Tab</strong> – A natural "select" key in autocomplete lists and never tied to Send.</li>
-            </ul>
-
-            <h4>Rule we shipped</h4>
-            <div class="rule-box">
-              <p><strong>Picker open:</strong></p>
-              <p>Enter → confirm (all sites except Claude)<br>
-              Shift + Enter → confirm (all sites)<br>
-              Tab → confirm (all sites)</p>
-
-              <p><strong>Picker closed:</strong></p>
-              <p>Page handles keys as usual</p>
-            </div>
-
-            <p>Accepting one extra keystroke on Claude gave us a solution that is safe, future-proof, and free of hacky DOM surgery.</p>
+            <p>Accepting one extra keystroke on a single site produced a solution that is predictable, stable, and resilient to future changes. What began as an input-handling limitation became a small but deliberate UX decision.</p>
           </div>
         </div>
       </section>
