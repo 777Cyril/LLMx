@@ -110,5 +110,19 @@ const resources = [
     url: "https://bbycroft.net/llm",
     category: "resource",
     caption: "An interactive 3D visualization showing how large language models work internally. Explore the architecture in motion."
+  },
+  {
+    id: "instruct-gpt",
+    title: "InstructGPT",
+    url: "https://arxiv.org/pdf/2203.02155",
+    category: "paper",
+    caption: "Training language models to follow instructions with human feedback. The paper behind ChatGPT's ability to understand and follow user instructions."
+  },
+  {
+    id: "llm-history",
+    title: "A History of Large Language Models",
+    url: "https://gregorygundersen.com/blog/2025/10/01/large-language-models/",
+    category: "essay",
+    caption: "A comprehensive overview tracing the evolution of LLMs from early foundations to modern architectures."
   }
 ];
