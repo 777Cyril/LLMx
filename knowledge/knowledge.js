@@ -103,5 +103,12 @@ const resources = [
     url: "https://www.youtube.com/watch?v=7xTGNNLPyMI",
     category: "video",
     caption: "A comprehensive walkthrough of how LLMs work, from tokenization to generation. Essential viewing."
+  },
+  {
+    id: "llm-visualization",
+    title: "LLM Visualization",
+    url: "https://bbycroft.net/llm",
+    category: "resource",
+    caption: "An interactive 3D visualization showing how large language models work internally. Explore the architecture in motion."
   }
 ];
