@@ -21,7 +21,7 @@
 
 /* Force light mode background */
 body:has(.grid-page) {
-  background: #D3D0CB;
+  background: #D9D2C7;
 }
 
 .grid-page {
