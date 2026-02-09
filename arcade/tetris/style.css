@@ -2,13 +2,13 @@
 
 /* Tetromino Colors */
 :root {
-    --color-I: #12421e;
-    --color-O: #FFC857;
-    --color-T: #ff0000;
-    --color-S: #51291e;
-    --color-Z: #8332ac;
-    --color-J: #51bbfe;
-    --color-L: #2e2aa8;
+    --color-I: #2f7f78;
+    --color-O: #efaf3c;
+    --color-T: #e34d5a;
+    --color-S: #5f8156;
+    --color-Z: #2f5d8c;
+    --color-J: #4b9aa6;
+    --color-L: #b88462;
 }
 
 /* Page Container */
@@ -148,13 +148,13 @@ html.darkmode .game-board .cell {
 .cell.L { background-color: var(--color-L); }
 
 /* Ghost Piece */
-.cell.ghost-I { background-color: rgba(18, 66, 30, 0.6); }
-.cell.ghost-O { background-color: rgba(255, 200, 87, 0.6); }
-.cell.ghost-T { background-color: rgba(255, 0, 0, 0.6); }
-.cell.ghost-S { background-color: rgba(81, 41, 30, 0.6); }
-.cell.ghost-Z { background-color: rgba(131, 50, 172, 0.6); }
-.cell.ghost-J { background-color: rgba(81, 187, 254, 0.6); }
-.cell.ghost-L { background-color: rgba(46, 42, 168, 0.6); }
+.cell.ghost-I { background-color: rgba(47, 127, 120, 0.6); }
+.cell.ghost-O { background-color: rgba(239, 175, 60, 0.6); }
+.cell.ghost-T { background-color: rgba(227, 77, 90, 0.6); }
+.cell.ghost-S { background-color: rgba(95, 129, 86, 0.6); }
+.cell.ghost-Z { background-color: rgba(47, 93, 140, 0.6); }
+.cell.ghost-J { background-color: rgba(75, 154, 166, 0.6); }
+.cell.ghost-L { background-color: rgba(184, 132, 98, 0.6); }
 
 /* Game Overlay */
 .game-overlay {
