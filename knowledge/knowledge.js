@@ -124,5 +124,12 @@ const resources = [
     url: "https://gregorygundersen.com/blog/2025/10/01/large-language-models/",
     category: "essay",
     caption: "A comprehensive overview tracing the evolution of LLMs from early foundations to modern architectures."
+  },
+  {
+    id: "deep-learning-book",
+    title: "Deep Learning",
+    url: "https://www.deeplearningbook.org/",
+    category: "resource",
+    caption: "Goodfellow, Bengio, and Courville's comprehensive textbook on deep learning. The definitive academic reference for the field."
   }
 ];
