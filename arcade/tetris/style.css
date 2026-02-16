@@ -301,6 +301,28 @@ html.darkmode .game-board .cell {
     color: var(--color-surface-primary);
 }
 
+/* Pause Button (mobile) */
+.pause-btn {
+    font-family: "GT Alpina Typewriter", Courier, monospace;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-content-primary);
+    background: transparent;
+    color: var(--color-content-primary);
+    cursor: crosshair;
+    transition: all 0.15s ease;
+    opacity: 0.5;
+    line-height: 1;
+    letter-spacing: -0.1em;
+    touch-action: manipulation;
+}
+
+.pause-btn:active {
+    opacity: 1;
+    background: var(--color-content-primary);
+    color: var(--color-surface-primary);
+}
+
 /* Line Clear Animation */
 @keyframes line-clear {
     0% { background-color: var(--color-content-primary); }
