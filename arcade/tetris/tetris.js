@@ -721,20 +721,40 @@ function initTouchControls() {
     let touchStartX = 0;
     let touchStartY = 0;
     let touchStartTime = 0;
-    let lastTapTime = 0;
-    let longPressTimer = null;
+    let softDropTimer = null;
+    let softDropInterval = null;
     let lastMoveX = 0;
     let lastMoveY = 0;
     let gestureMoved = false;
+    let isSoftDropping = false;
     const SWIPE_THRESHOLD = 15;
     const TAP_THRESHOLD = 10;
-    const DOUBLE_TAP_DELAY = 300;
-    const LONG_PRESS_DELAY = 500;
+    const SOFT_DROP_DELAY = 200;
+    const SOFT_DROP_SPEED = 50;
 
     const gameArea = document.querySelector('.tetris-page');
 
+    function stopSoftDrop() {
+        if (softDropTimer) {
+            clearTimeout(softDropTimer);
+            softDropTimer = null;
+        }
+        if (softDropInterval) {
+            clearInterval(softDropInterval);
+            softDropInterval = null;
+        }
+        isSoftDropping = false;
+    }
+
     gameArea.addEventListener('touchstart', (e) => {
         if (gameState !== 'playing') return;
+
+        // Two-finger tap to pause
+        if (e.touches.length >= 2) {
+            stopSoftDrop();
+            pauseGame();
+            return;
+        }
 
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
@@ -743,20 +763,25 @@ function initTouchControls() {
         lastMoveY = touchStartY;
         gestureMoved = false;
 
-        // Start long press timer
-        longPressTimer = setTimeout(() => {
-            pauseGame();
-        }, LONG_PRESS_DELAY);
+        // Start soft drop after a short hold
+        softDropTimer = setTimeout(() => {
+            isSoftDropping = true;
+            softDrop();
+            softDropInterval = setInterval(() => {
+                if (gameState === 'playing') {
+                    softDrop();
+                } else {
+                    stopSoftDrop();
+                }
+            }, SOFT_DROP_SPEED);
+        }, SOFT_DROP_DELAY);
     }, { passive: true });
 
     gameArea.addEventListener('touchmove', (e) => {
         if (gameState !== 'playing') return;
 
-        // Cancel long press on move
-        if (longPressTimer) {
-            clearTimeout(longPressTimer);
-            longPressTimer = null;
-        }
+        // Cancel soft drop on move
+        stopSoftDrop();
 
         const touchX = e.touches[0].clientX;
         const touchY = e.touches[0].clientY;
@@ -780,11 +805,11 @@ function initTouchControls() {
     gameArea.addEventListener('touchend', (e) => {
         if (gameState !== 'playing') return;
 
-        // Cancel long press
-        if (longPressTimer) {
-            clearTimeout(longPressTimer);
-            longPressTimer = null;
-        }
+        const wasSoftDropping = isSoftDropping;
+        stopSoftDrop();
+
+        // If we were soft dropping, don't process as another gesture
+        if (wasSoftDropping) return;
 
         if (gestureMoved) {
             gestureMoved = false;
@@ -832,6 +857,19 @@ function initTouchControls() {
             e.preventDefault();
         }
     }, { passive: false });
+
+    // Mobile pause button
+    const pauseBtn = document.getElementById('pause-btn');
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (gameState === 'playing') {
+                pauseGame();
+            } else if (gameState === 'paused') {
+                resumeGame();
+            }
+        });
+    }
 }
 
 // ============================================
