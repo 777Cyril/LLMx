@@ -9,6 +9,7 @@
     '/arcade/arcade_music/Hiatus Kaiyote Building A Ladder Live.mp3',
     '/arcade/arcade_music/Is It a Crime (Remastered) - Sade.mp3',
     '/arcade/arcade_music/No Ordinary Love.mp3',
+    '/arcade/arcade_music/SOFT SERVE by Laila.mp3',
     '/arcade/arcade_music/Sade - I Will Be Your Friend.mp3',
     '/arcade/arcade_music/Sade - Kiss Of Life - Official - 1993.mp3',
     '/arcade/arcade_music/Sade - Like a Tattoo (Audio).mp3',
