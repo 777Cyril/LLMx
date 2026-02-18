@@ -74,12 +74,18 @@
     }
   });
 
-  // Auto-play on game start (new game = new song from queue)
+  // Auto-play on game start — only advance song on a fresh start, not on resume
   const startBtn = document.getElementById('start-btn');
   if (startBtn) {
     startBtn.addEventListener('click', () => {
-      if (musicEnabled) {
-        // Move to next song for each new game
+      if (!musicEnabled) return;
+      // gameState is defined by each game's JS and is 'paused' when resuming
+      const isResuming = typeof gameState !== 'undefined' && gameState === 'paused';
+      if (isResuming) {
+        // Just unpause the current song, same as pressing P
+        music.play().catch(e => console.log('Music play failed:', e));
+      } else {
+        // Fresh start or game over restart — advance to next song
         playNextSong();
       }
     });
