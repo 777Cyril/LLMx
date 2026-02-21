@@ -224,7 +224,6 @@ body::before {
     display: flex;
     flex-direction: column;
     border-bottom: var(--border-width) solid var(--line-color);
-    border-top: var(--border-width) solid var(--line-color);
     overflow: hidden;
 }
 
@@ -236,6 +235,7 @@ body::before {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    position: relative;
 }
 
 .hero-text {
@@ -426,9 +426,19 @@ h1 {
     font-size: 0.8rem;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
-    display: inline-block;
-    border-bottom: 1px solid var(--ink);
+    display: block;
     padding-bottom: 2px;
+    position: relative;
+}
+
+.hero-text .small-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: -100vw;
+    height: 1px;
+    background: var(--ink);
 }
 
 .list-group {
