@@ -423,7 +423,7 @@ footer {
 }
 
 .hero-logo svg path {
-    fill: var(--ink);
+    fill: #ff0000;
     opacity: 0;
 }
 
@@ -434,6 +434,23 @@ footer {
 
 @media (max-width: 1024px) {
     .hero-logo { max-width: 60%; }
+}
+
+/* CONTENT FADE-IN (matches v1 load-in, scoped to main so sidebar is unaffected) */
+
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.main-content p,
+.main-content .small-header,
+.main-content .hero-sub,
+.main-content .data-cell,
+.main-content .cs-header,
+.main-content .cs-role,
+.main-content .goods-card,
+.main-content footer {
+    opacity: 0;
+    animation: logo-load-in 2.5s 0.5s ease-in forwards;
 }
 
 @media (max-width: 1024px) {
