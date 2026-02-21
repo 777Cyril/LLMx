@@ -145,6 +145,69 @@ body::before {
     opacity: 0.6;
 }
 
+/* Resources flyout */
+.nav-resources {
+    position: relative;
+    cursor: default;
+}
+
+.resources-flyout {
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    background: var(--paper-bg);
+    border: var(--border-width) solid var(--line-color);
+    border-left: none;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 200;
+}
+
+.nav-resources:hover .resources-flyout {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+.flyout-link {
+    padding: 0.85rem 1.5rem;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-bottom: var(--border-width) solid var(--line-color);
+    display: block;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.flyout-link:last-child {
+    border-bottom: none;
+}
+
+.flyout-link:hover {
+    background: white;
+}
+
+/* Footer contact link */
+.footer-contact {
+    font-size: 0.8rem;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    align-self: flex-end;
+}
+
+.footer-contact:hover {
+    opacity: 1;
+}
+
 .main-content {
     display: flex;
     flex-direction: column;
@@ -425,24 +488,6 @@ footer {
     opacity: 1;
 }
 
-.footer-logo {
-    width: 60px;
-    height: 60px;
-    position: relative;
-}
-
-.footer-logo span {
-    display: block;
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--ink);
-    border-radius: 50%;
-    position: absolute;
-}
-
-.footer-logo span:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
-.footer-logo span:nth-child(2) { bottom: 0; left: 0; }
-.footer-logo span:nth-child(3) { bottom: 0; right: 0; }
 
 .archive-tag {
     background: var(--ink);
@@ -590,6 +635,17 @@ footer {
     .footer-flip__back {
         font-size: clamp(2.5rem, 16vw, 14rem);
     }
-    footer .u-mono  { grid-area: copy; }
-    .footer-logo    { grid-area: logo; align-self: end; }
+    footer .u-mono      { grid-area: copy; }
+    .footer-contact     { grid-area: logo; align-self: end; }
+
+    /* Resources flyout: drop downward on mobile */
+    .nav-resources { z-index: 200; }
+    .resources-flyout {
+        left: 0;
+        bottom: auto;
+        top: 100%;
+        border-left: var(--border-width) solid var(--line-color);
+        border-top: none;
+        min-width: 100%;
+    }
 }
