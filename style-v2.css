@@ -138,6 +138,10 @@ body::before {
     background-color: white;
 }
 
+a:hover:not(.footer-flip):not(.work-grid > a) {
+    animation: flash 0.2s step-start infinite;
+}
+
 .nav-item span:last-child {
     font-family: var(--font-mono);
     font-size: 0.8rem;
@@ -216,6 +220,14 @@ h1 {
 }
 
 .case-study:last-child { border-right: none; }
+
+/* Ensure Onyx link wrapper doesn't disrupt grid or borders */
+.work-grid > a {
+    display: contents;
+}
+.cs-tiffany {
+    border-right: var(--border-width) solid var(--line-color);
+}
 
 .cs-header {
     padding: 1.5rem;
@@ -368,7 +380,7 @@ footer {
     padding: 2rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     min-height: 300px;
     overflow: hidden;
 }
@@ -461,6 +473,10 @@ footer {
 @keyframes logo-load-in {
     0%   { opacity: 0; }
     100% { opacity: 1; }
+}
+
+@keyframes flash {
+    50% { opacity: 0; }
 }
 
 .hero-logo {
