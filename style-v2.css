@@ -252,6 +252,9 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    align-self: flex-end;
+    margin-right: 4rem;
+    margin-bottom: 2rem;
 }
 
 .llm-viz-link {
