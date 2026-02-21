@@ -50,13 +50,39 @@
                 Arcade <span>03</span>
             </a>
             <div class="nav-item nav-resources">
-                Resources <span>04</span>
+                Library <span>04</span>
                 <div class="resources-flyout">
                     <a href="https://www.llmxai.co/prompts/" class="flyout-link">Prompts</a>
                     <a href="https://www.llmxai.co/knowledge/" class="flyout-link">Knowledge</a>
                 </div>
             </div>
+            <a href="mailto:cyril@llmxai.co" class="nav-item">
+                Contact <span>05</span>
+            </a>
         </nav>
+
+        <!-- Mobile hamburger menu -->
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+        <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-inner">
+                <div class="mobile-menu-grid">
+                    <a href="#work" class="mobile-menu-item" data-close>Work</a>
+                    <a href="#about" class="mobile-menu-item" data-close>About</a>
+                    <a href="https://www.llmxai.co/arcade/" class="mobile-menu-item">Arcade</a>
+                    <a href="/blog/" class="mobile-menu-item">Blog</a>
+                    <a href="/bootcamp/" class="mobile-menu-item">Bootcamp</a>
+                    <a href="https://www.llmxai.co/prompts/" class="mobile-menu-item">Prompts</a>
+                    <a href="https://www.llmxai.co/knowledge/" class="mobile-menu-item">Knowledge</a>
+                    <a href="mailto:cyril@llmxai.co" class="mobile-menu-item">Contact</a>
+                </div>
+                <div class="mobile-menu-footer">
+                    <span class="u-mono" style="font-size:0.7rem;opacity:0.35;">LLMx — BK / 11201</span>
+                </div>
+            </div>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -235,6 +261,39 @@
     }
     setInterval(updateTime, 1000);
     updateTime();
+
+    // Mobile menu
+    const menuBtn     = document.getElementById('mobile-menu-btn');
+    const mobileMenu  = document.getElementById('mobile-menu');
+    const menuOverlay = document.getElementById('mobile-menu-overlay');
+
+    function openMenu() {
+        menuBtn.classList.add('is-open');
+        mobileMenu.classList.add('is-open');
+        menuOverlay.classList.add('is-open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        menuBtn.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+        menuOverlay.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', () => {
+        menuBtn.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+
+    menuOverlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('[data-close]').forEach(el => {
+        el.addEventListener('click', closeMenu);
+    });
 </script>
 
 <!-- LLMx Prompt Stack Widget — update src after deploying LLMx-Widget to Vercel -->
