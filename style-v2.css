@@ -371,6 +371,54 @@ footer {
     height: 300px;
 }
 
+/* FOOTER FLIP ANIMATION */
+
+.footer-flip {
+    display: block;
+    color: var(--ink);
+    text-decoration: none;
+    overflow: hidden;
+    position: relative;
+    height: 6rem;
+    align-self: center;
+}
+
+.footer-flip__front,
+.footer-flip__back {
+    display: block;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+    transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+                opacity 0.4s ease;
+}
+
+.footer-flip__front {
+    transform: translateY(0);
+    opacity: 1;
+    padding-top: 1rem;
+}
+
+.footer-flip__back {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.footer-flip:hover .footer-flip__front {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.footer-flip:hover .footer-flip__back {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 .footer-logo {
     width: 60px;
     height: 60px;
@@ -423,7 +471,7 @@ footer {
 }
 
 .hero-logo svg path {
-    fill: #ff0000;
+    fill: var(--ink);
     opacity: 0;
 }
 
@@ -436,7 +484,7 @@ footer {
     .hero-logo { max-width: 60%; }
 }
 
-/* CONTENT FADE-IN (matches v1 load-in, scoped to main so sidebar is unaffected) */
+/* CONTENT FADE-IN (matches v1 load-in) */
 
 .main-content h1,
 .main-content h2,
@@ -448,7 +496,11 @@ footer {
 .main-content .cs-header,
 .main-content .cs-role,
 .main-content .goods-card,
-.main-content footer {
+.main-content footer,
+.sidebar .logo-symbol,
+.sidebar .meta-label,
+.sidebar .meta-value,
+.sidebar .nav-item {
     opacity: 0;
     animation: logo-load-in 2.5s 0.5s ease-in forwards;
 }
