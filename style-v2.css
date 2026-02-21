@@ -138,9 +138,6 @@ body::before {
     background-color: white;
 }
 
-a:hover:not(.footer-flip) {
-    animation: flash 0.4s step-end infinite;
-}
 
 .nav-item span:last-child {
     font-family: var(--font-mono);
