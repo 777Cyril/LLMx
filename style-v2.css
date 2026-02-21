@@ -224,6 +224,8 @@ body::before {
     display: flex;
     flex-direction: column;
     border-bottom: var(--border-width) solid var(--line-color);
+    border-top: var(--border-width) solid var(--line-color);
+    overflow: hidden;
 }
 
 .hero-header {
