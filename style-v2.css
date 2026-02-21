@@ -151,13 +151,19 @@ body::before {
     cursor: default;
 }
 
+/* Fix: flyout div is the last child, so span:last-child doesn't match — target directly */
+.nav-resources > span {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
 .resources-flyout {
     position: absolute;
     left: 100%;
     bottom: 0;
     background: var(--paper-bg);
     border: var(--border-width) solid var(--line-color);
-    border-left: none;
     min-width: 160px;
     display: flex;
     flex-direction: column;
