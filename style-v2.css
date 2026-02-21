@@ -533,11 +533,30 @@ footer {
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .nav-links { flex-direction: row; width: 100%; }
-    .nav-item { flex: 1; border-top: none; border-right: var(--border-width) solid var(--line-color); text-align: center; justify-content: center; }
-    .nav-item:last-child { border-right: none; }
+    /* Sidebar: logo full-width top row, nav full-width bottom row */
+    .logo-area {
+        border-right: none;
+        border-bottom: var(--border-width) solid var(--line-color);
+        width: 100%;
+        height: 80px;
+        min-width: unset;
+        justify-content: flex-start;
+        padding-left: 1.5rem;
+    }
     .meta-block { display: none; }
-    .logo-area { border-right: var(--border-width) solid var(--line-color); width: 80px; height: 80px; border-bottom: none; min-width: 80px; }
+    .nav-links {
+        flex-direction: row;
+        width: 100%;
+        border-top: none;
+    }
+    .nav-item {
+        flex: 1;
+        border-top: none;
+        border-right: var(--border-width) solid var(--line-color);
+        text-align: center;
+        justify-content: center;
+    }
+    .nav-item:last-child { border-right: none; }
 
     .hero-header { padding: 2rem; }
     h1 { font-size: 3rem; }
@@ -548,17 +567,25 @@ footer {
     .goods-grid { grid-template-columns: 1fr; gap: 2rem; }
     .goods-section { padding: 2rem; }
 
-    /* Footer — stack vertically so CTA fills full width */
+    /* Footer — grid: CTA full-width top, copyright bottom-left, logo bottom-right */
     footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
+        display: grid;
+        grid-template-areas:
+            "cta cta"
+            "copy logo";
+        grid-template-columns: 1fr auto;
+        gap: 2rem 0;
         min-height: auto;
         padding: 2rem;
+        align-items: end;
     }
     .footer-flip {
+        grid-area: cta;
         margin: 0;
         width: 100%;
         height: clamp(3rem, 20vw, 10rem);
+        align-self: start;
     }
+    footer .u-mono  { grid-area: copy; }
+    .footer-logo    { grid-area: logo; align-self: end; }
 }
