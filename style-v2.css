@@ -672,11 +672,11 @@ footer {
     background: none;
     border: none;
     cursor: pointer;
-    position: absolute;
-    top: 16px;
-    left: 1.5rem;
+    margin-left: auto;
+    margin-right: 0.5rem;
     z-index: 1100;
     padding: 0;
+    flex-shrink: 0;
 }
 
 /* The three lines */
