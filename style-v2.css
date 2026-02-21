@@ -254,9 +254,8 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: flex-end;
-    margin-right: 4rem;
-    margin-bottom: 2rem;
+    align-self: center;
+    margin-right: 6rem;
 }
 
 .llm-viz-link {
