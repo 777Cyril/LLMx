@@ -413,8 +413,8 @@ footer {
 }
 
 .hero-logo {
-    margin-bottom: 2rem;
-    max-width: 60%;
+    margin-bottom: 1.5rem;
+    max-width: 40%;
 }
 
 .hero-logo svg {
@@ -423,7 +423,7 @@ footer {
 }
 
 .hero-logo svg path {
-    fill: #AA0000;
+    fill: var(--ink);
     opacity: 0;
 }
 
@@ -433,7 +433,7 @@ footer {
 .hero-logo svg path:nth-child(4) { animation: logo-load-in .5s 450ms step-start forwards; }
 
 @media (max-width: 1024px) {
-    .hero-logo { max-width: 80%; }
+    .hero-logo { max-width: 60%; }
 }
 
 @media (max-width: 1024px) {
