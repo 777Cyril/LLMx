@@ -583,8 +583,12 @@ footer {
         grid-area: cta;
         margin: 0;
         width: 100%;
-        height: clamp(3rem, 20vw, 10rem);
+        height: clamp(3rem, 16vw, 10rem);
         align-self: start;
+    }
+    .footer-flip__front,
+    .footer-flip__back {
+        font-size: clamp(2.5rem, 16vw, 14rem);
     }
     footer .u-mono  { grid-area: copy; }
     .footer-logo    { grid-area: logo; align-self: end; }
