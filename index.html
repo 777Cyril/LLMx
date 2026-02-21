@@ -260,14 +260,12 @@
     updateTime();
 
     // Mobile menu
-    const menuBtn     = document.getElementById('mobile-menu-btn');
-    const mobileMenu  = document.getElementById('mobile-menu');
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
+    const menuBtn    = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
 
     function openMenu() {
         menuBtn.classList.add('is-open');
         mobileMenu.classList.add('is-open');
-        menuOverlay.classList.add('is-open');
         menuBtn.setAttribute('aria-expanded', 'true');
         mobileMenu.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -276,7 +274,6 @@
     function closeMenu() {
         menuBtn.classList.remove('is-open');
         mobileMenu.classList.remove('is-open');
-        menuOverlay.classList.remove('is-open');
         menuBtn.setAttribute('aria-expanded', 'false');
         mobileMenu.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
@@ -285,8 +282,6 @@
     menuBtn.addEventListener('click', () => {
         menuBtn.classList.contains('is-open') ? closeMenu() : openMenu();
     });
-
-    menuOverlay.addEventListener('click', closeMenu);
 
     document.querySelectorAll('[data-close]').forEach(el => {
         el.addEventListener('click', closeMenu);

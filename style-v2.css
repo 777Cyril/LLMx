@@ -665,7 +665,7 @@ footer {
     display: none;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 5px;
     width: 48px;
     height: 48px;
@@ -674,94 +674,130 @@ footer {
     cursor: pointer;
     position: absolute;
     top: 16px;
-    right: 1.5rem;
-    z-index: 1001;
+    left: 1.5rem;
+    z-index: 1100;
     padding: 0;
 }
 
+/* The three lines */
 .mobile-menu-btn span {
     display: block;
-    width: 22px;
     height: 1.5px;
     background: var(--ink);
-    transition: transform 0.3s ease, opacity 0.2s ease;
-    transform-origin: center;
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s ease;
+    transform-origin: left center;
 }
 
-/* Animate to X when open */
-.mobile-menu-btn.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: #dcdcdc; }
-.mobile-menu-btn.is-open span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: #dcdcdc; }
+.mobile-menu-btn span:nth-child(1) { width: 22px; }
+.mobile-menu-btn span:nth-child(2) { width: 16px; }
+.mobile-menu-btn span:nth-child(3) { width: 22px; }
 
-/* ── Mobile menu overlay ─────────────────────────────────────────────── */
-.mobile-menu-overlay {
-    display: none;
+/* When open: lines turn white and morph into ← back arrow */
+/* Top line becomes the top arm of the arrow pointing left */
+.mobile-menu-btn.is-open span:nth-child(1) {
+    width: 14px;
+    transform: translateY(1px) rotate(-40deg);
+    background: #dcdcdc;
+}
+/* Middle line becomes the arrow shaft — full width */
+.mobile-menu-btn.is-open span:nth-child(2) {
+    width: 22px;
+    transform: translateX(0);
+    background: #dcdcdc;
+}
+/* Bottom line becomes the bottom arm of the arrow */
+.mobile-menu-btn.is-open span:nth-child(3) {
+    width: 14px;
+    transform: translateY(-1px) rotate(40deg);
+    background: #dcdcdc;
+}
+
+/* ── No overlay needed — menu is fullscreen ──────────────────────────── */
+.mobile-menu-overlay { display: none !important; }
+
+/* ── Mobile menu — fullscreen Pentagram-style takeover ──────────────── */
+.mobile-menu {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 999;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-.mobile-menu-overlay.is-open { display: block; }
-
-/* ── Mobile menu panel ───────────────────────────────────────────────── */
-.mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     z-index: 1000;
-    background: var(--ink);
-    /* Same noise texture as studio section */
+    background: #111111;
     background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
-        linear-gradient(to bottom, #111111, #1a1a1a);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    transform: translateY(-100%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #141414 0%, #0e0e0e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2rem 2rem;
+
+    /* Hidden state */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-menu.is-open {
-    display: block;
+    opacity: 1;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
-.mobile-menu-inner {
-    padding: 80px 1.5rem 2rem;
+/* Stagger nav items on open */
+.mobile-menu.is-open .mobile-menu-item {
+    animation: menu-item-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.mobile-menu.is-open .mobile-menu-item:nth-child(1) { animation-delay: 0.04s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(2) { animation-delay: 0.08s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(3) { animation-delay: 0.12s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(4) { animation-delay: 0.16s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(5) { animation-delay: 0.20s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(6) { animation-delay: 0.24s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(7) { animation-delay: 0.28s; }
+.mobile-menu.is-open .mobile-menu-item:nth-child(8) { animation-delay: 0.32s; }
+
+@keyframes menu-item-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+.mobile-menu-inner {
+    width: 100%;
+}
+
+/* One column, large type — Pentagram style */
 .mobile-menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-left: 1px solid rgba(255,255,255,0.1);
 }
 
 .mobile-menu-item {
-    display: flex;
-    align-items: center;
-    padding: 1.1rem 1.25rem;
+    display: block;
+    padding: 0.85rem 0;
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: rgba(220,220,220,0.85);
+    color: rgba(220,220,220,0.75);
     text-decoration: none;
-    border-right: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    transition: background 0.15s, color 0.15s;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: color 0.15s, letter-spacing 0.2s;
+    opacity: 0; /* reset for animation */
 }
 
+.mobile-menu-item:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+
 .mobile-menu-item:hover {
-    background: rgba(255,255,255,0.06);
     color: #ffffff;
+    letter-spacing: 0.02em;
 }
 
 .mobile-menu-footer {
-    padding: 1.5rem 0 0;
+    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
