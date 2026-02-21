@@ -392,7 +392,7 @@ footer {
 .footer-flip__front,
 .footer-flip__back {
     display: block;
-    font-size: clamp(3rem, 20vw, 14rem);
+    font-size: clamp(4rem, 12vw, 14rem);
     font-weight: 700;
     line-height: 1;
     font-family: var(--font-sans);
