@@ -625,7 +625,7 @@ footer {
             "cta cta"
             "copy logo";
         grid-template-columns: 1fr auto;
-        gap: 2rem 0;
+        gap: 2rem 1rem;
         min-height: auto;
         padding: 2rem;
         align-items: end;
@@ -641,8 +641,8 @@ footer {
     .footer-flip__back {
         font-size: clamp(2.5rem, 16vw, 14rem);
     }
-    footer .u-mono      { grid-area: copy; }
-    .footer-contact     { grid-area: logo; align-self: end; }
+    footer .u-mono      { grid-area: copy; align-self: end; }
+    .footer-contact     { grid-area: logo; align-self: end; display: block; text-align: right; }
 
     /* Resources flyout: drop downward on mobile */
     .nav-resources { z-index: 200; }
