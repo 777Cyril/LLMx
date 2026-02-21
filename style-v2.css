@@ -138,8 +138,8 @@ body::before {
     background-color: white;
 }
 
-a:hover:not(.footer-flip):not(.work-grid > a) {
-    animation: flash 0.2s step-start infinite;
+a:hover:not(.footer-flip) {
+    animation: flash 0.4s step-end infinite;
 }
 
 .nav-item span:last-child {
@@ -221,13 +221,6 @@ h1 {
 
 .case-study:last-child { border-right: none; }
 
-/* Ensure Onyx link wrapper doesn't disrupt grid or borders */
-.work-grid > a {
-    display: contents;
-}
-.cs-tiffany {
-    border-right: var(--border-width) solid var(--line-color);
-}
 
 .cs-header {
     padding: 1.5rem;
