@@ -230,8 +230,43 @@ body::before {
     padding: 4rem;
     flex-grow: 1;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.hero-text {
+    flex: 1 1 auto;
+    display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* ── 3D LLM Visualization ─────────────────────────────────────────────── */
+.llm-viz-container {
+    width: 280px;
+    height: 280px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.llm-viz-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.llm-viz {
+    width: 120%;
+    height: 120%;
+    margin-left: -10%;
+    margin-top: -10%;
+    border: none;
+    background: transparent;
 }
 
 h1 {
@@ -614,7 +649,8 @@ footer {
     }
     .nav-item:last-child { border-right: none; }
 
-    .hero-header { padding: 2rem; }
+    .hero-header { padding: 2rem; flex-direction: column; }
+    .llm-viz-container { display: none; }
     h1 { font-size: 3rem; }
     .work-grid { grid-template-columns: 1fr; }
     .case-study { border-right: none; border-bottom: var(--border-width) solid var(--line-color); min-height: 50vh; }
