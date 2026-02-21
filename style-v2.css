@@ -453,9 +453,17 @@ footer {
     vertical-align: middle;
 }
 
+@keyframes live-pulse {
+    0%   { box-shadow: 0 0 0px 0px rgba(0, 200, 80, 0); }
+    40%  { box-shadow: 0 0 8px 3px rgba(0, 200, 80, 0.7); }
+    60%  { box-shadow: 0 0 8px 3px rgba(0, 200, 80, 0.7); }
+    100% { box-shadow: 0 0 0px 0px rgba(0, 200, 80, 0); }
+}
+
 .goods-section .archive-tag {
     background: var(--paper-bg);
     color: var(--ink);
+    animation: live-pulse 2.4s ease-in-out infinite;
 }
 
 /* HERO LOGO */
