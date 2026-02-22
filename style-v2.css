@@ -745,6 +745,7 @@ footer {
         border-bottom: var(--border-width) solid var(--line-color);
         flex-direction: row;
         flex-wrap: wrap;
+        z-index: 2147483646; /* keep top mobile header/menu above widget overlays */
     }
     /* Sidebar: logo full-width top row, nav full-width bottom row */
     .logo-area {
@@ -756,6 +757,8 @@ footer {
         justify-content: flex-end;
         padding-left: 1.5rem;
         padding-right: 1rem;
+        position: relative;
+        z-index: 2147483646;
     }
     .mobile-menu-btn {
         display: flex !important;

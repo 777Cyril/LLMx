@@ -431,10 +431,17 @@
         if (!(el instanceof HTMLElement)) return false;
         const style = window.getComputedStyle(el);
         if (style.display === 'none' || style.visibility === 'hidden') return false;
+        if (style.pointerEvents === 'none') return false;
         const opacity = Number.parseFloat(style.opacity || '1');
         if (Number.isFinite(opacity) && opacity <= 0.01) return false;
         const rect = el.getBoundingClientRect();
-        return rect.width > 0 && rect.height > 0;
+        const hasSize = rect.width > 0 && rect.height > 0;
+        if (!hasSize) return false;
+        const inViewport = rect.bottom > 0 &&
+                           rect.top < window.innerHeight &&
+                           rect.right > 0 &&
+                           rect.left < window.innerWidth;
+        return inViewport;
     }
 
     function isWidgetOpen(panel) {
