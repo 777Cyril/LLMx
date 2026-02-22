@@ -394,6 +394,35 @@
         bodyObserver.observe(document.body, { childList: true, subtree: true });
     }
 
+    function onWidgetOverlayReady(callback) {
+        const existing = document.getElementById('llmx-overlay');
+        if (existing) {
+            callback(existing);
+            return;
+        }
+
+        const bodyObserver = new MutationObserver((_, obs) => {
+            const overlay = document.getElementById('llmx-overlay');
+            if (!overlay) return;
+            obs.disconnect();
+            callback(overlay);
+        });
+
+        bodyObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function isWidgetOpen(panel) {
+        const overlay = document.getElementById('llmx-overlay');
+
+        // Treat overlay visibility as source of truth when present; this avoids
+        // stale panel classes leaving an invisible hitbox over the page.
+        if (overlay) {
+            return overlay.classList.contains('llmx-visible') && overlay.getAttribute('aria-hidden') !== 'true';
+        }
+
+        return panel.classList.contains('llmx-open') && panel.getAttribute('aria-hidden') !== 'true';
+    }
+
     function syncWidgetOverlayHitbox(isOpen) {
         const overlay = document.getElementById('llmx-overlay');
         if (!overlay) return;
@@ -456,7 +485,7 @@
         };
 
         const syncOpenStateClass = () => {
-            const isOpen = panel.classList.contains('llmx-open');
+            const isOpen = isWidgetOpen(panel);
             root.classList.toggle('llmx-widget-open', isOpen);
             document.body.classList.toggle('llmx-widget-open', isOpen);
             syncWidgetOverlayHitbox(isOpen);
@@ -488,7 +517,7 @@
 
         if (window.visualViewport) {
             const onViewportUpdate = () => {
-                if (!panel.classList.contains('llmx-open')) return;
+                if (!isWidgetOpen(panel)) return;
                 updateViewportVars();
                 if (activeComposer) scheduleComposerVisibility();
             };
@@ -498,7 +527,7 @@
 
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
-                if (!panel.classList.contains('llmx-open')) return;
+                if (!isWidgetOpen(panel)) return;
                 updateViewportVars();
                 if (activeComposer) scheduleComposerVisibility();
             }, 120);
@@ -518,21 +547,36 @@
     // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
     document.addEventListener('DOMContentLoaded', () => {
         onWidgetPanelReady((panel) => {
+            const syncStateFromDom = () => {
+                const isOpen = isWidgetOpen(panel);
+                document.documentElement.classList.toggle('llmx-widget-open', isOpen);
+                document.body.classList.toggle('llmx-widget-open', isOpen);
+                syncWidgetOverlayHitbox(isOpen);
+                if (!isOpen) {
+                    closeMenu();
+                    document.documentElement.style.removeProperty('--llmx-vv-height');
+                    document.documentElement.style.removeProperty('--llmx-vv-offset-top');
+                    document.documentElement.style.removeProperty('--llmx-kb-inset');
+                }
+            };
+
             if (panel.dataset.closeObserverReady !== 'true') {
                 panel.dataset.closeObserverReady = 'true';
-                new MutationObserver(() => {
-                    const isOpen = panel.classList.contains('llmx-open');
-                    document.documentElement.classList.toggle('llmx-widget-open', isOpen);
-                    document.body.classList.toggle('llmx-widget-open', isOpen);
-                    syncWidgetOverlayHitbox(isOpen);
-                    if (!isOpen) {
-                        closeMenu();
-                        document.documentElement.style.removeProperty('--llmx-vv-height');
-                        document.documentElement.style.removeProperty('--llmx-vv-offset-top');
-                        document.documentElement.style.removeProperty('--llmx-kb-inset');
-                    }
-                }).observe(panel, { attributes: true, attributeFilter: ['class'] });
+                new MutationObserver(syncStateFromDom).observe(panel, {
+                    attributes: true,
+                    attributeFilter: ['class', 'aria-hidden']
+                });
             }
+
+            onWidgetOverlayReady((overlay) => {
+                if (overlay.dataset.closeObserverReady === 'true') return;
+                overlay.dataset.closeObserverReady = 'true';
+                new MutationObserver(syncStateFromDom).observe(overlay, {
+                    attributes: true,
+                    attributeFilter: ['class', 'aria-hidden']
+                });
+                syncStateFromDom();
+            });
 
             installWidgetMobileViewportBehavior(panel);
         });
