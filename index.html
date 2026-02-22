@@ -411,16 +411,27 @@
         bodyObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    function isWidgetOpen(panel) {
-        const overlay = document.getElementById('llmx-overlay');
+    function computeWidgetOpenState(state) {
+        const panelOpen = Boolean(state.panelOpen) && !Boolean(state.panelAriaHidden);
+        if (!panelOpen) return false;
 
-        // Treat overlay visibility as source of truth when present; this avoids
-        // stale panel classes leaving an invisible hitbox over the page.
-        if (overlay) {
-            return overlay.classList.contains('llmx-visible') && overlay.getAttribute('aria-hidden') !== 'true';
+        if (!Boolean(state.overlayPresent)) {
+            return panelOpen;
         }
 
-        return panel.classList.contains('llmx-open') && panel.getAttribute('aria-hidden') !== 'true';
+        const overlayOpen = Boolean(state.overlayVisible) && !Boolean(state.overlayAriaHidden);
+        return panelOpen && overlayOpen;
+    }
+
+    function isWidgetOpen(panel) {
+        const overlay = document.getElementById('llmx-overlay');
+        return computeWidgetOpenState({
+            panelOpen: panel.classList.contains('llmx-open'),
+            panelAriaHidden: panel.getAttribute('aria-hidden') === 'true',
+            overlayPresent: Boolean(overlay),
+            overlayVisible: overlay ? overlay.classList.contains('llmx-visible') : false,
+            overlayAriaHidden: overlay ? overlay.getAttribute('aria-hidden') === 'true' : false
+        });
     }
 
     function syncWidgetOverlayHitbox(isOpen) {
