@@ -899,18 +899,53 @@ html.darkmode .goods-card p {
     color: #111111;
 }
 
-/* Dark mode toggle button in sidebar */
-.dark-mode-toggle {
-    background: none;
-    border: 1px solid var(--line-color);
+/* Dark mode toggle — pill switch in sidebar */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
     cursor: pointer;
-    padding: 3px 8px;
+    user-select: none;
+    width: fit-content;
+}
+
+.theme-toggle__label {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: var(--ink);
-    letter-spacing: 0.05em;
     text-transform: uppercase;
-    transition: background 0.15s ease, color 0.15s ease;
-    margin-top: 1rem;
-    display: block;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.theme-toggle__track {
+    position: relative;
+    width: 28px;
+    height: 14px;
+    background: none;
+    border: 1px solid var(--line-color);
+    border-radius: 0;
+    transition: border-color 0.25s ease;
+    flex-shrink: 0;
+}
+
+.theme-toggle__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background: var(--ink);
+    border-radius: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
+}
+
+html.darkmode .theme-toggle__thumb {
+    transform: translateX(14px);
+}
+
+html.darkmode .theme-toggle__label {
+    opacity: 1;
 }
