@@ -427,6 +427,10 @@
         return panelOpen && overlayOpen;
     }
 
+    function shouldCloseMenuFromWidgetTransition(previousOpen, currentOpen) {
+        return Boolean(previousOpen) && !Boolean(currentOpen);
+    }
+
     function elementActuallyVisible(el) {
         if (!(el instanceof HTMLElement)) return false;
         const style = window.getComputedStyle(el);
@@ -581,17 +585,21 @@
     // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
     document.addEventListener('DOMContentLoaded', () => {
         onWidgetPanelReady((panel) => {
+            let wasWidgetOpen = isWidgetOpen(panel);
+
             const syncStateFromDom = () => {
                 const isOpen = isWidgetOpen(panel);
+                const justClosed = shouldCloseMenuFromWidgetTransition(wasWidgetOpen, isOpen);
                 document.documentElement.classList.toggle('llmx-widget-open', isOpen);
                 document.body.classList.toggle('llmx-widget-open', isOpen);
                 syncWidgetOverlayHitbox(isOpen);
                 if (!isOpen) {
-                    closeMenu();
+                    if (justClosed) closeMenu();
                     document.documentElement.style.removeProperty('--llmx-vv-height');
                     document.documentElement.style.removeProperty('--llmx-vv-offset-top');
                     document.documentElement.style.removeProperty('--llmx-kb-inset');
                 }
+                wasWidgetOpen = isOpen;
             };
 
             if (panel.dataset.closeObserverReady !== 'true') {

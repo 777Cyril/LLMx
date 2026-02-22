@@ -16,6 +16,10 @@ function computeWidgetOpenState(state) {
   return panelOpen && overlayOpen;
 }
 
+function shouldCloseMenuFromWidgetTransition(previousOpen, currentOpen) {
+  return Boolean(previousOpen) && !Boolean(currentOpen);
+}
+
 function test(name, fn) {
   try {
     fn();
@@ -114,4 +118,11 @@ test('closed when overlay semantic open but not actually visible', () => {
     }),
     false
   );
+});
+
+test('menu closes only on open-to-closed transition', () => {
+  assert.equal(shouldCloseMenuFromWidgetTransition(false, false), false);
+  assert.equal(shouldCloseMenuFromWidgetTransition(false, true), false);
+  assert.equal(shouldCloseMenuFromWidgetTransition(true, true), false);
+  assert.equal(shouldCloseMenuFromWidgetTransition(true, false), true);
 });
