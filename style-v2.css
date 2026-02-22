@@ -530,7 +530,7 @@ footer {
 .footer-flip__front {
     display: flex;
     align-items: center;
-    gap: clamp(0.25rem, 0.6vw, 0.8rem);
+    gap: clamp(0.35rem, 0.8vw, 1rem);
     transform: translateY(0);
     opacity: 1;
 }
@@ -661,13 +661,16 @@ footer {
     }
     .footer-flip {
         margin: 0;
-        height: clamp(4rem, 10vw, 8rem);
+        height: clamp(5.5rem, 13vw, 11.5rem);
         min-width: 0;
     }
     .footer-flip__front,
     .footer-flip__back {
-        font-size: clamp(3.25rem, 8.5vw, 8rem);
-        letter-spacing: -0.03em;
+        font-size: clamp(4.1rem, 12.8vw, 11rem);
+        letter-spacing: -0.035em;
+    }
+    .footer-flip__front {
+        gap: clamp(0.6rem, 1.25vw, 1.6rem);
     }
 }
 
