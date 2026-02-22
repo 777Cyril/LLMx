@@ -622,7 +622,8 @@ footer {
 .sidebar .logo-symbol,
 .sidebar .meta-label,
 .sidebar .meta-value,
-.sidebar .nav-item {
+.sidebar .nav-item,
+.sidebar .theme-toggle {
     opacity: 0;
     animation: logo-load-in 2.5s 0.5s ease-in forwards;
 }
