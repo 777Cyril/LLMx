@@ -322,12 +322,26 @@
         const panel   = document.getElementById('llmx-panel');
         const overlay = document.getElementById('llmx-overlay');
         const trigger = document.getElementById('llmx-trigger');
-        if (panel)   panel.classList.remove('llmx-open');
-        if (overlay) overlay.classList.remove('llmx-visible');
-        if (trigger) trigger.style.display = '';
+        if (panel) {
+            panel.classList.remove('llmx-open');
+            panel.setAttribute('aria-hidden', 'true');
+            panel.style.removeProperty('pointer-events');
+            panel.style.removeProperty('visibility');
+        }
+        if (overlay) {
+            overlay.classList.remove('llmx-visible');
+            overlay.style.removeProperty('pointer-events');
+            overlay.style.removeProperty('visibility');
+        }
+        if (trigger) {
+            trigger.style.display = '';
+        }
+        document.documentElement.classList.remove('llmx-widget-open');
+        document.body.classList.remove('llmx-widget-open');
     }
 
     function openMenu() {
+        if (!menuBtn || !mobileMenu) return;
         forceCloseWidget(); // ensure widget never sits above the menu
         menuBtn.classList.add('is-open');
         mobileMenu.classList.add('is-open');
@@ -337,6 +351,7 @@
     }
 
     function closeMenu() {
+        if (!menuBtn || !mobileMenu) return;
         menuBtn.classList.remove('is-open');
         mobileMenu.classList.remove('is-open');
         menuBtn.setAttribute('aria-expanded', 'false');
@@ -344,41 +359,134 @@
         document.body.style.overflow = '';
     }
 
-    menuBtn.addEventListener('click', () => {
-        menuBtn.classList.contains('is-open') ? closeMenu() : openMenu();
-    });
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.contains('is-open') ? closeMenu() : openMenu();
+        });
+    }
 
     document.querySelectorAll('[data-close]').forEach(el => {
         el.addEventListener('click', closeMenu);
     });
 
-    // Watch for the widget closing via its own controls (overlay click, ESC, X button).
-    // When the widget panel loses llmx-open, ensure the menu is fully reset —
-    // body.overflow could still be 'hidden' from openMenu(), leaving a dead end.
-    document.addEventListener('DOMContentLoaded', () => {
-        const widgetPanel = document.getElementById('llmx-panel');
-        if (widgetPanel) {
-            new MutationObserver(() => {
-                if (!widgetPanel.classList.contains('llmx-open')) {
-                    // Widget just closed — clean up any stale menu state
-                    closeMenu();
-                }
-            }).observe(widgetPanel, { attributes: true, attributeFilter: ['class'] });
-        } else {
-            // Widget loads deferred — wait and attach observer once it's in the DOM
-            const bodyObserver = new MutationObserver((_, obs) => {
-                const panel = document.getElementById('llmx-panel');
-                if (panel) {
-                    obs.disconnect();
-                    new MutationObserver(() => {
-                        if (!panel.classList.contains('llmx-open')) {
-                            closeMenu();
-                        }
-                    }).observe(panel, { attributes: true, attributeFilter: ['class'] });
-                }
-            });
-            bodyObserver.observe(document.body, { childList: true, subtree: true });
+    function onWidgetPanelReady(callback) {
+        const existing = document.getElementById('llmx-panel');
+        if (existing) {
+            callback(existing);
+            return;
         }
+
+        const bodyObserver = new MutationObserver((_, obs) => {
+            const panel = document.getElementById('llmx-panel');
+            if (!panel) return;
+            obs.disconnect();
+            callback(panel);
+        });
+
+        bodyObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function stabilizeWidgetComposerFocus(panel) {
+        if (!panel || panel.dataset.viewportLockReady === 'true') return;
+        panel.dataset.viewportLockReady = 'true';
+
+        let activeComposer = null;
+        let focusScrollState = [];
+        let restoreTimers = [];
+
+        const isComposerField = (el) =>
+            el instanceof HTMLElement &&
+            panel.contains(el) &&
+            (el.id === 'llmx-input' ||
+             el.matches('textarea, input[type="text"], input[type="search"], input[type="email"], input:not([type])'));
+
+        const captureScrollState = (skipEl) => {
+            const nodes = [panel, ...panel.querySelectorAll('*')];
+
+            return nodes
+                .filter(node => {
+                    if (!(node instanceof HTMLElement) || node === skipEl) return false;
+                    const style = window.getComputedStyle(node);
+                    if (!['auto', 'scroll'].includes(style.overflowY)) return false;
+                    return node.scrollHeight - node.clientHeight > 2;
+                })
+                .map(node => ({
+                    node,
+                    top: node.scrollTop,
+                    left: node.scrollLeft
+                }));
+        };
+
+        const restoreScrollState = () => {
+            if (!activeComposer) return;
+            window.scrollTo(0, 0);
+            focusScrollState.forEach(({ node, top, left }) => {
+                node.scrollTop = top;
+                node.scrollLeft = left;
+            });
+        };
+
+        const clearRestoreTimers = () => {
+            restoreTimers.forEach(clearTimeout);
+            restoreTimers = [];
+        };
+
+        const scheduleRestores = () => {
+            clearRestoreTimers();
+            [0, 80, 160, 260, 380].forEach((delay) => {
+                restoreTimers.push(setTimeout(restoreScrollState, delay));
+            });
+        };
+
+        panel.addEventListener('focusin', (event) => {
+            const target = event.target;
+            if (!isComposerField(target)) return;
+            activeComposer = target;
+            focusScrollState = captureScrollState(target);
+            scheduleRestores();
+        }, true);
+
+        panel.addEventListener('focusout', (event) => {
+            if (event.target !== activeComposer) return;
+            activeComposer = null;
+            focusScrollState = [];
+            clearRestoreTimers();
+        }, true);
+
+        if (window.visualViewport) {
+            const handleViewportShift = () => {
+                if (!activeComposer) return;
+                scheduleRestores();
+            };
+
+            window.visualViewport.addEventListener('resize', handleViewportShift);
+            window.visualViewport.addEventListener('scroll', handleViewportShift);
+        }
+    }
+
+    // Clean up stale menu/widget state on in-page navigation or bfcache restores.
+    ['hashchange', 'pageshow'].forEach((eventName) => {
+        window.addEventListener(eventName, () => {
+            closeMenu();
+            forceCloseWidget();
+        });
+    });
+
+    // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
+    document.addEventListener('DOMContentLoaded', () => {
+        onWidgetPanelReady((panel) => {
+            if (panel.dataset.closeObserverReady !== 'true') {
+                panel.dataset.closeObserverReady = 'true';
+                new MutationObserver(() => {
+                    if (!panel.classList.contains('llmx-open')) {
+                        closeMenu();
+                        forceCloseWidget();
+                    }
+                }).observe(panel, { attributes: true, attributeFilter: ['class'] });
+            }
+
+            stabilizeWidgetComposerFocus(panel);
+        });
     });
 </script>
 
@@ -391,10 +499,27 @@
        the software keyboard appears on mobile */
     @supports (height: 100dvh) {
         #llmx-panel {
+            inset: 0 !important;
             height: 100dvh !important;
             max-height: 100dvh !important;
-            bottom: unset !important;
         }
+    }
+
+    #llmx-panel {
+        overscroll-behavior: contain;
+    }
+
+    /* Closed widget layers should never steal taps from the site menu. */
+    #llmx-panel:not(.llmx-open),
+    #llmx-overlay:not(.llmx-visible) {
+        pointer-events: none !important;
+        visibility: hidden !important;
+    }
+
+    #llmx-panel.llmx-open,
+    #llmx-overlay.llmx-visible {
+        pointer-events: auto !important;
+        visibility: visible !important;
     }
 
     /* iOS auto-zooms any input with font-size < 16px on focus.
@@ -403,6 +528,8 @@
     #llmx-panel textarea,
     #llmx-panel input {
         font-size: 16px !important;
+        line-height: 1.35 !important;
+        -webkit-text-size-adjust: 100%;
     }
 </style>
 
