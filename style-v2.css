@@ -357,6 +357,70 @@ h1 {
     padding-left: 1.5rem;
 }
 
+@keyframes trusted-by-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - (var(--trusted-gap) / 2)));
+    }
+}
+
+.trusted-by {
+    padding: 0.9rem 4rem 0.9rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.trusted-by__label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.65;
+    white-space: nowrap;
+}
+
+.trusted-by__marquee {
+    overflow: hidden;
+    min-width: 0;
+    position: relative;
+}
+
+.trusted-by__track {
+    --trusted-gap: 3rem;
+    display: flex;
+    width: max-content;
+    gap: var(--trusted-gap);
+    white-space: nowrap;
+    animation: trusted-by-scroll 18s linear infinite;
+}
+
+.trusted-by__group {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding-left: clamp(10rem, 24vw, 18rem);
+}
+
+.trusted-by__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.3rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.005em;
+    opacity: 0.85;
+}
+
+.trusted-by__item:not(:last-child)::after {
+    content: "/";
+    opacity: 0.35;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
 .data-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -701,6 +765,7 @@ footer {
 .main-content p,
 .main-content .small-header,
 .main-content .hero-sub,
+.main-content .trusted-by,
 .main-content .data-cell,
 .main-content .cs-header,
 .main-content .cs-role,
@@ -782,6 +847,29 @@ footer {
     .hero-header { padding: 2rem; flex-direction: column; }
     .llm-viz-container { display: none; }
     h1 { font-size: 3rem; }
+    .trusted-by {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+        padding: 0.75rem 2rem 0.8rem;
+    }
+    .trusted-by__label {
+        font-size: 0.62rem;
+        opacity: 0.55;
+    }
+    .trusted-by__track {
+        --trusted-gap: 2.2rem;
+        animation-duration: 14s;
+    }
+    .trusted-by__group,
+    .trusted-by__item {
+        gap: 1rem;
+    }
+    .trusted-by__group {
+        padding-left: clamp(4rem, 18vw, 7rem);
+    }
+    .trusted-by__item {
+        font-size: 0.78rem;
+    }
 
     /* Tighten hero metadata strip on mobile */
     .data-row {
@@ -856,11 +944,29 @@ footer {
 }
 
 @media (max-width: 380px) {
+    .trusted-by {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
     .data-cell--location strong {
         white-space: normal;
     }
     .data-cell--services strong {
         font-size: 0.82rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .trusted-by__track {
+        animation: none;
+        transform: none;
+    }
+    .trusted-by__marquee {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .trusted-by__marquee::-webkit-scrollbar {
+        display: none;
     }
 }
 
