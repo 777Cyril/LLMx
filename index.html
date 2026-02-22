@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>LLMx | AI Strategy & Digital Design</title>
 
     <meta property="og:title" content="LLMx - AI Strategy">
@@ -317,7 +317,18 @@
     const menuBtn    = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
+    // Force-close the widget (external CDN, no public API — reset via DOM IDs)
+    function forceCloseWidget() {
+        const panel   = document.getElementById('llmx-panel');
+        const overlay = document.getElementById('llmx-overlay');
+        const trigger = document.getElementById('llmx-trigger');
+        if (panel)   panel.classList.remove('llmx-open');
+        if (overlay) overlay.classList.remove('llmx-visible');
+        if (trigger) trigger.style.display = '';
+    }
+
     function openMenu() {
+        forceCloseWidget(); // ensure widget never sits above the menu
         menuBtn.classList.add('is-open');
         mobileMenu.classList.add('is-open');
         menuBtn.setAttribute('aria-expanded', 'true');
@@ -344,6 +355,18 @@
 
 <!-- LLMx Prompt Stack Widget — update src after deploying LLMx-Widget to Vercel -->
 <script src="https://ll-mx-widget.vercel.app/widget/llmx-widget.js" defer></script>
+
+<!-- Widget: iOS keyboard fix — dvh tracks the visual viewport so the panel
+     doesn't squish when the software keyboard appears on mobile -->
+<style>
+    @supports (height: 100dvh) {
+        #llmx-panel {
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+            bottom: unset !important;
+        }
+    }
+</style>
 
 <!-- 3D LLM Visualization -->
 <script>
