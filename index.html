@@ -338,6 +338,9 @@
         }
         document.documentElement.classList.remove('llmx-widget-open');
         document.body.classList.remove('llmx-widget-open');
+        document.documentElement.style.removeProperty('--llmx-vv-height');
+        document.documentElement.style.removeProperty('--llmx-vv-offset-top');
+        document.documentElement.style.removeProperty('--llmx-kb-inset');
     }
 
     function openMenu() {
@@ -386,13 +389,14 @@
         bodyObserver.observe(document.body, { childList: true, subtree: true });
     }
 
-    function stabilizeWidgetComposerFocus(panel) {
-        if (!panel || panel.dataset.viewportLockReady === 'true') return;
-        panel.dataset.viewportLockReady = 'true';
+    function installWidgetMobileViewportBehavior(panel) {
+        if (!panel || panel.dataset.mobileViewportReady === 'true') return;
+        panel.dataset.mobileViewportReady = 'true';
 
+        const root = document.documentElement;
+        const mobileQuery = window.matchMedia('(max-width: 1024px)');
         let activeComposer = null;
-        let focusScrollState = [];
-        let restoreTimers = [];
+        let scrollIntoViewTimers = [];
 
         const isComposerField = (el) =>
             el instanceof HTMLElement &&
@@ -400,68 +404,87 @@
             (el.id === 'llmx-input' ||
              el.matches('textarea, input[type="text"], input[type="search"], input[type="email"], input:not([type])'));
 
-        const captureScrollState = (skipEl) => {
-            const nodes = [panel, ...panel.querySelectorAll('*')];
-
-            return nodes
-                .filter(node => {
-                    if (!(node instanceof HTMLElement) || node === skipEl) return false;
-                    const style = window.getComputedStyle(node);
-                    if (!['auto', 'scroll'].includes(style.overflowY)) return false;
-                    return node.scrollHeight - node.clientHeight > 2;
-                })
-                .map(node => ({
-                    node,
-                    top: node.scrollTop,
-                    left: node.scrollLeft
-                }));
+        const clearScrollIntoViewTimers = () => {
+            scrollIntoViewTimers.forEach(clearTimeout);
+            scrollIntoViewTimers = [];
         };
 
-        const restoreScrollState = () => {
+        const updateViewportVars = () => {
+            if (!mobileQuery.matches || !window.visualViewport) return;
+            const vv = window.visualViewport;
+            const keyboardInset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+            root.style.setProperty('--llmx-vv-height', `${Math.max(0, vv.height)}px`);
+            root.style.setProperty('--llmx-vv-offset-top', `${Math.max(0, vv.offsetTop)}px`);
+            root.style.setProperty('--llmx-kb-inset', `${keyboardInset}px`);
+        };
+
+        const resetViewportVars = () => {
+            root.style.removeProperty('--llmx-vv-height');
+            root.style.removeProperty('--llmx-vv-offset-top');
+            root.style.removeProperty('--llmx-kb-inset');
+        };
+
+        const keepComposerVisible = () => {
             if (!activeComposer) return;
-            window.scrollTo(0, 0);
-            focusScrollState.forEach(({ node, top, left }) => {
-                node.scrollTop = top;
-                node.scrollLeft = left;
+            activeComposer.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        };
+
+        const scheduleComposerVisibility = () => {
+            clearScrollIntoViewTimers();
+            [0, 90, 180, 300].forEach((delay) => {
+                scrollIntoViewTimers.push(setTimeout(keepComposerVisible, delay));
             });
         };
 
-        const clearRestoreTimers = () => {
-            restoreTimers.forEach(clearTimeout);
-            restoreTimers = [];
-        };
+        const syncOpenStateClass = () => {
+            const isOpen = panel.classList.contains('llmx-open');
+            root.classList.toggle('llmx-widget-open', isOpen);
+            document.body.classList.toggle('llmx-widget-open', isOpen);
 
-        const scheduleRestores = () => {
-            clearRestoreTimers();
-            [0, 80, 160, 260, 380].forEach((delay) => {
-                restoreTimers.push(setTimeout(restoreScrollState, delay));
-            });
+            if (!isOpen) {
+                activeComposer = null;
+                clearScrollIntoViewTimers();
+                resetViewportVars();
+                return;
+            }
+
+            updateViewportVars();
         };
 
         panel.addEventListener('focusin', (event) => {
             const target = event.target;
             if (!isComposerField(target)) return;
             activeComposer = target;
-            focusScrollState = captureScrollState(target);
-            scheduleRestores();
+            updateViewportVars();
+            scheduleComposerVisibility();
         }, true);
 
         panel.addEventListener('focusout', (event) => {
             if (event.target !== activeComposer) return;
             activeComposer = null;
-            focusScrollState = [];
-            clearRestoreTimers();
+            clearScrollIntoViewTimers();
+            setTimeout(updateViewportVars, 0);
         }, true);
 
         if (window.visualViewport) {
-            const handleViewportShift = () => {
-                if (!activeComposer) return;
-                scheduleRestores();
+            const onViewportUpdate = () => {
+                if (!panel.classList.contains('llmx-open')) return;
+                updateViewportVars();
+                if (activeComposer) scheduleComposerVisibility();
             };
-
-            window.visualViewport.addEventListener('resize', handleViewportShift);
-            window.visualViewport.addEventListener('scroll', handleViewportShift);
+            window.visualViewport.addEventListener('resize', onViewportUpdate);
+            window.visualViewport.addEventListener('scroll', onViewportUpdate);
         }
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (!panel.classList.contains('llmx-open')) return;
+                updateViewportVars();
+                if (activeComposer) scheduleComposerVisibility();
+            }, 120);
+        });
+
+        syncOpenStateClass();
     }
 
     // Clean up stale menu/widget state on in-page navigation or bfcache restores.
@@ -478,6 +501,8 @@
             if (panel.dataset.closeObserverReady !== 'true') {
                 panel.dataset.closeObserverReady = 'true';
                 new MutationObserver(() => {
+                    document.documentElement.classList.toggle('llmx-widget-open', panel.classList.contains('llmx-open'));
+                    document.body.classList.toggle('llmx-widget-open', panel.classList.contains('llmx-open'));
                     if (!panel.classList.contains('llmx-open')) {
                         closeMenu();
                         forceCloseWidget();
@@ -485,7 +510,7 @@
                 }).observe(panel, { attributes: true, attributeFilter: ['class'] });
             }
 
-            stabilizeWidgetComposerFocus(panel);
+            installWidgetMobileViewportBehavior(panel);
         });
     });
 </script>
@@ -495,18 +520,40 @@
 
 <!-- Widget overrides: iOS keyboard fixes -->
 <style>
-    /* dvh tracks the visual viewport so the panel doesn't squish when
-       the software keyboard appears on mobile */
-    @supports (height: 100dvh) {
-        #llmx-panel {
-            inset: 0 !important;
-            height: 100dvh !important;
-            max-height: 100dvh !important;
+    :root {
+        --llmx-vv-height: 100dvh;
+        --llmx-vv-offset-top: 0px;
+        --llmx-kb-inset: 0px;
+    }
+
+    @media (max-width: 1024px) {
+        body.llmx-widget-open {
+            overflow: hidden;
         }
     }
 
-    #llmx-panel {
-        overscroll-behavior: contain;
+    /* dvh tracks the visual viewport so the panel doesn't squish when
+       the software keyboard appears on mobile */
+    @media (max-width: 1024px) {
+        #llmx-panel {
+            position: fixed !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: var(--llmx-vv-offset-top) !important;
+            bottom: auto !important;
+            width: 100vw !important;
+            height: var(--llmx-vv-height) !important;
+            max-height: var(--llmx-vv-height) !important;
+            min-height: var(--llmx-vv-height) !important;
+            border-radius: 0 !important;
+            overscroll-behavior: contain;
+        }
+
+        #llmx-input,
+        #llmx-panel textarea,
+        #llmx-panel input {
+            scroll-margin-bottom: calc(max(96px, var(--llmx-kb-inset) + 56px)) !important;
+        }
     }
 
     /* Closed widget layers should never steal taps from the site menu. */
