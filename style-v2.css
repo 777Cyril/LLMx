@@ -732,8 +732,6 @@ footer {
         letter-spacing: -0.035em;
     }
     .footer-flip__front {
-        width: 100%;
-        justify-content: space-between;
         gap: clamp(0.6rem, 1.25vw, 1.6rem);
     }
 }
@@ -797,24 +795,19 @@ footer {
         grid-template-columns: 1fr auto;
         gap: 2rem 1rem;
         min-height: auto;
-        padding: 2rem 0 2rem 2rem;
+        padding: 2rem;
         align-items: end;
     }
     .footer-flip {
         grid-area: cta;
         margin: 0;
         width: 100%;
-        height: clamp(5rem, 18vw, 12rem);
+        height: clamp(3rem, 16vw, 10rem);
         align-self: start;
     }
     .footer-flip__front,
     .footer-flip__back {
-        font-size: clamp(3.4rem, 18.5vw, 12rem);
-    }
-    .footer-flip__front {
-        width: 100%;
-        justify-content: space-between;
-        gap: clamp(0.8rem, 2.2vw, 2rem);
+        font-size: clamp(2.5rem, 16vw, 14rem);
     }
     footer .u-mono      { grid-area: copy; align-self: end; }
     .footer-contact     { grid-area: logo; align-self: end; display: block; text-align: right; }
