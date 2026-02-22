@@ -359,10 +359,10 @@ h1 {
 
 @keyframes trusted-by-scroll {
     from {
-        transform: translateX(0);
+        transform: translateX(100%);
     }
     to {
-        transform: translateX(calc(-50% - (var(--trusted-gap) / 2)));
+        transform: translateX(-100%);
     }
 }
 
@@ -390,35 +390,23 @@ h1 {
 }
 
 .trusted-by__track {
-    --trusted-gap: 3rem;
-    display: flex;
+    display: inline-flex;
     width: max-content;
-    gap: var(--trusted-gap);
     white-space: nowrap;
-    animation: trusted-by-scroll 18s linear infinite;
+    animation: trusted-by-scroll 16s linear infinite;
 }
 
 .trusted-by__group {
     display: flex;
     align-items: center;
-    gap: 1.3rem;
-    padding-left: clamp(10rem, 24vw, 18rem);
+    gap: clamp(3.2rem, 8vw, 7.5rem);
 }
 
 .trusted-by__item {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.3rem;
+    display: inline-block;
     font-size: 0.9rem;
     letter-spacing: 0.005em;
     opacity: 0.85;
-}
-
-.trusted-by__item:not(:last-child)::after {
-    content: "/";
-    opacity: 0.35;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
 }
 
 .data-row {
@@ -857,15 +845,10 @@ footer {
         opacity: 0.55;
     }
     .trusted-by__track {
-        --trusted-gap: 2.2rem;
-        animation-duration: 14s;
-    }
-    .trusted-by__group,
-    .trusted-by__item {
-        gap: 1rem;
+        animation-duration: 12s;
     }
     .trusted-by__group {
-        padding-left: clamp(4rem, 18vw, 7rem);
+        gap: 2.4rem;
     }
     .trusted-by__item {
         font-size: 0.78rem;
