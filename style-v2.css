@@ -869,8 +869,12 @@ html.darkmode .hero-logo svg path {
     fill: #ff0000;
 }
 
-/* Capabilities block (hardcoded #e4e4e4 bg) */
-html.darkmode .split-section .text-block:last-child {
+/* Capabilities block */
+.text-block--capabilities {
+    background-color: #e4e4e4;
+}
+
+html.darkmode .text-block--capabilities {
     background-color: #1c1c1c;
 }
 
