@@ -14,6 +14,12 @@
     --border-width: 1px;
 }
 
+html.darkmode {
+    --paper-bg: #111111;
+    --ink: #dcdcdc;
+    --line-color: #333333;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -854,4 +860,57 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* ─── DARK MODE OVERRIDES ─────────────────────────────────────────────────── */
+
+/* Hero logo: bright red in dark mode (matches v1 production) */
+html.darkmode .hero-logo svg path {
+    fill: #ff0000;
+}
+
+/* Capabilities block (hardcoded #e4e4e4 bg) */
+html.darkmode .split-section .text-block:last-child {
+    background-color: #1c1c1c;
+}
+
+/* List-group dividers (hardcoded rgba(0,0,0,0.1)) */
+html.darkmode .list-group li {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* LLMx Studio section — inverted in dark mode (light bg, dark text) */
+html.darkmode .goods-section {
+    background-color: #dcdcdc;
+    color: #111111;
+}
+
+html.darkmode .goods-section .small-header {
+    color: #111111;
+}
+
+html.darkmode .goods-section .archive-tag {
+    background: #111111;
+    color: #dcdcdc;
+    animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+html.darkmode .goods-card p {
+    color: #111111;
+}
+
+/* Dark mode toggle button in sidebar */
+.dark-mode-toggle {
+    background: none;
+    border: 1px solid var(--line-color);
+    cursor: pointer;
+    padding: 3px 8px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.15s ease, color 0.15s ease;
+    margin-top: 1rem;
+    display: block;
 }
