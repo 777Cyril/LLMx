@@ -257,7 +257,12 @@
                 All Rights Reserved.
             </div>
             <a href="/onyx/" class="footer-flip">
-                <span class="footer-flip__front">Try now →</span>
+                <span class="footer-flip__front">
+                    <span class="footer-flip__label">Try now</span>
+                    <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                        <path d="M10 50H142M98 10L142 50L98 90"></path>
+                    </svg>
+                </span>
                 <span class="footer-flip__back">Onyx</span>
             </a>
         </footer>
@@ -389,6 +394,20 @@
         bodyObserver.observe(document.body, { childList: true, subtree: true });
     }
 
+    function syncWidgetOverlayHitbox(isOpen) {
+        const overlay = document.getElementById('llmx-overlay');
+        if (!overlay) return;
+
+        if (isOpen) {
+            overlay.style.removeProperty('pointer-events');
+            overlay.style.removeProperty('visibility');
+            return;
+        }
+
+        overlay.style.pointerEvents = 'none';
+        overlay.style.visibility = 'hidden';
+    }
+
     function installWidgetMobileViewportBehavior(panel) {
         if (!panel || panel.dataset.mobileViewportReady === 'true') return;
         panel.dataset.mobileViewportReady = 'true';
@@ -440,6 +459,7 @@
             const isOpen = panel.classList.contains('llmx-open');
             root.classList.toggle('llmx-widget-open', isOpen);
             document.body.classList.toggle('llmx-widget-open', isOpen);
+            syncWidgetOverlayHitbox(isOpen);
 
             if (!isOpen) {
                 activeComposer = null;
@@ -504,6 +524,7 @@
                     const isOpen = panel.classList.contains('llmx-open');
                     document.documentElement.classList.toggle('llmx-widget-open', isOpen);
                     document.body.classList.toggle('llmx-widget-open', isOpen);
+                    syncWidgetOverlayHitbox(isOpen);
                     if (!isOpen) {
                         closeMenu();
                         document.documentElement.style.removeProperty('--llmx-vv-height');

@@ -489,12 +489,13 @@ h1 {
 }
 
 footer {
-    padding: 2rem;
+    padding: 2rem 0 2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     min-height: 300px;
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
 }
 
 /* FOOTER FLIP ANIMATION */
@@ -503,12 +504,14 @@ footer {
     display: block;
     color: var(--ink);
     text-decoration: none;
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
     position: relative;
     height: clamp(5rem, 14vw, 16rem);
     align-self: center;
     flex: 1;
-    margin: 0 2rem;
+    margin: 0 0 0 1.25rem;
+    min-width: 0;
 }
 
 .footer-flip__front,
@@ -525,8 +528,30 @@ footer {
 }
 
 .footer-flip__front {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 0.6vw, 0.8rem);
     transform: translateY(0);
     opacity: 1;
+}
+
+.footer-flip__label {
+    display: block;
+}
+
+.footer-flip__arrow {
+    width: 0.9em;
+    height: 0.56em;
+    flex: 0 0 auto;
+    transform: translateY(0.03em);
+}
+
+.footer-flip__arrow path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .footer-flip__back {
@@ -626,6 +651,24 @@ footer {
 .sidebar .theme-toggle {
     opacity: 0;
     animation: logo-load-in 2.5s 0.5s ease-in forwards;
+}
+
+/* Tablet landscape / iPad in-between range:
+   keep footer CTA fully visible before mobile layout kicks in. */
+@media (min-width: 1025px) and (max-width: 1400px) {
+    footer {
+        padding-right: 0;
+    }
+    .footer-flip {
+        margin: 0;
+        height: clamp(4rem, 10vw, 8rem);
+        min-width: 0;
+    }
+    .footer-flip__front,
+    .footer-flip__back {
+        font-size: clamp(3.25rem, 8.5vw, 8rem);
+        letter-spacing: -0.03em;
+    }
 }
 
 @media (max-width: 1024px) {
