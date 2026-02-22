@@ -351,20 +351,58 @@
     document.querySelectorAll('[data-close]').forEach(el => {
         el.addEventListener('click', closeMenu);
     });
+
+    // Watch for the widget closing via its own controls (overlay click, ESC, X button).
+    // When the widget panel loses llmx-open, ensure the menu is fully reset —
+    // body.overflow could still be 'hidden' from openMenu(), leaving a dead end.
+    document.addEventListener('DOMContentLoaded', () => {
+        const widgetPanel = document.getElementById('llmx-panel');
+        if (widgetPanel) {
+            new MutationObserver(() => {
+                if (!widgetPanel.classList.contains('llmx-open')) {
+                    // Widget just closed — clean up any stale menu state
+                    closeMenu();
+                }
+            }).observe(widgetPanel, { attributes: true, attributeFilter: ['class'] });
+        } else {
+            // Widget loads deferred — wait and attach observer once it's in the DOM
+            const bodyObserver = new MutationObserver((_, obs) => {
+                const panel = document.getElementById('llmx-panel');
+                if (panel) {
+                    obs.disconnect();
+                    new MutationObserver(() => {
+                        if (!panel.classList.contains('llmx-open')) {
+                            closeMenu();
+                        }
+                    }).observe(panel, { attributes: true, attributeFilter: ['class'] });
+                }
+            });
+            bodyObserver.observe(document.body, { childList: true, subtree: true });
+        }
+    });
 </script>
 
 <!-- LLMx Prompt Stack Widget — update src after deploying LLMx-Widget to Vercel -->
 <script src="https://ll-mx-widget.vercel.app/widget/llmx-widget.js" defer></script>
 
-<!-- Widget: iOS keyboard fix — dvh tracks the visual viewport so the panel
-     doesn't squish when the software keyboard appears on mobile -->
+<!-- Widget overrides: iOS keyboard fixes -->
 <style>
+    /* dvh tracks the visual viewport so the panel doesn't squish when
+       the software keyboard appears on mobile */
     @supports (height: 100dvh) {
         #llmx-panel {
             height: 100dvh !important;
             max-height: 100dvh !important;
             bottom: unset !important;
         }
+    }
+
+    /* iOS auto-zooms any input with font-size < 16px on focus.
+       Override the widget's 12px textarea to prevent the zoom. */
+    #llmx-input,
+    #llmx-panel textarea,
+    #llmx-panel input {
+        font-size: 16px !important;
     }
 </style>
 
