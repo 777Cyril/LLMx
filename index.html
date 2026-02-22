@@ -413,14 +413,28 @@
 
     function computeWidgetOpenState(state) {
         const panelOpen = Boolean(state.panelOpen) && !Boolean(state.panelAriaHidden);
-        if (!panelOpen) return false;
+        const panelVisible = state.panelActuallyVisible !== false;
+        if (!panelOpen || !panelVisible) return false;
 
         if (!Boolean(state.overlayPresent)) {
             return panelOpen;
         }
 
         const overlayOpen = Boolean(state.overlayVisible) && !Boolean(state.overlayAriaHidden);
+        const overlayVisible = state.overlayActuallyVisible !== false;
+        if (!overlayVisible) return false;
+
         return panelOpen && overlayOpen;
+    }
+
+    function elementActuallyVisible(el) {
+        if (!(el instanceof HTMLElement)) return false;
+        const style = window.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden') return false;
+        const opacity = Number.parseFloat(style.opacity || '1');
+        if (Number.isFinite(opacity) && opacity <= 0.01) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
     }
 
     function isWidgetOpen(panel) {
@@ -428,9 +442,11 @@
         return computeWidgetOpenState({
             panelOpen: panel.classList.contains('llmx-open'),
             panelAriaHidden: panel.getAttribute('aria-hidden') === 'true',
+            panelActuallyVisible: elementActuallyVisible(panel),
             overlayPresent: Boolean(overlay),
             overlayVisible: overlay ? overlay.classList.contains('llmx-visible') : false,
-            overlayAriaHidden: overlay ? overlay.getAttribute('aria-hidden') === 'true' : false
+            overlayAriaHidden: overlay ? overlay.getAttribute('aria-hidden') === 'true' : false,
+            overlayActuallyVisible: overlay ? elementActuallyVisible(overlay) : false
         });
     }
 
@@ -590,6 +606,14 @@
             });
 
             installWidgetMobileViewportBehavior(panel);
+
+            if (panel.dataset.stateWatchdogReady !== 'true') {
+                panel.dataset.stateWatchdogReady = 'true';
+                setInterval(syncStateFromDom, 700);
+                window.addEventListener('focus', syncStateFromDom);
+                window.addEventListener('resize', syncStateFromDom);
+                window.addEventListener('pageshow', syncStateFromDom);
+            }
         });
     });
 </script>

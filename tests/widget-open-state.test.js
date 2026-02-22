@@ -3,13 +3,16 @@ const assert = require('node:assert/strict');
 
 function computeWidgetOpenState(state) {
   const panelOpen = Boolean(state.panelOpen) && !Boolean(state.panelAriaHidden);
-  if (!panelOpen) return false;
+  const panelVisible = state.panelActuallyVisible !== false;
+  if (!panelOpen || !panelVisible) return false;
 
   if (!Boolean(state.overlayPresent)) {
     return panelOpen;
   }
 
   const overlayOpen = Boolean(state.overlayVisible) && !Boolean(state.overlayAriaHidden);
+  const overlayVisible = state.overlayActuallyVisible !== false;
+  if (!overlayVisible) return false;
   return panelOpen && overlayOpen;
 }
 
@@ -28,9 +31,11 @@ test('closed when panel is closed even if overlay says visible', () => {
     computeWidgetOpenState({
       panelOpen: false,
       panelAriaHidden: false,
+      panelActuallyVisible: true,
       overlayPresent: true,
       overlayVisible: true,
-      overlayAriaHidden: false
+      overlayAriaHidden: false,
+      overlayActuallyVisible: true
     }),
     false
   );
@@ -41,9 +46,11 @@ test('open when panel open and overlay visible', () => {
     computeWidgetOpenState({
       panelOpen: true,
       panelAriaHidden: false,
+      panelActuallyVisible: true,
       overlayPresent: true,
       overlayVisible: true,
-      overlayAriaHidden: false
+      overlayAriaHidden: false,
+      overlayActuallyVisible: true
     }),
     true
   );
@@ -54,9 +61,11 @@ test('closed when overlay exists but is hidden', () => {
     computeWidgetOpenState({
       panelOpen: true,
       panelAriaHidden: false,
+      panelActuallyVisible: true,
       overlayPresent: true,
       overlayVisible: false,
-      overlayAriaHidden: false
+      overlayAriaHidden: false,
+      overlayActuallyVisible: true
     }),
     false
   );
@@ -67,11 +76,42 @@ test('open when panel open and no overlay exists yet', () => {
     computeWidgetOpenState({
       panelOpen: true,
       panelAriaHidden: false,
+      panelActuallyVisible: true,
       overlayPresent: false,
       overlayVisible: false,
-      overlayAriaHidden: false
+      overlayAriaHidden: false,
+      overlayActuallyVisible: false
     }),
     true
   );
 });
 
+test('closed when panel semantic open but not actually visible', () => {
+  assert.equal(
+    computeWidgetOpenState({
+      panelOpen: true,
+      panelAriaHidden: false,
+      panelActuallyVisible: false,
+      overlayPresent: false,
+      overlayVisible: false,
+      overlayAriaHidden: false,
+      overlayActuallyVisible: false
+    }),
+    false
+  );
+});
+
+test('closed when overlay semantic open but not actually visible', () => {
+  assert.equal(
+    computeWidgetOpenState({
+      panelOpen: true,
+      panelAriaHidden: false,
+      panelActuallyVisible: true,
+      overlayPresent: true,
+      overlayVisible: true,
+      overlayAriaHidden: false,
+      overlayActuallyVisible: false
+    }),
+    false
+  );
+});
