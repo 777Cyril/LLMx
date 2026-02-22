@@ -335,8 +335,8 @@
         }
         if (overlay) {
             overlay.classList.remove('llmx-visible');
-            overlay.style.removeProperty('pointer-events');
-            overlay.style.removeProperty('visibility');
+            overlay.style.pointerEvents = 'none';
+            overlay.style.visibility = 'hidden';
         }
         if (trigger) {
             trigger.style.display = '';
