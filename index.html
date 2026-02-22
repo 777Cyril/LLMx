@@ -501,11 +501,14 @@
             if (panel.dataset.closeObserverReady !== 'true') {
                 panel.dataset.closeObserverReady = 'true';
                 new MutationObserver(() => {
-                    document.documentElement.classList.toggle('llmx-widget-open', panel.classList.contains('llmx-open'));
-                    document.body.classList.toggle('llmx-widget-open', panel.classList.contains('llmx-open'));
-                    if (!panel.classList.contains('llmx-open')) {
+                    const isOpen = panel.classList.contains('llmx-open');
+                    document.documentElement.classList.toggle('llmx-widget-open', isOpen);
+                    document.body.classList.toggle('llmx-widget-open', isOpen);
+                    if (!isOpen) {
                         closeMenu();
-                        forceCloseWidget();
+                        document.documentElement.style.removeProperty('--llmx-vv-height');
+                        document.documentElement.style.removeProperty('--llmx-vv-offset-top');
+                        document.documentElement.style.removeProperty('--llmx-kb-inset');
                     }
                 }).observe(panel, { attributes: true, attributeFilter: ['class'] });
             }
@@ -554,19 +557,6 @@
         #llmx-panel input {
             scroll-margin-bottom: calc(max(96px, var(--llmx-kb-inset) + 56px)) !important;
         }
-    }
-
-    /* Closed widget layers should never steal taps from the site menu. */
-    #llmx-panel:not(.llmx-open),
-    #llmx-overlay:not(.llmx-visible) {
-        pointer-events: none !important;
-        visibility: hidden !important;
-    }
-
-    #llmx-panel.llmx-open,
-    #llmx-overlay.llmx-visible {
-        pointer-events: auto !important;
-        visibility: visible !important;
     }
 
     /* iOS auto-zooms any input with font-size < 16px on focus.
