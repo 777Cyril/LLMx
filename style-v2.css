@@ -359,10 +359,10 @@ h1 {
 
 @keyframes trusted-by-scroll {
     from {
-        transform: translateX(100%);
+        transform: translateX(0);
     }
     to {
-        transform: translateX(-100%);
+        transform: translateX(calc(-50% - (var(--trusted-loop-gap) / 2)));
     }
 }
 
@@ -390,16 +390,22 @@ h1 {
 }
 
 .trusted-by__track {
-    display: inline-flex;
+    --trusted-loop-gap: clamp(8rem, 18vw, 16rem);
+    display: flex;
+    align-items: center;
+    gap: var(--trusted-loop-gap);
     width: max-content;
     white-space: nowrap;
-    animation: trusted-by-scroll 16s linear infinite;
+    animation: trusted-by-scroll 24s linear infinite;
+    will-change: transform;
 }
 
 .trusted-by__group {
     display: flex;
     align-items: center;
-    gap: clamp(3.2rem, 8vw, 7.5rem);
+    flex: 0 0 auto;
+    gap: clamp(4.5rem, 11vw, 11rem);
+    padding-left: clamp(4rem, 12vw, 10rem);
 }
 
 .trusted-by__item {
@@ -845,10 +851,12 @@ footer {
         opacity: 0.55;
     }
     .trusted-by__track {
-        animation-duration: 12s;
+        --trusted-loop-gap: clamp(4rem, 14vw, 8rem);
+        animation-duration: 18s;
     }
     .trusted-by__group {
-        gap: 2.4rem;
+        gap: clamp(2.8rem, 9vw, 4.8rem);
+        padding-left: clamp(1.2rem, 5vw, 3rem);
     }
     .trusted-by__item {
         font-size: 0.78rem;
