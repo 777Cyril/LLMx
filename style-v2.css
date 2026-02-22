@@ -782,6 +782,30 @@ footer {
     .hero-header { padding: 2rem; flex-direction: column; }
     .llm-viz-container { display: none; }
     h1 { font-size: 3rem; }
+
+    /* Tighten hero metadata strip on mobile */
+    .data-row {
+        grid-template-columns: 0.75fr 0.95fr 1.5fr 1.05fr;
+    }
+    .data-cell {
+        padding: 0.68rem 0.72rem 0.62rem;
+        font-size: 0.72rem;
+    }
+    .data-cell strong {
+        font-size: 1rem;
+        margin-top: 0.12rem;
+        line-height: 1.08;
+        letter-spacing: -0.01em;
+    }
+    .data-cell--services strong {
+        font-size: 0.88rem;
+        line-height: 1.06;
+    }
+    .data-cell--location strong {
+        white-space: nowrap;
+        font-size: 0.95rem;
+    }
+
     .work-grid { grid-template-columns: 1fr; }
     .case-study { border-right: none; border-bottom: var(--border-width) solid var(--line-color); min-height: 50vh; }
     .split-section { grid-template-columns: 1fr; }
@@ -829,6 +853,15 @@ footer {
     /* ── Hide desktop nav on mobile, show hamburger ── */
     .nav-links { display: none; }
     .mobile-menu-btn { display: flex; }
+}
+
+@media (max-width: 380px) {
+    .data-cell--location strong {
+        white-space: normal;
+    }
+    .data-cell--services strong {
+        font-size: 0.82rem;
+    }
 }
 
 /* ── Mobile hamburger button ─────────────────────────────────────────── */
