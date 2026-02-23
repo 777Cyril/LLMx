@@ -198,20 +198,19 @@ body.sidebar-collapsed .sidebar {
     background: var(--paper-bg);
     border-top: var(--border-width) solid var(--line-color);
     border-bottom: var(--border-width) solid var(--line-color);
-    border-left: var(--border-width) solid var(--line-color);
+    border-left: 2px solid #ff0000; /* red accent for visibility */
     border-right: none;
     cursor: pointer;
-    padding: 0.9rem 0.45rem;
-    color: #ff0000; /* always LLMx red */
-    font-size: 0.8rem;
+    padding: 1.1rem 0.55rem;
+    color: var(--ink); /* black in light mode */
+    font-size: 0.85rem;
     line-height: 1;
-    opacity: 0.55;
-    transition: opacity 0.2s ease, transform 0.12s ease-out;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
     z-index: 1;
-    --mag-x: 0px; --mag-y: 0px;
-    transform: translateY(-50%) translate(var(--mag-x), var(--mag-y));
 }
 
+html.darkmode .sidebar-toggle { color: #ff0000; } /* red in dark mode */
 .sidebar-toggle:hover { opacity: 1; }
 .sidebar-toggle:focus { outline: 2px solid #ff0000; outline-offset: 2px; }
 
@@ -228,25 +227,26 @@ body.sidebar-collapsed .sidebar {
     transform: translateY(-50%) translateX(-100%);
     background: var(--paper-bg);
     border: var(--border-width) solid var(--line-color);
+    border-right-width: 2px;
+    border-right-color: #ff0000; /* red accent mirror */
     border-left: none;
-    padding: 1rem 0.5rem;
+    padding: 1.1rem 0.55rem;
     cursor: pointer;
-    color: #ff0000; /* always LLMx red */
-    font-size: 1rem;
+    color: var(--ink); /* black in light mode */
+    font-size: 0.85rem;
     z-index: 200;
     transition: transform 0.35s ease, opacity 0.2s ease;
     opacity: 0;
-    will-change: transform;
-    --mag-x: 0px; --mag-y: 0px;
 }
 
+html.darkmode .sidebar-open-tab { color: #ff0000; }
 .sidebar-open-tab:hover { opacity: 1 !important; }
 
 @media (min-width: 1025px) {
     .sidebar-open-tab { display: flex; }
     body.sidebar-collapsed .sidebar-open-tab {
-        transform: translateY(-50%) translateX(0) translate(var(--mag-x), var(--mag-y));
-        opacity: 0.55;
+        transform: translateY(-50%) translateX(0);
+        opacity: 0.7;
     }
 }
 
@@ -1280,4 +1280,56 @@ html.darkmode .theme-toggle__thumb {
 
 html.darkmode .theme-toggle__label {
     opacity: 1;
+}
+
+/* ── Music Player ─────────────────────────────────────────────────────────── */
+.music-player {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: var(--border-width) solid var(--line-color);
+}
+
+.music-label {
+    display: block;
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    opacity: 0.45;
+    margin-bottom: 0.35rem;
+}
+
+.music-track-name {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.75rem;
+    opacity: 0.85;
+}
+
+.music-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.music-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink);
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    padding: 0.2rem;
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+    line-height: 1;
+}
+
+.music-btn:hover { opacity: 1; }
+
+.music-btn--play {
+    font-size: 0.85rem;
+    opacity: 0.8;
 }
