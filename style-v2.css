@@ -864,7 +864,7 @@ footer {
 
     /* Tighten hero metadata strip on mobile */
     .data-row {
-        grid-template-columns: 0.58fr 0.82fr 1.8fr 0.92fr;
+        grid-template-columns: 0.55fr 1.0fr 1.5fr 0.95fr;
     }
     .data-cell {
         padding: 0.38rem 0.42rem;
