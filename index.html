@@ -23,6 +23,10 @@
             <div class="logo-symbol">
                 <span></span><span></span><span></span>
             </div>
+            <!-- Desktop sidebar collapse toggle -->
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true">
+                <span class="sidebar-toggle-icon">⟨</span>
+            </button>
             <!-- Mobile hamburger — inside logo-area so it sits right of the dots on mobile -->
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -107,7 +111,7 @@
                         </svg>
                     </div>
                     <span class="small-header">Index No. 2025-A</span>
-                    <h1>AI Strategist.<br>Digital Designer.<br>System Architect.</h1>
+                    <h1>AI Strategy<br>Digital Design<br>System Architecture</h1>
                     <div class="hero-sub">
                         LLMs are the new OS, English is the interface.
                         Building AI-native tools for operators who need leverage.
@@ -393,6 +397,36 @@
     document.querySelectorAll('[data-close]').forEach(el => {
         el.addEventListener('click', closeMenu);
     });
+
+    // ── DESKTOP SIDEBAR COLLAPSE ────────────────────────────────────────────
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+
+    // Restore sidebar state from localStorage on page load
+    function restoreSidebarState() {
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (isCollapsed) {
+            document.body.classList.add('sidebar-collapsed');
+            sidebarToggle?.setAttribute('aria-expanded', 'false');
+        } else {
+            document.body.classList.remove('sidebar-collapsed');
+            sidebarToggle?.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    // Toggle sidebar visibility and save state
+    function toggleSidebar() {
+        const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
+        sidebarToggle?.setAttribute('aria-expanded', String(!isCollapsed));
+        localStorage.setItem('sidebarCollapsed', String(isCollapsed));
+    }
+
+    // Set up sidebar toggle button
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', toggleSidebar);
+    }
+
+    // Restore state on load
+    restoreSidebarState();
 
     function onWidgetPanelReady(callback) {
         const existing = document.getElementById('llmx-panel');

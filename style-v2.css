@@ -167,6 +167,57 @@ body::before {
     }
 }
 
+/* Sidebar toggle button */
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--ink);
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.3s ease, color 0.2s ease;
+    margin-left: auto;
+}
+
+.sidebar-toggle:hover {
+    color: var(--accent, #ff0000);
+}
+
+.sidebar-toggle:focus {
+    outline: 2px solid var(--line-color);
+    outline-offset: 2px;
+}
+
+.sidebar-toggle-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Show sidebar toggle on desktop only */
+@media (min-width: 1025px) {
+    .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Collapsed state */
+body.sidebar-collapsed .grid-container {
+    grid-template-columns: 1fr;
+}
+
+body.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
+}
+
+.grid-container,
+.sidebar {
+    transition: all 0.3s ease;
+}
+
 .meta-block {
     padding: 1.5rem;
     border-bottom: var(--border-width) solid var(--line-color);
