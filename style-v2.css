@@ -1283,6 +1283,9 @@ html.darkmode .theme-toggle__label {
 /* ── Music Player ─────────────────────────────────────────────────────────── */
 .music-player {
     margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 /* "Now Playing" toggle — styled like the theme-toggle label */
@@ -1306,7 +1309,6 @@ html.darkmode .theme-toggle__label {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 0.5rem;
 }
 
 /* `display:flex` above overrides the native [hidden] attr — restore it */

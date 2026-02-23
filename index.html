@@ -433,6 +433,8 @@
 
     sidebarToggle?.addEventListener('click', toggleSidebar);
     sidebarOpenTab?.addEventListener('click', toggleSidebar);
+    // Hovering the reopen tab opens the sidebar immediately (no click needed)
+    sidebarOpenTab?.addEventListener('mouseenter', () => setSidebarState(false));
 
     // Restore state on load — default open (first visit)
     const storedState = localStorage.getItem('sidebarCollapsed') === 'true';
