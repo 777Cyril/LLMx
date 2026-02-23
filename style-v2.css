@@ -212,7 +212,13 @@ body.sidebar-collapsed .sidebar {
 
 html.darkmode .sidebar-toggle { color: var(--ink); }
 .sidebar-toggle:hover { opacity: 1; }
-.sidebar-toggle:focus { outline: 2px solid #ff0000; outline-offset: 2px; }
+/* outline starts transparent; on :focus it snaps red, blur() fades it back */
+.sidebar-toggle {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: opacity 0.2s ease, outline-color 0.5s ease;
+}
+.sidebar-toggle:focus { outline-color: #ff0000; }
 
 @media (min-width: 1025px) {
     .sidebar-toggle { display: flex; }
@@ -239,6 +245,13 @@ html.darkmode .sidebar-toggle { color: var(--ink); }
 
 html.darkmode .sidebar-open-tab { color: var(--ink); }
 .sidebar-open-tab:hover { opacity: 1 !important; }
+/* same flash-and-fade treatment as collapse tab */
+.sidebar-open-tab {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: transform 0.35s ease, opacity 0.2s ease, outline-color 0.5s ease;
+}
+.sidebar-open-tab:focus { outline-color: #ff0000; }
 
 @media (min-width: 1025px) {
     .sidebar-open-tab { display: flex; }
@@ -1332,4 +1345,65 @@ html.darkmode .theme-toggle__label {
 .music-btn--play {
     font-size: 0.85rem;
     opacity: 0.8;
+}
+
+/* ── Token Meter ───────────────────────────────────────────────────────────── */
+.token-meter {
+    margin-top: 1rem;
+}
+
+.token-meter__input {
+    width: 100%;
+    box-sizing: border-box;
+    background: none;
+    border: var(--border-width) solid var(--line-color);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    padding: 0.45rem 0.5rem;
+    resize: none;
+    outline: none;
+    line-height: 1.55;
+    transition: border-color 0.2s ease;
+    display: block;
+}
+
+.token-meter__input::placeholder {
+    opacity: 0.3;
+    letter-spacing: 0.08em;
+}
+
+.token-meter__input:focus {
+    border-color: var(--ink);
+}
+
+.token-meter__readout {
+    margin-top: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+}
+
+.token-meter__readout[hidden] { display: none; }
+
+.token-meter__count {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    opacity: 0.9;
+    letter-spacing: 0.02em;
+}
+
+.token-meter__costs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    opacity: 0.5;
+}
+
+.token-meter__costs > div {
+    display: flex;
+    justify-content: space-between;
 }

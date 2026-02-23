@@ -57,6 +57,18 @@
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
                 </div>
             </div>
+            <!-- Token Meter -->
+            <div class="token-meter">
+                <textarea class="token-meter__input" id="token-input" placeholder="TOKENIZE — paste text…" rows="3" spellcheck="false" autocomplete="off"></textarea>
+                <div class="token-meter__readout" id="token-readout" hidden>
+                    <span class="token-meter__count" id="token-count">0</span>
+                    <div class="token-meter__costs">
+                        <div><span>Claude 3.5</span><span id="tc-claude">—</span></div>
+                        <div><span>GPT-4o</span><span id="tc-gpt4o">—</span></div>
+                        <div><span>Gemini 1.5</span><span id="tc-gemini">—</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Desktop sidebar collapse tab — on the right border, near System card -->
         <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
@@ -424,6 +436,9 @@
             sidebarOpenTab.hidden = !collapsed;
         }
         localStorage.setItem('sidebarCollapsed', String(collapsed));
+        // Blur both tabs so the :focus red outline fades via CSS transition
+        sidebarToggle?.blur();
+        sidebarOpenTab?.blur();
     }
 
     function toggleSidebar() {
@@ -496,6 +511,43 @@
         const isHidden = musicControlsEl.hidden;
         musicControlsEl.hidden = !isHidden;
         musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
+    });
+
+    // ── TOKEN METER ───────────────────────────────────────────────────────────
+    // Rough approximation: ~4 characters per token (English prose)
+    const TOKEN_MODELS = [
+        { id: 'tc-claude',  label: 'Claude 3.5', price: 3.00  },  // $3/1M input
+        { id: 'tc-gpt4o',   label: 'GPT-4o',     price: 2.50  },  // $2.50/1M input
+        { id: 'tc-gemini',  label: 'Gemini 1.5', price: 1.25  },  // $1.25/1M input
+    ];
+
+    function estimateTokens(text) {
+        return text.trim().length === 0 ? 0 : Math.ceil(text.length / 4);
+    }
+
+    function formatTokenCost(tokens, pricePerMillion) {
+        const cost = (tokens / 1_000_000) * pricePerMillion;
+        if (cost === 0)     return '—';
+        if (cost < 0.0001)  return '<$0.0001';
+        return '$' + cost.toFixed(4);
+    }
+
+    const tokenInput   = document.getElementById('token-input');
+    const tokenReadout = document.getElementById('token-readout');
+    const tokenCountEl = document.getElementById('token-count');
+
+    tokenInput?.addEventListener('input', () => {
+        const tokens = estimateTokens(tokenInput.value);
+        if (tokens === 0) {
+            tokenReadout.hidden = true;
+            return;
+        }
+        tokenReadout.hidden = false;
+        tokenCountEl.textContent = tokens.toLocaleString() + ' tokens';
+        TOKEN_MODELS.forEach(({ id, price }) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = formatTokenCost(tokens, price);
+        });
     });
 
     function onWidgetPanelReady(callback) {
