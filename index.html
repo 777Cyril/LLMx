@@ -429,6 +429,43 @@
     const storedState = localStorage.getItem('sidebarCollapsed') === 'true';
     setSidebarState(storedState);
 
+    // ── MAGNETIC CURSOR EFFECT on reopen tab ──────────────────────────────
+    // Radius within which magnetism activates (px)
+    const MAGNETIC_RADIUS = 120;
+    // Max nudge distance (px) — keeps it subtle
+    const MAGNETIC_STRENGTH = 10;
+
+    function applyMagnet(el, mx, my) {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top  + r.height / 2;
+        const dx = mx - cx;
+        const dy = my - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < MAGNETIC_RADIUS) {
+            // Pull strength falls off with distance
+            const pull = (1 - dist / MAGNETIC_RADIUS) * MAGNETIC_STRENGTH;
+            const nx = (dx / dist) * pull;
+            const ny = (dy / dist) * pull;
+            el.style.setProperty('--mag-x', nx.toFixed(2) + 'px');
+            el.style.setProperty('--mag-y', ny.toFixed(2) + 'px');
+        } else {
+            el.style.setProperty('--mag-x', '0px');
+            el.style.setProperty('--mag-y', '0px');
+        }
+    }
+
+    // Apply to both tabs so either one has gravity when visible
+    window.addEventListener('mousemove', (e) => {
+        if (sidebarOpenTab && !sidebarOpenTab.hidden) {
+            applyMagnet(sidebarOpenTab, e.clientX, e.clientY);
+        }
+        if (sidebarToggle && sidebarToggle.offsetParent !== null) {
+            applyMagnet(sidebarToggle, e.clientX, e.clientY);
+        }
+    }, { passive: true });
+
     function onWidgetPanelReady(callback) {
         const existing = document.getElementById('llmx-panel');
         if (existing) {
