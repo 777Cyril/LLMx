@@ -167,55 +167,81 @@ body::before {
     }
 }
 
-/* Sidebar toggle button */
-.sidebar-toggle {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    color: var(--ink);
-    font-size: 1.5rem;
-    line-height: 1;
-    transition: transform 0.3s ease, color 0.2s ease;
-    margin-left: auto;
+/* ── Sidebar collapse system ──────────────────────────────────────────────── */
+
+/* Grid and sidebar animate together */
+.grid-container {
+    transition: grid-template-columns 0.35s ease;
 }
 
-.sidebar-toggle:hover {
-    color: var(--accent, #ff0000);
+.sidebar {
+    overflow: hidden; /* prevents content spill when column width → 0 */
+    transition: transform 0.35s ease;
 }
 
-.sidebar-toggle:focus {
-    outline: 2px solid var(--line-color);
-    outline-offset: 2px;
-}
-
-.sidebar-toggle-icon {
-    display: inline-block;
-    transition: transform 0.3s ease;
-}
-
-/* Show sidebar toggle on desktop only */
-@media (min-width: 1025px) {
-    .sidebar-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-/* Collapsed state */
+/* Collapsed state: column shrinks to 0, sidebar slides left */
 body.sidebar-collapsed .grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 0px 1fr;
 }
 
 body.sidebar-collapsed .sidebar {
     transform: translateX(-100%);
 }
 
-.grid-container,
-.sidebar {
-    transition: all 0.3s ease;
+/* Collapse button — lives inside System meta-block, desktop only */
+.sidebar-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: var(--border-width) solid var(--line-color);
+    cursor: pointer;
+    padding: 0.45rem 0.75rem;
+    color: var(--ink);
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    width: 100%;
+}
+
+.sidebar-toggle:hover { opacity: 1; }
+.sidebar-toggle:focus { outline: 2px solid var(--line-color); outline-offset: 2px; }
+
+@media (min-width: 1025px) {
+    .sidebar-toggle { display: flex; }
+}
+
+/* Reopen tab — fixed to left edge, only shows when sidebar is collapsed */
+.sidebar-open-tab {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) translateX(-100%);
+    background: var(--paper-bg);
+    border: var(--border-width) solid var(--line-color);
+    border-left: none;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    color: var(--ink);
+    font-size: 1rem;
+    z-index: 200;
+    transition: transform 0.35s ease, opacity 0.2s ease;
+    opacity: 0;
+}
+
+.sidebar-open-tab:hover { color: var(--accent, #ff0000); opacity: 1 !important; }
+
+@media (min-width: 1025px) {
+    .sidebar-open-tab { display: flex; }
+    body.sidebar-collapsed .sidebar-open-tab {
+        transform: translateY(-50%) translateX(0);
+        opacity: 0.5;
+    }
 }
 
 .meta-block {

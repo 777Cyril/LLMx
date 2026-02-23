@@ -23,10 +23,6 @@
             <div class="logo-symbol">
                 <span></span><span></span><span></span>
             </div>
-            <!-- Desktop sidebar collapse toggle -->
-            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="true">
-                <span class="sidebar-toggle-icon">⟨</span>
-            </button>
             <!-- Mobile hamburger — inside logo-area so it sits right of the dots on mobile -->
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -52,6 +48,11 @@
                     <div class="theme-toggle__thumb"></div>
                 </div>
             </div>
+            <!-- Desktop sidebar collapse — lives near System card -->
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
+                <span class="sidebar-toggle-icon">⟨</span>
+                <span class="sidebar-toggle-label">Collapse</span>
+            </button>
         </div>
         <nav class="nav-links">
             <a href="#work" class="nav-item">
@@ -94,6 +95,11 @@
             </div>
         </div>
     </aside>
+
+    <!-- Fixed tab: only visible when sidebar is collapsed, lets user reopen it -->
+    <button class="sidebar-open-tab" id="sidebar-open-tab" aria-label="Open sidebar" hidden>
+        <span>⟩</span>
+    </button>
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
@@ -399,34 +405,30 @@
     });
 
     // ── DESKTOP SIDEBAR COLLAPSE ────────────────────────────────────────────
-    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarToggle  = document.getElementById('sidebar-toggle');
+    const sidebarOpenTab = document.getElementById('sidebar-open-tab');
 
-    // Restore sidebar state from localStorage on page load
-    function restoreSidebarState() {
-        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-        if (isCollapsed) {
-            document.body.classList.add('sidebar-collapsed');
-            sidebarToggle?.setAttribute('aria-expanded', 'false');
-        } else {
-            document.body.classList.remove('sidebar-collapsed');
-            sidebarToggle?.setAttribute('aria-expanded', 'true');
+    function setSidebarState(collapsed) {
+        document.body.classList.toggle('sidebar-collapsed', collapsed);
+        sidebarToggle?.setAttribute('aria-expanded', String(!collapsed));
+        // Show/hide the reopen tab
+        if (sidebarOpenTab) {
+            sidebarOpenTab.hidden = !collapsed;
         }
+        localStorage.setItem('sidebarCollapsed', String(collapsed));
     }
 
-    // Toggle sidebar visibility and save state
     function toggleSidebar() {
-        const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
-        sidebarToggle?.setAttribute('aria-expanded', String(!isCollapsed));
-        localStorage.setItem('sidebarCollapsed', String(isCollapsed));
+        const willCollapse = !document.body.classList.contains('sidebar-collapsed');
+        setSidebarState(willCollapse);
     }
 
-    // Set up sidebar toggle button
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', toggleSidebar);
-    }
+    sidebarToggle?.addEventListener('click', toggleSidebar);
+    sidebarOpenTab?.addEventListener('click', toggleSidebar);
 
-    // Restore state on load
-    restoreSidebarState();
+    // Restore state on load — default open (first visit)
+    const storedState = localStorage.getItem('sidebarCollapsed') === 'true';
+    setSidebarState(storedState);
 
     function onWidgetPanelReady(callback) {
         const existing = document.getElementById('llmx-panel');
