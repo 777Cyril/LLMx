@@ -50,9 +50,8 @@
             </div>
             <!-- Music player scaffold — add tracks to MUSIC_TRACKS in JS -->
             <div class="music-player" id="music-player">
-                <span class="music-label u-uppercase">Now Playing</span>
-                <div class="music-track-name u-mono" id="music-track-name">—</div>
-                <div class="music-controls">
+                <button class="music-now-playing" id="music-now-playing" aria-expanded="false">Now Playing</button>
+                <div class="music-controls" id="music-controls" hidden>
                     <button class="music-btn" id="music-prev" aria-label="Previous track">|&#9664;</button>
                     <button class="music-btn music-btn--play" id="music-play" aria-label="Play or pause">&#9654;</button>
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
@@ -462,10 +461,8 @@
     }
 
     function musicUpdateUI() {
-        const nameEl  = document.getElementById('music-track-name');
         const playBtn = document.getElementById('music-play');
-        if (nameEl)  nameEl.textContent = musicState.tracks.length ? musicState.tracks[musicState.current].title : '—';
-        if (playBtn) playBtn.innerHTML  = musicState.playing ? '&#9646;&#9646;' : '&#9654;';
+        if (playBtn) playBtn.innerHTML = musicState.playing ? '&#9646;&#9646;' : '&#9654;';
     }
 
     function musicLoad(index) {
@@ -489,6 +486,15 @@
     document.getElementById('music-prev')?.addEventListener('click', musicPrev);
     document.getElementById('music-next')?.addEventListener('click', musicNext);
     document.getElementById('music-play')?.addEventListener('click', () => musicState.playing ? musicPause() : musicPlay());
+
+    // "Now Playing" toggles controls visibility
+    const musicNowPlaying = document.getElementById('music-now-playing');
+    const musicControlsEl = document.getElementById('music-controls');
+    musicNowPlaying?.addEventListener('click', () => {
+        const isHidden = musicControlsEl.hidden;
+        musicControlsEl.hidden = !isHidden;
+        musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
+    });
 
     function onWidgetPanelReady(callback) {
         const existing = document.getElementById('llmx-panel');

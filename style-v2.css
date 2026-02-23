@@ -62,20 +62,23 @@ body::before {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 1fr;
     min-height: 100vh;
 }
 
 .sidebar {
-    position: sticky;
+    position: fixed;
+    left: 0;
     top: 0;
+    width: 280px;
     height: 100vh;
     border-right: var(--border-width) solid var(--line-color);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--paper-bg);
-    z-index: 100;
+    z-index: 150;
+    transition: transform 0.35s ease;
 }
 
 .logo-area {
@@ -167,23 +170,9 @@ body::before {
     }
 }
 
-/* ── Sidebar collapse system ──────────────────────────────────────────────── */
+/* ── Sidebar collapse system (Overlay) ────────────────────────────────────── */
 
-/* Grid and sidebar animate together */
-.grid-container {
-    transition: grid-template-columns 0.35s ease;
-}
-
-.sidebar {
-    overflow: hidden; /* prevents content spill when column width → 0 */
-    transition: transform 0.35s ease;
-}
-
-/* Collapsed state: column shrinks to 0, sidebar slides left */
-body.sidebar-collapsed .grid-container {
-    grid-template-columns: 0px 1fr;
-}
-
+/* Collapsed state: sidebar slides off-screen to the left */
 body.sidebar-collapsed .sidebar {
     transform: translateX(-100%);
 }
@@ -882,6 +871,7 @@ footer {
     .grid-container { grid-template-columns: 1fr; }
     .sidebar {
         position: relative;
+        width: 100%;
         height: auto;
         border-right: none;
         border-bottom: var(--border-width) solid var(--line-color);
@@ -1284,34 +1274,31 @@ html.darkmode .theme-toggle__label {
 
 /* ── Music Player ─────────────────────────────────────────────────────────── */
 .music-player {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: var(--border-width) solid var(--line-color);
+    margin-top: 0.75rem;
 }
 
-.music-label {
-    display: block;
-    font-size: 0.65rem;
+/* "Now Playing" toggle — styled like the theme-toggle label */
+.music-now-playing {
+    background: none;
+    border: none;
+    cursor: pointer;
     font-family: var(--font-mono);
-    letter-spacing: 0.1em;
-    opacity: 0.45;
-    margin-bottom: 0.35rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    opacity: 0.6;
+    padding: 0;
+    transition: color 0.15s ease, opacity 0.2s ease;
 }
 
-.music-track-name {
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 0.75rem;
-    opacity: 0.85;
-}
+.music-now-playing:hover { color: #ff0000; opacity: 1; }
 
 .music-controls {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .music-btn {
