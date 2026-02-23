@@ -62,23 +62,20 @@ body::before {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 280px 1fr;
     min-height: 100vh;
 }
 
 .sidebar {
-    position: fixed;
-    left: 0;
+    position: sticky;
     top: 0;
-    width: 280px;
     height: 100vh;
     border-right: var(--border-width) solid var(--line-color);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--paper-bg);
-    z-index: 150;
-    transition: transform 0.35s ease;
+    z-index: 100;
 }
 
 .logo-area {
@@ -170,9 +167,23 @@ body::before {
     }
 }
 
-/* ── Sidebar collapse system (Overlay) ────────────────────────────────────── */
+/* ── Sidebar collapse system (Push/Pull) ──────────────────────────────────── */
 
-/* Collapsed state: sidebar slides off-screen to the left */
+/* Grid and sidebar animate together */
+.grid-container {
+    transition: grid-template-columns 0.35s ease;
+}
+
+.sidebar {
+    overflow: hidden; /* prevents content spill when column width → 0 */
+    transition: transform 0.35s ease;
+}
+
+/* Collapsed state: column shrinks to 0, sidebar slides left */
+body.sidebar-collapsed .grid-container {
+    grid-template-columns: 0px 1fr;
+}
+
 body.sidebar-collapsed .sidebar {
     transform: translateX(-100%);
 }
@@ -187,7 +198,7 @@ body.sidebar-collapsed .sidebar {
     background: var(--paper-bg);
     border-top: var(--border-width) solid var(--line-color);
     border-bottom: var(--border-width) solid var(--line-color);
-    border-left: 2px solid #ff0000; /* red accent for visibility */
+    border-left: var(--border-width) solid var(--line-color);
     border-right: none;
     cursor: pointer;
     padding: 1.1rem 0.55rem;
@@ -199,7 +210,7 @@ body.sidebar-collapsed .sidebar {
     z-index: 1;
 }
 
-html.darkmode .sidebar-toggle { color: #ff0000; } /* red in dark mode */
+html.darkmode .sidebar-toggle { color: var(--ink); }
 .sidebar-toggle:hover { opacity: 1; }
 .sidebar-toggle:focus { outline: 2px solid #ff0000; outline-offset: 2px; }
 
@@ -216,8 +227,6 @@ html.darkmode .sidebar-toggle { color: #ff0000; } /* red in dark mode */
     transform: translateY(-50%) translateX(-100%);
     background: var(--paper-bg);
     border: var(--border-width) solid var(--line-color);
-    border-right-width: 2px;
-    border-right-color: #ff0000; /* red accent mirror */
     border-left: none;
     padding: 1.1rem 0.55rem;
     cursor: pointer;
@@ -228,7 +237,7 @@ html.darkmode .sidebar-toggle { color: #ff0000; } /* red in dark mode */
     opacity: 0;
 }
 
-html.darkmode .sidebar-open-tab { color: #ff0000; }
+html.darkmode .sidebar-open-tab { color: var(--ink); }
 .sidebar-open-tab:hover { opacity: 1 !important; }
 
 @media (min-width: 1025px) {
@@ -871,7 +880,6 @@ footer {
     .grid-container { grid-template-columns: 1fr; }
     .sidebar {
         position: relative;
-        width: 100%;
         height: auto;
         border-right: none;
         border-bottom: var(--border-width) solid var(--line-color);
@@ -1300,6 +1308,9 @@ html.darkmode .theme-toggle__label {
     gap: 0.75rem;
     margin-top: 0.5rem;
 }
+
+/* `display:flex` above overrides the native [hidden] attr — restore it */
+.music-controls[hidden] { display: none; }
 
 .music-btn {
     background: none;
