@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMx | 0→1 Shipping Sprint</title>
+    <meta property="og:title" content="LLMx - 0→1 Shipping Sprint">
+    <meta property="og:url" content="https://llmxai.co/sprint/">
+    <meta property="og:image" content="https://llmxai.co/LLMx2.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Ship a real v1 in session one, then build the workflow and judgment to keep shipping on your own.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/sprint/style.css">
+</head>
+<body>
+<header class="topbar">
+    <a href="/" class="wordmark">LLMx</a>
+    <nav class="topnav">
+        <a href="/#work">Work</a>
+        <a href="/#about">ICP</a>
+        <a href="/blog/">Blog</a>
+    </nav>
+</header>
+
+<main class="sprint-page">
+    <section class="offer-hero">
+        <span class="eyebrow">Done-With-You Product Shipping</span>
+        <h1>LLMx 0→1 Shipping Sprint</h1>
+        <p>In the first session, we ship a live v1 together. In sessions two through four, we systematically close the implementation gaps so you can keep shipping independently.</p>
+        <div class="cta-row">
+            <a href="#" class="cta cta--primary" data-booking-link data-cta-location="sprint-hero-primary">Book The Sprint</a>
+            <a href="/#work" class="cta cta--secondary" data-track-id="sprint-hero-secondary">See shipped work</a>
+        </div>
+    </section>
+
+    <section class="sessions">
+        <h2>4-session structure</h2>
+        <div class="session-grid">
+            <article class="session-card session-card--primary">
+                <span>Session 1</span>
+                <h3>Ship Something Live</h3>
+                <p>Execution-first session focused on deploying a real MVP, live website, or internal tool in under 3 hours.</p>
+            </article>
+            <article class="session-card">
+                <span>Session 2</span>
+                <h3>Workflow + Repo Foundation</h3>
+                <p>Structure repo, lock Git/GitHub habits, and create a local/cloud setup you can reuse.</p>
+            </article>
+            <article class="session-card">
+                <span>Session 3</span>
+                <h3>Debugging + Deployment Reliability</h3>
+                <p>Build your debugging playbook and eliminate failure points from prototype-to-prod handoffs.</p>
+            </article>
+            <article class="session-card">
+                <span>Session 4</span>
+                <h3>Independent Operator Mode</h3>
+                <p>Finalize tooling, prompt workflow, and next-build roadmap so you can ship updates without dependency.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="deliverables">
+        <h2>What you leave with</h2>
+        <ul>
+            <li>A deployed MVP, website, or internal tool.</li>
+            <li>Working local + cloud development workflow.</li>
+            <li>GitHub repo and deployment pipeline.</li>
+            <li>Agentic coding setup (tools, prompts, workflow).</li>
+            <li>Debugging and iteration process.</li>
+            <li>Clear next-build roadmap.</li>
+        </ul>
+    </section>
+
+    <section class="fit-grid">
+        <article class="fit-card">
+            <h3>Best fit</h3>
+            <ul>
+                <li>30-50% technical fluency.</li>
+                <li>PMs, consultants, founders, agency owners, marketers, creators.</li>
+                <li>High-agency operators blocked by implementation friction.</li>
+                <li>Need to ship now and become self-sufficient fast.</li>
+            </ul>
+        </article>
+        <article class="fit-card fit-card--muted">
+            <h3>Not a fit</h3>
+            <ul>
+                <li>You want someone to build your full startup end to end.</li>
+                <li>You need indefinite debugging support with no ownership transfer.</li>
+                <li>You are looking to replace an engineering team.</li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="continuation">
+        <h2>Follow-on option</h2>
+        <h3>LLMx Builder Continuation (monthly)</h3>
+        <p>For teams or operators that want continued office hours, architecture reviews, and deployment/debugging support after the initial sprint.</p>
+        <a href="#" class="cta cta--primary" data-booking-link data-cta-location="sprint-continuation">Book A Fit Call</a>
+    </section>
+
+    <section class="faq">
+        <h2>FAQ</h2>
+        <details>
+            <summary>Do I need to be an engineer first?</summary>
+            <p>No. This is designed for semi-technical operators who can prototype with AI but get stuck in implementation/deployment.</p>
+        </details>
+        <details>
+            <summary>Will we really ship in session one?</summary>
+            <p>Yes, when the project is scoped correctly. Session one is intentionally execution-first and deployment-focused.</p>
+        </details>
+        <details>
+            <summary>Do you provide pricing on the site?</summary>
+            <p>No public pricing. We qualify fit and project scope first, then align package recommendations.</p>
+        </details>
+    </section>
+
+    <section class="final-cta">
+        <h2>Ship first. Build capability second.</h2>
+        <a href="#" class="cta cta--primary" data-booking-link data-cta-location="sprint-final">Book Your 0→1 Sprint</a>
+    </section>
+</main>
+
+<script src="/booking-config.js"></script>
+<script>
+    const BOOKING_URL = window.BOOKING_URL || 'mailto:cyril@llmxai.co?subject=LLMx%200%E2%86%921%20Shipping%20Sprint';
+
+    function trackEvent(eventName, props = {}) {
+        if (typeof window.llmxTrack === 'function') {
+            window.llmxTrack(eventName, props);
+        }
+    }
+
+    function hydrateBookingLinks() {
+        document.querySelectorAll('[data-booking-link]').forEach((link) => {
+            link.setAttribute('href', BOOKING_URL);
+            link.addEventListener('click', () => {
+                const ctaLocation = link.getAttribute('data-cta-location') || 'unknown';
+                trackEvent('booking_cta_clicked', { location: ctaLocation, page: 'sprint' });
+            });
+        });
+    }
+
+    function wireSecondaryTracking() {
+        document.querySelectorAll('[data-track-id]').forEach((link) => {
+            link.addEventListener('click', () => {
+                const id = link.getAttribute('data-track-id');
+                trackEvent('secondary_cta_clicked', { id, page: 'sprint' });
+            });
+        });
+    }
+
+    function installScrollMilestones() {
+        const milestones = [0.5, 0.9];
+        const fired = new Set();
+        const onScroll = () => {
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (documentHeight <= 0) return;
+            const ratio = window.scrollY / documentHeight;
+            milestones.forEach((milestone) => {
+                if (ratio >= milestone && !fired.has(milestone)) {
+                    fired.add(milestone);
+                    trackEvent('sprint_scroll_depth', { depth: Math.round(milestone * 100) });
+                }
+            });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        hydrateBookingLinks();
+        wireSecondaryTracking();
+        installScrollMilestones();
+    });
+</script>
+</body>
+</html>
