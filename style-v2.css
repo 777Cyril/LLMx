@@ -1407,5 +1407,190 @@ html.darkmode .theme-toggle__label {
     opacity: 0.8;
 }
 
+/* ── Sidebar GPT ───────────────────────────────────────────────────────────── */
+.sidebar-gpt {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-height: 0;
+}
 
+.sidebar-gpt__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
 
+.sidebar-gpt__title,
+.sidebar-gpt__status {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+}
+
+.sidebar-gpt__status {
+    opacity: 0.55;
+}
+
+.sidebar-gpt__messages {
+    border: 1px solid var(--line-color);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 170px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.sidebar-gpt__message {
+    border: 1px solid var(--line-color);
+    padding: 0.4rem 0.45rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.sidebar-gpt__message--assistant {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+html.darkmode .sidebar-gpt__message--assistant {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-gpt__message-text {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.sidebar-gpt__sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.sidebar-gpt__source {
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    opacity: 0.7;
+}
+
+html.darkmode .sidebar-gpt__source {
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-gpt__source:hover {
+    opacity: 1;
+    color: #ff0000;
+}
+
+.sidebar-gpt__thinking {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    opacity: 0.6;
+}
+
+.sidebar-gpt__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.sidebar-gpt__chip {
+    background: none;
+    border: 1px solid var(--line-color);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.1;
+    padding: 0.24rem 0.35rem;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+    opacity: 0.78;
+}
+
+.sidebar-gpt__chip:hover {
+    color: #ff0000;
+    border-color: #ff0000;
+    opacity: 1;
+}
+
+.sidebar-gpt__form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem;
+    align-items: stretch;
+}
+
+.sidebar-gpt__input {
+    resize: none;
+    border: 1px solid var(--line-color);
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.35;
+    padding: 0.36rem 0.45rem;
+    min-height: 34px;
+}
+
+.sidebar-gpt__input::placeholder {
+    opacity: 0.6;
+}
+
+.sidebar-gpt__input:focus,
+.sidebar-gpt__send:focus,
+.sidebar-gpt__chip:focus {
+    outline: 1px solid #ff0000;
+    outline-offset: 1px;
+}
+
+.sidebar-gpt__send {
+    border: 1px solid var(--line-color);
+    background: none;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+}
+
+.sidebar-gpt__send:hover {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.sidebar-gpt__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar-gpt__chip,
+    .sidebar-gpt__send,
+    .sidebar-gpt__source {
+        transition: none;
+    }
+}

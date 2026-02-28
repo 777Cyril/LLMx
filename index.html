@@ -58,6 +58,30 @@
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
                 </div>
             </div>
+            <section class="sidebar-gpt" id="sidebar-gpt" aria-label="LLMx GPT">
+                <div class="sidebar-gpt__header">
+                    <span class="sidebar-gpt__title">LLMx GPT</span>
+                    <span class="sidebar-gpt__status" id="sidebar-gpt-status">Ready</span>
+                </div>
+                <div class="sidebar-gpt__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
+                <div class="sidebar-gpt__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
+                <div class="sidebar-gpt__chips" id="sidebar-gpt-chips">
+                    <button type="button" class="sidebar-gpt__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+                    <button type="button" class="sidebar-gpt__chip" data-seed-question="Can you help with X?">Can you help with X?</button>
+                </div>
+                <form class="sidebar-gpt__form" id="sidebar-gpt-form">
+                    <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx GPT</label>
+                    <textarea
+                        class="sidebar-gpt__input"
+                        id="sidebar-gpt-input"
+                        name="sidebar-gpt-input"
+                        rows="1"
+                        maxlength="500"
+                        placeholder="Ask about services, case studies, or workflow..."
+                    ></textarea>
+                    <button class="sidebar-gpt__send" type="submit">Send</button>
+                </form>
+            </section>
         </div>
         <!-- Desktop sidebar collapse tab — on the right border, near System card -->
         <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
@@ -301,6 +325,26 @@
 </div>
 
 <script>
+    window.ENABLE_FLOATING_LLMX_WIDGET = false;
+    const ENABLE_FLOATING_LLMX_WIDGET = Boolean(window.ENABLE_FLOATING_LLMX_WIDGET);
+
+    function trackEvent(eventName, props = {}) {
+        try {
+            if (typeof window.llmxTrack === 'function') {
+                window.llmxTrack(eventName, props);
+                return;
+            }
+            if (typeof window.plausible === 'function') {
+                window.plausible(eventName, { props });
+                return;
+            }
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', eventName, props);
+            }
+        } catch (_error) {
+            // Deliberately swallow analytics errors.
+        }
+    }
     // ── THEME ──────────────────────────────────────────────────────────────
     function applyTimeBasedTheme() {
         const hour = new Date().getHours();
@@ -354,6 +398,7 @@
 
     // Force-close the widget (external CDN, no public API — reset via DOM IDs)
     function forceCloseWidget() {
+        if (!ENABLE_FLOATING_LLMX_WIDGET) return;
         const panel   = document.getElementById('llmx-panel');
         const overlay = document.getElementById('llmx-overlay');
         const trigger = document.getElementById('llmx-trigger');
@@ -550,6 +595,168 @@
         musicControlsEl.hidden = !isHidden;
         musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
     });
+
+    // ── SIDEBAR GPT ───────────────────────────────────────────────────────────
+    const SIDEBAR_GPT_MAX_HISTORY = 10;
+    const sidebarGptState = {
+        messages: [],
+        pending: false
+    };
+
+    function sidebarGptSetStatus(label) {
+        const el = document.getElementById('sidebar-gpt-status');
+        if (el) el.textContent = label;
+    }
+
+    function sidebarGptRenderMessages() {
+        const container = document.getElementById('sidebar-gpt-messages');
+        if (!container) return;
+        container.innerHTML = '';
+
+        sidebarGptState.messages.forEach((message) => {
+            const bubble = document.createElement('article');
+            bubble.className = `sidebar-gpt__message sidebar-gpt__message--${message.role}`;
+
+            const body = document.createElement('p');
+            body.className = 'sidebar-gpt__message-text';
+            body.textContent = message.content;
+            bubble.appendChild(body);
+
+            if (Array.isArray(message.sources) && message.sources.length) {
+                const sourceWrap = document.createElement('div');
+                sourceWrap.className = 'sidebar-gpt__sources';
+
+                message.sources.forEach((source) => {
+                    if (!source || !source.url) return;
+                    const link = document.createElement('a');
+                    link.className = 'sidebar-gpt__source';
+                    link.href = source.url;
+                    link.textContent = source.label || 'Source';
+                    sourceWrap.appendChild(link);
+                });
+
+                if (sourceWrap.childElementCount) {
+                    bubble.appendChild(sourceWrap);
+                }
+            }
+
+            container.appendChild(bubble);
+        });
+
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function sidebarGptSetThinking(isThinking) {
+        const thinking = document.getElementById('sidebar-gpt-thinking');
+        const input = document.getElementById('sidebar-gpt-input');
+        const send = document.querySelector('.sidebar-gpt__send');
+
+        if (thinking) thinking.hidden = !isThinking;
+        if (input) input.disabled = isThinking;
+        if (send) send.disabled = isThinking;
+        sidebarGptSetStatus(isThinking ? 'Thinking' : 'Ready');
+    }
+
+    function sidebarGptPushMessage(message) {
+        sidebarGptState.messages.push(message);
+        if (sidebarGptState.messages.length > SIDEBAR_GPT_MAX_HISTORY * 2) {
+            sidebarGptState.messages = sidebarGptState.messages.slice(-SIDEBAR_GPT_MAX_HISTORY * 2);
+        }
+        sidebarGptRenderMessages();
+    }
+
+    function sidebarGptBuildPayloadMessages() {
+        return sidebarGptState.messages
+            .filter((message) => message.role === 'user' || message.role === 'assistant')
+            .map((message) => ({ role: message.role, content: message.content }))
+            .slice(-SIDEBAR_GPT_MAX_HISTORY);
+    }
+
+    async function sidebarGptSendMessage(rawMessage, source = 'input') {
+        const message = String(rawMessage || '').trim();
+        if (!message || sidebarGptState.pending) return;
+
+        sidebarGptPushMessage({ role: 'user', content: message });
+        trackEvent('sidebar_gpt_message_sent', { source, length: message.length, page: 'home' });
+
+        sidebarGptState.pending = true;
+        sidebarGptSetThinking(true);
+
+        try {
+            const response = await fetch('/api/sidebar-chat', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                    messages: sidebarGptBuildPayloadMessages(),
+                    context: { page: 'home' }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Sidebar GPT request failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+            if (!reply) throw new Error('Missing reply content');
+
+            sidebarGptPushMessage({
+                role: 'assistant',
+                content: reply,
+                sources: Array.isArray(data.sources) ? data.sources.slice(0, 3) : []
+            });
+            trackEvent('sidebar_gpt_reply_received', {
+                source_count: Array.isArray(data.sources) ? data.sources.length : 0,
+                page: 'home'
+            });
+        } catch (_error) {
+            sidebarGptPushMessage({
+                role: 'assistant',
+                content: 'Assistant temporarily unavailable. Try again in a moment.'
+            });
+            trackEvent('sidebar_gpt_error', { page: 'home' });
+        } finally {
+            sidebarGptState.pending = false;
+            sidebarGptSetThinking(false);
+        }
+    }
+
+    function initSidebarGpt() {
+        const form = document.getElementById('sidebar-gpt-form');
+        const input = document.getElementById('sidebar-gpt-input');
+        const chips = document.querySelectorAll('[data-seed-question]');
+        if (!form || !input) return;
+
+        sidebarGptPushMessage({
+            role: 'assistant',
+            content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.'
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            await sidebarGptSendMessage(text, 'input');
+        });
+
+        input.addEventListener('keydown', async (event) => {
+            if (event.key !== 'Enter' || event.shiftKey) return;
+            event.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            await sidebarGptSendMessage(text, 'keyboard');
+        });
+
+        chips.forEach((chip) => {
+            chip.addEventListener('click', async () => {
+                const prompt = chip.getAttribute('data-seed-question') || '';
+                if (!prompt.trim()) return;
+                await sidebarGptSendMessage(prompt, 'chip');
+            });
+        });
+    }
 
 
     // ── AI PULSE ─────────────────────────────────────────────────────────────
@@ -831,15 +1038,20 @@
     }
 
     // Clean up stale menu/widget state on in-page navigation or bfcache restores.
-    ['hashchange', 'pageshow'].forEach((eventName) => {
-        window.addEventListener(eventName, () => {
-            closeMenu();
-            forceCloseWidget();
+    if (ENABLE_FLOATING_LLMX_WIDGET) {
+        ['hashchange', 'pageshow'].forEach((eventName) => {
+            window.addEventListener(eventName, () => {
+                closeMenu();
+                forceCloseWidget();
+            });
         });
-    });
+    }
 
     // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
     document.addEventListener('DOMContentLoaded', () => {
+        initSidebarGpt();
+        if (!ENABLE_FLOATING_LLMX_WIDGET) return;
+
         onWidgetPanelReady((panel) => {
             let wasWidgetOpen = isWidgetOpen(panel);
 
@@ -889,8 +1101,15 @@
     });
 </script>
 
-<!-- LLMx Prompt Stack Widget — update src after deploying LLMx-Widget to Vercel -->
-<script src="https://ll-mx-widget.vercel.app/widget/llmx-widget.js" defer></script>
+<!-- LLMx Prompt Stack Widget — disabled by default -->
+<script>
+    if (window.ENABLE_FLOATING_LLMX_WIDGET) {
+        const widgetScript = document.createElement('script');
+        widgetScript.src = 'https://ll-mx-widget.vercel.app/widget/llmx-widget.js';
+        widgetScript.defer = true;
+        document.body.appendChild(widgetScript);
+    }
+</script>
 
 <!-- Widget overrides: iOS keyboard fixes -->
 <style>
