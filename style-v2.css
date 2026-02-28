@@ -1028,7 +1028,11 @@ footer {
         gap: 0.4rem;
     }
     .ai-pulse__track {
-        animation-duration: 80s;
+        animation-duration: 100s;
+    }
+    .ai-pulse__item {
+        font-size: 0.72rem;
+        letter-spacing: 0.01em;
     }
     .trusted-by__label {
         font-size: 0.62rem;

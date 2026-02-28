@@ -551,6 +551,15 @@
         };
         fill(document.getElementById('ai-pulse-group'));
         fill(document.getElementById('ai-pulse-group-mirror'));
+        // Reset animation to t=0 after content is injected.
+        // Without this, the animation is already mid-scroll when items arrive,
+        // causing headlines to flash past and disappear off the left edge.
+        const track = document.querySelector('.ai-pulse__track');
+        if (track) {
+            track.style.animation = 'none';
+            track.offsetHeight; // force reflow
+            track.style.animation = '';
+        }
     }
 
     async function loadAIPulse() {
