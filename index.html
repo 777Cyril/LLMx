@@ -560,7 +560,8 @@
                 try {
                     const d = await fetch(url).then(r => r.json());
                     if (d.status === 'ok' && d.items?.length) {
-                        d.items.forEach(i => all.push({ title: i.title, url: i.link }));
+                        const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+                        d.items.forEach(i => all.push({ title: decode(i.title).replace(/<[^>]*>/g, '').trim(), url: i.link }));
                         return;
                     }
                 } catch (e) {}

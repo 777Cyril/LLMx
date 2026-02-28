@@ -558,7 +558,7 @@ h1 {
     gap: var(--pulse-loop-gap);
     width: max-content;
     white-space: nowrap;
-    animation: ai-pulse-scroll 120s linear infinite;
+    animation: ai-pulse-scroll 200s linear infinite;
     will-change: transform;
 }
 
@@ -573,7 +573,9 @@ h1 {
 .ai-pulse__item {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1;
+    font-weight: 400;
     letter-spacing: 0.02em;
     opacity: 0.65;
     color: var(--ink);
@@ -1013,10 +1015,12 @@ footer {
         gap: 0.4rem;
     }
     .ai-pulse__track {
-        animation-duration: 100s;
+        animation-duration: 160s;
     }
     .ai-pulse__item {
         font-size: 0.72rem;
+        line-height: 1;
+        font-weight: 400;
         letter-spacing: 0.01em;
     }
     .trusted-by__label {
