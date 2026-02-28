@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/sidebar-chat.js": {
+      "includeFiles": "index.html|work/onyx/index.html|blog/posts.json"
+    }
+  }
+}
