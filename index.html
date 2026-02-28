@@ -556,11 +556,24 @@
     async function loadAIPulse() {
         if (!AI_PULSE_USE_LIVE) { buildPulseTicker(AI_PULSE_STATIC); return; }
         const all = [];
-        await Promise.allSettled(AI_PULSE_FEEDS.map(feed =>
-            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}&count=6&api_key=2z7qqvorxfgwezcqvcity02henitjqofcvxzitrv`)
-                .then(r => r.json())
-                .then(d => (d.items || []).forEach(i => all.push({ title: i.title, url: i.link })))
-        ));
+        const KEY = '2z7qqvorxfgwezcqvcity02henitjqofcvxzitrv';
+        const base = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        await Promise.allSettled(AI_PULSE_FEEDS.map(async feed => {
+            const encoded = encodeURIComponent(feed);
+            const attempts = [
+                `${base}${encoded}&count=6&api_key=${KEY}`,
+                `${base}${encoded}`,
+            ];
+            for (const url of attempts) {
+                try {
+                    const d = await fetch(url).then(r => r.json());
+                    if (d.status === 'ok' && d.items?.length) {
+                        d.items.forEach(i => all.push({ title: i.title, url: i.link }));
+                        return;
+                    }
+                } catch (e) {}
+            }
+        }));
         buildPulseTicker(all.length ? all : AI_PULSE_STATIC);
     }
 
