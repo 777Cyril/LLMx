@@ -558,7 +558,7 @@ h1 {
     gap: var(--pulse-loop-gap);
     width: max-content;
     white-space: nowrap;
-    animation: ai-pulse-scroll 50s linear infinite;
+    animation: ai-pulse-scroll 120s linear infinite;
     will-change: transform;
 }
 
@@ -1021,6 +1021,14 @@ footer {
         grid-template-columns: 1fr;
         gap: 0.4rem;
         padding: 0.75rem 2rem 0.8rem;
+    }
+    .ai-pulse {
+        grid-template-columns: 1fr;
+        padding: 0.7rem 1.5rem;
+        gap: 0.4rem;
+    }
+    .ai-pulse__track {
+        animation-duration: 80s;
     }
     .trusted-by__label {
         font-size: 0.62rem;
