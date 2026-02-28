@@ -557,7 +557,8 @@
         if (!AI_PULSE_USE_LIVE) { buildPulseTicker(AI_PULSE_STATIC); return; }
         const all = [];
         await Promise.allSettled(AI_PULSE_FEEDS.map(feed =>
-            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}&count=6`)
+            fetchfetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed)}&count=6&api_key=2z7qqvorxfgwezcqvcity02henitjqofcvxzitrv`)
+
                 .then(r => r.json())
                 .then(d => (d.items || []).forEach(i => all.push({ title: i.title, url: i.link })))
         ));
