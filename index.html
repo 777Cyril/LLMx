@@ -439,10 +439,65 @@
     setSidebarState(storedState);
 
     // ── MUSIC PLAYER ──────────────────────────────────────────────────────────
-    // Add audio files here: { title: 'Track Name', src: '/audio/filename.mp3' }
-    const MUSIC_TRACKS = [
-        // { title: 'Example Track', src: '/audio/example.mp3' },
+    // Playlist from /now playing (shuffled at runtime, managed by tools/sync-now-playing.js).
+    const NOW_PLAYING_FILES = [
+        '24Hrs - Nine Vicious.mp3',
+        '30inchRIMS (GRAX).mp3',
+        'AMIAT JEANS - NOAH SINCERE.mp3',
+        'BABY OSAMA - Pacer Test.mp3',
+        'BABY OSAMA - SEE THANGS.mp3',
+        'ball before i leave.mp3',
+        'Bby Kell - LEAN N OVA.mp3',
+        'building a ladder by hiatus kaiyote.mp3',
+        'Cameras + Good Ones Go Interlude by Drake.mp3',
+        'Cash Cow.mp3',
+        'Days Are Cold by Shawny Binladen.mp3',
+        'Dear X by Xuperp.mp3',
+        'Deposit - Boof x 2ski.mp3',
+        'Drake - Free Spirit (ft. Rick Ross).mp3',
+        'Drake - Jungle.mp3',
+        'Drake - Paris Morton Music.mp3',
+        'Drake - Sweeterman.mp3',
+        'E85 - Don Toliver.mp3',
+        'From Time By Drake.mp3',
+        'Gunna ft. Young Thug - Good Day (Unreleased).mp3',
+        'havana by pz.mp3',
+        'Heartfelt.mp3',
+        'ICYTWAT - Need U.mp3',
+        'Jumbo Kay - Billion.mp3',
+        'juna by clairo.mp3',
+        'Keys - Pz.mp3',
+        'long time by playboi carti.mp3',
+        'meeting god by swapa.mp3',
+        'NOAH SINCERE - PERPETUAL SADNESS.mp3',
+        'old habits by swapa.mp3',
+        'Over 2 by lunchbox.mp3',
+        'Oxy Interlude - KanKan.mp3',
+        'PARTYNEXTDOOR - Kehlani\'s Freestyle.mp3',
+        'place by playboi carti.mp3',
+        'Returned The Favor - Boof Ft Kkanii.mp3',
+        'Since Way Back.mp3',
+        'So What:Money Faction - KanKan.mp3',
+        'SOFT SERVE by Laila.mp3',
+        'Sojas! - iayze.mp3',
+        'Spike\'s Hotline - 454.mp3',
+        'Stuntin My Cho - oym.mp3',
+        'Swapa - commas.mp3',
+        'swapa - i wouldve been drunk.mp3',
+        'taliban music by texako + bagboybando.mp3',
+        'The Sweetest Taboo - Sade.mp3',
+        'trendy - sk8star.mp3',
+        'Uh Uh - Chief Keef x Carti.mp3',
+        'untiljapan - my bad shorty (reidmd) [slump audios exclusive].mp3',
+        'use to care by swapa.mp3',
+        'Xan! by BEAR1BOSS.mp3',
+        'YhapoJJ - Not On My Level.mp3'
     ];
+
+    const MUSIC_TRACKS = NOW_PLAYING_FILES.map((filename) => ({
+        title: filename.replace(/\.mp3$/i, ''),
+        src: `/now%20playing/${encodeURIComponent(filename)}`
+    }));
 
     const musicState = {
         tracks: [],
