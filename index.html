@@ -57,34 +57,6 @@
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
                 </div>
             </div>
-            <!-- Token Meter — VU-style context gauge -->
-            <div class="token-meter">
-                <svg class="vu-face" id="vu-face" viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <!-- Tick marks injected by JS -->
-                    <g id="vu-ticks"></g>
-                    <!-- Background arc -->
-                    <path class="vu-arc-bg" d="M 34.7 65.2 A 92 92 0 0 1 185.3 65.2"/>
-                    <!-- Red zone (128k → 200k) -->
-                    <path class="vu-arc-red" d="M 134.5 29.3 A 92 92 0 0 1 185.3 65.2"/>
-                    <!-- Needle -->
-                    <g class="vu-needle-g" id="vu-needle-g">
-                        <line class="vu-needle" x1="110" y1="118" x2="110" y2="35"/>
-                    </g>
-                    <!-- Pivot dot -->
-                    <circle class="vu-pivot" cx="110" cy="118" r="3.5"/>
-                    <!-- Face label -->
-                    <text class="vu-face-label" x="110" y="108" text-anchor="middle">TOKENS</text>
-                </svg>
-                <div class="vu-readout">
-                    <span class="vu-count" id="vu-count">—</span>
-                    <div class="vu-costs">
-                        <div><span>Claude Opus</span><span id="vc-claude">—</span></div>
-                        <div><span>GPT-4o</span><span id="vc-gpt">—</span></div>
-                        <div><span>Gemini 1.5</span><span id="vc-gemini">—</span></div>
-                    </div>
-                </div>
-                <textarea class="token-input" id="token-input" placeholder="paste text…" rows="2" spellcheck="false" autocomplete="off"></textarea>
-            </div>
         </div>
         <!-- Desktop sidebar collapse tab — on the right border, near System card -->
         <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
@@ -541,90 +513,6 @@
         musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
     });
 
-    // ── TOKEN METER / VU GAUGE ────────────────────────────────────────────────
-    // Edit TOKEN_MODELS to reflect current model pricing ($/1M input tokens)
-    const TOKEN_MODELS = [
-        { id: 'vc-claude', price: 15.00 },  // Claude Opus
-        { id: 'vc-gpt',    price:  2.50 },  // GPT-4o
-        { id: 'vc-gemini', price:  1.25 },  // Gemini 1.5 Pro
-    ];
-
-    // BPE approximation: ~4 chars/token for English prose
-    function estimateTokens(text) {
-        return text.trim().length === 0 ? 0 : Math.ceil(text.length / 4);
-    }
-
-    function formatTokenCost(tokens, price) {
-        const cost = (tokens / 1_000_000) * price;
-        if (cost === 0)    return '—';
-        if (cost < 0.0001) return '<$0.0001';
-        return '$' + cost.toFixed(4);
-    }
-
-    // VU meter setup
-    (function initVUMeter() {
-        const CX = 110, CY = 118, R = 92;
-        const MIN_DEG = -55, MAX_DEG = 55, MAX_TOKENS = 200000;
-        const svgNS = 'http://www.w3.org/2000/svg';
-
-        function polar(deg, radius) {
-            const rad = deg * Math.PI / 180;
-            return [CX + radius * Math.sin(rad), CY - radius * Math.cos(rad)];
-        }
-
-        function tokensToDeg(t) {
-            return MIN_DEG + (Math.min(t, MAX_TOKENS) / MAX_TOKENS) * (MAX_DEG - MIN_DEG);
-        }
-
-        // Inject tick marks
-        const tickGroup = document.getElementById('vu-ticks');
-        if (tickGroup) {
-            const ticks = [
-                { t: 0,       label: '0',    major: true  },
-                { t: 50000,   label: '50k',  major: false },
-                { t: 100000,  label: '100k', major: true  },
-                { t: 128000,  label: '',     major: false },  // context threshold
-                { t: 150000,  label: '150k', major: false },
-                { t: 200000,  label: '200k', major: true  },
-            ];
-            ticks.forEach(({ t, label, major }) => {
-                const deg = tokensToDeg(t);
-                const [ix, iy] = polar(deg, 85);
-                const [ox, oy] = polar(deg, major ? 98 : 94);
-                const line = document.createElementNS(svgNS, 'line');
-                line.setAttribute('x1', ix.toFixed(1)); line.setAttribute('y1', iy.toFixed(1));
-                line.setAttribute('x2', ox.toFixed(1)); line.setAttribute('y2', oy.toFixed(1));
-                line.setAttribute('class', major ? 'vu-tick-major' : 'vu-tick');
-                tickGroup.appendChild(line);
-                if (label) {
-                    const [lx, ly] = polar(deg, 73);
-                    const txt = document.createElementNS(svgNS, 'text');
-                    txt.setAttribute('x', lx.toFixed(1)); txt.setAttribute('y', ly.toFixed(1));
-                    txt.setAttribute('class', 'vu-tick-label');
-                    txt.setAttribute('text-anchor', 'middle');
-                    txt.setAttribute('dominant-baseline', 'middle');
-                    txt.textContent = label;
-                    tickGroup.appendChild(txt);
-                }
-            });
-        }
-
-        const needleG  = document.getElementById('vu-needle-g');
-        const vuCount  = document.getElementById('vu-count');
-        const tokenInput = document.getElementById('token-input');
-
-        function updateMeter(tokens) {
-            if (needleG) needleG.style.transform = `rotate(${tokensToDeg(tokens)}deg)`;
-            vuCount.textContent = tokens > 0 ? tokens.toLocaleString() + ' tokens' : '—';
-            TOKEN_MODELS.forEach(({ id, price }) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = tokens > 0 ? formatTokenCost(tokens, price) : '—';
-            });
-        }
-
-        updateMeter(0);
-        tokenInput?.addEventListener('input', () => updateMeter(estimateTokens(tokenInput.value)));
-    })();
 
     // ── AI PULSE ─────────────────────────────────────────────────────────────
     // Set AI_PULSE_USE_LIVE = true + add your rss2json API key to enable live feeds

@@ -573,8 +573,8 @@ h1 {
 .ai-pulse__item {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
     opacity: 0.65;
     color: var(--ink);
     text-decoration: none;
@@ -1435,110 +1435,5 @@ html.darkmode .theme-toggle__label {
     opacity: 0.8;
 }
 
-/* ── Token Meter / VU Gauge ────────────────────────────────────────────────── */
-.token-meter {
-    margin-top: 1rem;
-}
-
-.vu-face {
-    width: 100%;
-    height: auto;
-    display: block;
-    overflow: visible;
-}
-
-.vu-arc-bg {
-    fill: none;
-    stroke: var(--line-color);
-    stroke-width: 1;
-}
-
-.vu-arc-red {
-    fill: none;
-    stroke: #ff0000;
-    stroke-width: 1.5;
-}
-
-.vu-needle-g {
-    transform-origin: 110px 118px;
-    transform: rotate(-55deg);
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.vu-needle {
-    stroke: var(--ink);
-    stroke-width: 1;
-    stroke-linecap: round;
-}
-
-.vu-pivot {
-    fill: var(--ink);
-}
-
-.vu-face-label {
-    font-family: var(--font-mono);
-    font-size: 7px;
-    fill: var(--ink);
-    opacity: 0.3;
-    letter-spacing: 0.14em;
-}
-
-.vu-tick { stroke: var(--line-color); stroke-width: 0.7; }
-.vu-tick-major { stroke: var(--ink); stroke-width: 0.9; opacity: 0.5; }
-.vu-tick-label {
-    font-family: var(--font-mono);
-    font-size: 6.5px;
-    fill: var(--ink);
-    opacity: 0.45;
-}
-
-.vu-readout {
-    margin-top: 0.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.04em;
-}
-
-.vu-count {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    margin-bottom: 0.28rem;
-    opacity: 0.85;
-    letter-spacing: 0.02em;
-}
-
-.vu-costs {
-    display: flex;
-    flex-direction: column;
-    gap: 0.16rem;
-    opacity: 0.5;
-}
-
-.vu-costs > div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.token-input {
-    width: 100%;
-    box-sizing: border-box;
-    background: none;
-    border: var(--border-width) solid var(--line-color);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.04em;
-    padding: 0.4rem 0.45rem;
-    resize: none;
-    outline: none;
-    line-height: 1.5;
-    transition: border-color 0.2s ease;
-    display: block;
-    margin-top: 0.5rem;
-}
-
-.token-input::placeholder { opacity: 0.35; }
-.token-input:focus { border-color: var(--ink); }
 
 
