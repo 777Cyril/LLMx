@@ -1064,6 +1064,7 @@ footer {
 
     .work-grid { grid-template-columns: 1fr; }
     .case-study { border-right: none; border-bottom: var(--border-width) solid var(--line-color); min-height: 50vh; }
+    .cs-image { filter: none; }
     .split-section { grid-template-columns: 1fr; }
     .text-block { border-right: none; border-bottom: var(--border-width) solid var(--line-color); padding: 2rem; }
     .goods-grid { grid-template-columns: 1fr; gap: 2rem; }
