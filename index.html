@@ -307,26 +307,39 @@
 
         <!-- FOOTER -->
         <footer>
-            <div class="footer-left">
-                <div class="footer-trusted">
-                    <span class="footer-trusted__label">Trusted by</span>
-                    <span class="footer-trusted__names">Studio 11 — Goods &amp; Objects — Moments Collective</span>
+            <div class="trusted-by" aria-label="Trusted by">
+                <span class="trusted-by__label">Trusted by</span>
+                <div class="trusted-by__marquee">
+                    <div class="trusted-by__track">
+                        <div class="trusted-by__group">
+                            <span class="trusted-by__item">Studio 11</span>
+                            <span class="trusted-by__item">Goods &amp; Objects</span>
+                            <span class="trusted-by__item">Moments Collective</span>
+                        </div>
+                        <div class="trusted-by__group" aria-hidden="true">
+                            <span class="trusted-by__item">Studio 11</span>
+                            <span class="trusted-by__item">Goods &amp; Objects</span>
+                            <span class="trusted-by__item">Moments Collective</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="footer-bottom">
                 <div class="u-mono" style="font-size: 0.8rem;">
                     © 2025 LLMx<br>
                     Brooklyn, NY<br>
                     All Rights Reserved.
                 </div>
+                <a href="/onyx/" class="footer-flip">
+                    <span class="footer-flip__front">
+                        <span class="footer-flip__label">Try now</span>
+                        <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                            <path d="M10 50H142M98 10L142 50L98 90"></path>
+                        </svg>
+                    </span>
+                    <span class="footer-flip__back">Onyx</span>
+                </a>
             </div>
-            <a href="/onyx/" class="footer-flip">
-                <span class="footer-flip__front">
-                    <span class="footer-flip__label">Try now</span>
-                    <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
-                        <path d="M10 50H142M98 10L142 50L98 90"></path>
-                    </svg>
-                </span>
-                <span class="footer-flip__back">Onyx</span>
-            </a>
         </footer>
 
     </main>

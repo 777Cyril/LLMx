@@ -777,13 +777,19 @@ h1 {
 }
 
 footer {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    overflow-x: visible;
+    overflow-y: hidden;
+}
+
+.footer-bottom {
     padding: 2rem 0 2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    min-height: 300px;
-    overflow-x: visible;
-    overflow-y: hidden;
+    flex: 1;
 }
 
 /* FOOTER FLIP ANIMATION */
@@ -945,7 +951,7 @@ footer {
 /* Tablet landscape / iPad in-between range:
    keep footer CTA fully visible before mobile layout kicks in. */
 @media (min-width: 1025px) and (max-width: 1400px) {
-    footer {
+    .footer-bottom {
         padding-right: 0;
     }
     .footer-flip {
@@ -1061,17 +1067,23 @@ footer {
     .goods-grid { grid-template-columns: 1fr; gap: 2rem; }
     .goods-section { padding: 2rem; }
 
-    /* Footer — grid: CTA full-width top, copyright bottom-left, logo bottom-right */
+    /* Footer — trusted-by carousel at top, then grid: CTA full-width, copyright/logo below */
     footer {
+        display: flex;
+        flex-direction: column;
+        min-height: auto;
+        padding: 0;
+    }
+    .footer-bottom {
         display: grid;
         grid-template-areas:
             "cta cta"
             "copy logo";
         grid-template-columns: 1fr auto;
         gap: 2rem 1rem;
-        min-height: auto;
         padding: 2rem;
         align-items: end;
+        flex: 1;
     }
     .footer-flip {
         grid-area: cta;
@@ -1527,28 +1539,4 @@ html.darkmode .theme-toggle__label {
 .token-input::placeholder { opacity: 0.35; }
 .token-input:focus { border-color: var(--ink); }
 
-/* ── Footer Trusted By ─────────────────────────────────────────────────────── */
-.footer-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 1.5rem;
-    align-self: flex-end;
-}
 
-.footer-trusted__label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    opacity: 0.4;
-    margin-bottom: 0.25rem;
-}
-
-.footer-trusted__names {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    opacity: 0.6;
-    letter-spacing: 0.02em;
-}
