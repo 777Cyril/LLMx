@@ -1408,50 +1408,150 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Sidebar GPT ───────────────────────────────────────────────────────────── */
-.sidebar-gpt {
+/* ── Sidebar GPT trigger button ─────────────────────────────────────── */
+.sidebar-gpt-trigger {
     margin-top: 1rem;
     padding-top: 0.9rem;
     border-top: 1px solid var(--line-color);
     display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    min-height: 0;
-}
-
-.sidebar-gpt__header {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-
-.sidebar-gpt__title,
-.sidebar-gpt__status {
+    gap: 0.4rem;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    color: var(--ink);
     font-family: var(--font-mono);
     font-size: 0.66rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    cursor: pointer;
     opacity: 0.75;
+    transition: opacity 0.15s ease, color 0.15s ease;
+    width: 100%;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
 }
 
-.sidebar-gpt__status {
-    opacity: 0.55;
+.sidebar-gpt-trigger:hover {
+    opacity: 1;
+    color: #ff0000;
 }
 
-.sidebar-gpt__messages {
+.sidebar-gpt-trigger__dot {
+    font-size: 0.5rem;
+    color: #ff0000;
+    opacity: 1;
+}
+
+/* ── GPT Modal backdrop ─────────────────────────────────────────────── */
+.gpt-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1000;
+}
+
+.gpt-modal-backdrop[hidden] {
+    display: none;
+}
+
+/* ── GPT Modal ──────────────────────────────────────────────────────── */
+.gpt-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(560px, 92vw);
+    max-height: 80vh;
+    background: var(--paper);
     border: 1px solid var(--line-color);
-    padding: 0.5rem;
+    border-radius: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    max-height: 170px;
-    overflow-y: auto;
-    scrollbar-width: thin;
+    gap: 0;
+    z-index: 1001;
+    padding: 1.5rem;
+    margin: 0;
 }
 
+.gpt-modal[hidden] {
+    display: none;
+}
+
+.gpt-modal__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.gpt-modal__title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.gpt-modal__title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.gpt-modal__status {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.45;
+}
+
+.gpt-modal__close {
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-size: 0.9rem;
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 0;
+    line-height: 1;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+}
+
+.gpt-modal__close:hover {
+    opacity: 1;
+}
+
+.gpt-modal__divider {
+    border: none;
+    border-top: 1px solid var(--line-color);
+    margin: 0 0 1rem 0;
+}
+
+.gpt-modal__messages {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 60px;
+    max-height: 340px;
+    margin-bottom: 0.85rem;
+}
+
+/* Message bubbles — shared classes */
 .sidebar-gpt__message {
     border: 1px solid var(--line-color);
-    padding: 0.4rem 0.45rem;
+    padding: 0.5rem 0.6rem;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
@@ -1467,8 +1567,8 @@ html.darkmode .sidebar-gpt__message--assistant {
 
 .sidebar-gpt__message-text {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
-    line-height: 1.45;
+    font-size: 0.72rem;
+    line-height: 1.5;
     white-space: pre-wrap;
     margin: 0;
 }
@@ -1477,6 +1577,7 @@ html.darkmode .sidebar-gpt__message--assistant {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
+    margin-top: 0.2rem;
 }
 
 .sidebar-gpt__source {
@@ -1497,84 +1598,104 @@ html.darkmode .sidebar-gpt__source {
     color: #ff0000;
 }
 
-.sidebar-gpt__thinking {
+.gpt-modal__thinking {
     font-family: var(--font-mono);
     font-size: 0.64rem;
-    opacity: 0.6;
+    opacity: 0.55;
+    margin-bottom: 0.5rem;
 }
 
-.sidebar-gpt__chips {
+.gpt-modal__chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
+    margin-bottom: 0.75rem;
 }
 
-.sidebar-gpt__chip {
+.gpt-modal__chip {
     background: none;
     border: 1px solid var(--line-color);
     color: var(--ink);
     font-family: var(--font-mono);
     font-size: 0.62rem;
     line-height: 1.1;
-    padding: 0.24rem 0.35rem;
+    padding: 0.28rem 0.45rem;
     cursor: pointer;
     transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-    opacity: 0.78;
+    opacity: 0.75;
 }
 
-.sidebar-gpt__chip:hover {
+.gpt-modal__chip:hover {
     color: #ff0000;
     border-color: #ff0000;
     opacity: 1;
 }
 
-.sidebar-gpt__form {
+.gpt-modal__form {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 0.35rem;
+    gap: 0.4rem;
     align-items: stretch;
+    border-top: 1px solid var(--line-color);
+    padding-top: 0.85rem;
+    margin-bottom: 0.75rem;
 }
 
-.sidebar-gpt__input {
+.gpt-modal__input {
     resize: none;
     border: 1px solid var(--line-color);
     background: transparent;
     color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 0.68rem;
-    line-height: 1.35;
-    padding: 0.36rem 0.45rem;
-    min-height: 34px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    padding: 0.45rem 0.55rem;
+    min-height: 38px;
 }
 
-.sidebar-gpt__input::placeholder {
-    opacity: 0.6;
+.gpt-modal__input::placeholder {
+    opacity: 0.5;
 }
 
-.sidebar-gpt__input:focus,
-.sidebar-gpt__send:focus,
-.sidebar-gpt__chip:focus {
+.gpt-modal__input:focus {
     outline: 1px solid #ff0000;
     outline-offset: 1px;
 }
 
-.sidebar-gpt__send {
+.gpt-modal__send {
     border: 1px solid var(--line-color);
     background: none;
     color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 0.63rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.7rem;
     cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.sidebar-gpt__send:hover {
+.gpt-modal__send:hover {
     color: #ff0000;
     border-color: #ff0000;
 }
 
+.gpt-modal__send:focus,
+.gpt-modal__chip:focus,
+.gpt-modal__close:focus {
+    outline: 1px solid #ff0000;
+    outline-offset: 1px;
+}
+
+.gpt-modal__footer {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.35;
+    border-top: 1px solid var(--line-color);
+    padding-top: 0.6rem;
+}
+
+/* Shared sr-only utility used by the form label */
 .sidebar-gpt__sr-only {
     position: absolute;
     width: 1px;
@@ -1588,9 +1709,10 @@ html.darkmode .sidebar-gpt__source {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .sidebar-gpt__chip,
-    .sidebar-gpt__send,
-    .sidebar-gpt__source {
+    .gpt-modal__chip,
+    .gpt-modal__send,
+    .sidebar-gpt__source,
+    .sidebar-gpt-trigger {
         transition: none;
     }
 }

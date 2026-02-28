@@ -2,7 +2,7 @@
 
 const core = require('./sidebar-chat-core');
 
-const DEFAULT_MODEL = 'gpt-4.1-mini';
+const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const MAX_HISTORY_MESSAGES = 10;
 
 function json(res, statusCode, payload) {
@@ -49,56 +49,24 @@ function sanitizeMessages(rawMessages) {
   return cleaned;
 }
 
-function extractOutputText(data) {
-  if (data && typeof data.output_text === 'string' && data.output_text.trim()) {
-    return data.output_text.trim();
-  }
 
-  const output = Array.isArray(data?.output) ? data.output : [];
-  const parts = [];
-
-  for (const item of output) {
-    const content = Array.isArray(item?.content) ? item.content : [];
-    for (const block of content) {
-      if (block?.type === 'output_text' && typeof block?.text === 'string') {
-        parts.push(block.text);
-      }
-      if (block?.type === 'text' && typeof block?.text === 'string') {
-        parts.push(block.text);
-      }
-    }
-  }
-
-  return parts.join('\n').trim();
-}
-
-async function callOpenAI({ model, apiKey, systemPrompt, contextBlock, messages }) {
-  const input = [
-    {
-      role: 'system',
-      content: [{ type: 'input_text', text: systemPrompt }]
-    },
-    {
-      role: 'system',
-      content: [{ type: 'input_text', text: `CONTEXT\n${contextBlock}` }]
-    },
-    ...messages.map((message) => ({
-      role: message.role,
-      content: [{ type: 'input_text', text: message.content }]
-    }))
-  ];
-
-  const response = await fetch('https://api.openai.com/v1/responses', {
+async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages }) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      authorization: `Bearer ${apiKey}`
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
       model,
-      input,
+      max_tokens: 280,
       temperature: 0.25,
-      max_output_tokens: 280
+      system: `${systemPrompt}\n\nCONTEXT\n${contextBlock}`,
+      messages: messages.map((message) => ({
+        role: message.role,
+        content: message.content
+      }))
     })
   });
 
@@ -109,13 +77,13 @@ async function callOpenAI({ model, apiKey, systemPrompt, contextBlock, messages 
     } catch (_error) {
       bodyText = '';
     }
-    throw new Error(`OpenAI request failed (${response.status}): ${bodyText.slice(0, 300)}`);
+    throw new Error(`Anthropic request failed (${response.status}): ${bodyText.slice(0, 300)}`);
   }
 
   const data = await response.json();
-  const text = extractOutputText(data);
+  const text = data?.content?.[0]?.text?.trim();
   if (!text) {
-    throw new Error('OpenAI response did not contain output text');
+    throw new Error('Anthropic response did not contain output text');
   }
 
   return text;
@@ -130,7 +98,7 @@ function buildSystemPrompt() {
     '- If the context is insufficient, state uncertainty plainly.',
     '- Do not invent services, case studies, offers, metrics, or timelines.',
     '- Do not proactively pitch or sell; answer-only unless explicitly asked for next steps.',
-    '- Keep responses compact for a sidebar chat experience (usually <= 120 words).'
+    '- Keep responses concise (usually <= 150 words).'
   ].join('\n');
 }
 
@@ -168,17 +136,17 @@ async function handler(req, res) {
     });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
-  const model = process.env.OPENAI_MODEL || DEFAULT_MODEL;
+  const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const contextBlock = core.buildContextBlock(ranked, 4);
 
   let reply;
   try {
-    reply = await callOpenAI({
+    reply = await callClaude({
       model,
       apiKey,
       systemPrompt: buildSystemPrompt(),
@@ -198,8 +166,7 @@ async function handler(req, res) {
 handler._internal = {
   parseBody,
   sanitizeMessages,
-  extractOutputText,
-  callOpenAI,
+  callClaude,
   buildSystemPrompt
 };
 

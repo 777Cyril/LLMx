@@ -58,30 +58,9 @@
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
                 </div>
             </div>
-            <section class="sidebar-gpt" id="sidebar-gpt" aria-label="LLMx GPT">
-                <div class="sidebar-gpt__header">
-                    <span class="sidebar-gpt__title">LLMx GPT</span>
-                    <span class="sidebar-gpt__status" id="sidebar-gpt-status">Ready</span>
-                </div>
-                <div class="sidebar-gpt__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
-                <div class="sidebar-gpt__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
-                <div class="sidebar-gpt__chips" id="sidebar-gpt-chips">
-                    <button type="button" class="sidebar-gpt__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
-                    <button type="button" class="sidebar-gpt__chip" data-seed-question="Can you help with X?">Can you help with X?</button>
-                </div>
-                <form class="sidebar-gpt__form" id="sidebar-gpt-form">
-                    <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx GPT</label>
-                    <textarea
-                        class="sidebar-gpt__input"
-                        id="sidebar-gpt-input"
-                        name="sidebar-gpt-input"
-                        rows="1"
-                        maxlength="500"
-                        placeholder="Ask about services, case studies, or workflow..."
-                    ></textarea>
-                    <button class="sidebar-gpt__send" type="submit">Send</button>
-                </form>
-            </section>
+            <button class="sidebar-gpt-trigger" id="sidebar-gpt-trigger" aria-haspopup="dialog">
+                LLMx GPT <span class="sidebar-gpt-trigger__dot">●</span>
+            </button>
         </div>
         <!-- Desktop sidebar collapse tab — on the right border, near System card -->
         <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
@@ -603,6 +582,27 @@
         pending: false
     };
 
+    function openGptModal() {
+        const modal = document.getElementById('gpt-modal');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
+        if (!modal || !backdrop) return;
+        modal.removeAttribute('hidden');
+        backdrop.removeAttribute('hidden');
+        backdrop.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('sidebar-gpt-input')?.focus(), 50);
+    }
+
+    function closeGptModal() {
+        const modal = document.getElementById('gpt-modal');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
+        if (!modal || !backdrop) return;
+        modal.setAttribute('hidden', '');
+        backdrop.setAttribute('hidden', '');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
     function sidebarGptSetStatus(label) {
         const el = document.getElementById('sidebar-gpt-status');
         if (el) el.textContent = label;
@@ -649,7 +649,7 @@
     function sidebarGptSetThinking(isThinking) {
         const thinking = document.getElementById('sidebar-gpt-thinking');
         const input = document.getElementById('sidebar-gpt-input');
-        const send = document.querySelector('.sidebar-gpt__send');
+        const send = document.querySelector('.gpt-modal__send');
 
         if (thinking) thinking.hidden = !isThinking;
         if (input) input.disabled = isThinking;
@@ -725,11 +725,23 @@
         const form = document.getElementById('sidebar-gpt-form');
         const input = document.getElementById('sidebar-gpt-input');
         const chips = document.querySelectorAll('[data-seed-question]');
+        const trigger = document.getElementById('sidebar-gpt-trigger');
+        const closeBtn = document.getElementById('gpt-modal-close');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
         if (!form || !input) return;
 
+        // Initial greeting message
         sidebarGptPushMessage({
             role: 'assistant',
             content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.'
+        });
+
+        // Modal open/close
+        if (trigger) trigger.addEventListener('click', openGptModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeGptModal);
+        if (backdrop) backdrop.addEventListener('click', closeGptModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeGptModal();
         });
 
         form.addEventListener('submit', async (event) => {
@@ -1159,6 +1171,39 @@
         -webkit-text-size-adjust: 100%;
     }
 </style>
+
+<!-- LLMx GPT Modal -->
+<div class="gpt-modal-backdrop" id="gpt-modal-backdrop" hidden aria-hidden="true"></div>
+<dialog class="gpt-modal" id="gpt-modal" aria-label="LLMx GPT" hidden>
+    <div class="gpt-modal__header">
+        <div class="gpt-modal__title-group">
+            <span class="gpt-modal__title">LLMx GPT</span>
+            <span class="gpt-modal__status" id="sidebar-gpt-status">Ready</span>
+        </div>
+        <button class="gpt-modal__close" id="gpt-modal-close" aria-label="Close">✕</button>
+    </div>
+    <hr class="gpt-modal__divider">
+    <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
+    <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
+    <div class="gpt-modal__chips" id="sidebar-gpt-chips">
+        <button type="button" class="gpt-modal__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+        <button type="button" class="gpt-modal__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
+        <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
+    </div>
+    <form class="gpt-modal__form" id="sidebar-gpt-form">
+        <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx GPT</label>
+        <textarea
+            class="gpt-modal__input"
+            id="sidebar-gpt-input"
+            name="sidebar-gpt-input"
+            rows="1"
+            maxlength="500"
+            placeholder="Ask about services, case studies, or workflow..."
+        ></textarea>
+        <button class="gpt-modal__send" type="submit">→</button>
+    </form>
+    <div class="gpt-modal__footer">By <strong>LLMx</strong></div>
+</dialog>
 
 <!-- 3D LLM Visualization -->
 <script>
