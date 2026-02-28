@@ -182,6 +182,9 @@ function buildDocuments() {
   const homepageText = extractMainHtmlText(safeReadFile('home.html'));
   const onyxText = extractMainHtmlText(safeReadFile('onyx.html'));
   const arcadeText = extractMainHtmlText(safeReadFile('arcade.html'));
+  const promptsText = extractMainHtmlText(safeReadFile('prompts.html'));
+  const knowledgeText = extractMainHtmlText(safeReadFile('knowledge.html'));
+  const workText = extractMainHtmlText(safeReadFile('work.html'));
 
   const blogRaw = JSON.parse(safeReadFile('posts.json'));
   const publishedPosts = blogRaw.filter((post) => post && post.status === 'published');
@@ -207,6 +210,27 @@ function buildDocuments() {
       url: '/arcade/',
       title: 'LLMx Arcade',
       text: arcadeText
+    },
+    {
+      key: 'prompts',
+      label: 'Prompts',
+      url: '/prompts/',
+      title: 'LLMx Prompts',
+      text: promptsText
+    },
+    {
+      key: 'knowledge',
+      label: 'Knowledge',
+      url: '/knowledge/',
+      title: 'LLMx Knowledge',
+      text: knowledgeText
+    },
+    {
+      key: 'work',
+      label: 'Work',
+      url: '/work/',
+      title: 'LLMx Work',
+      text: workText
     }
   ];
 
