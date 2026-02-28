@@ -651,7 +651,7 @@ h1 {
 }
 
 .cs-apple .cs-image {
-    background-image: url('/assets/palletecolors.jpg');
+    background-image: url('/assets/cs02-bg.jpg');
     background-position: center center;
     box-shadow: inset 0 0 0 2000px rgba(20, 30, 40, 0.55);
 }
