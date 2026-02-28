@@ -1015,12 +1015,12 @@ footer {
         gap: 0.4rem;
     }
     .ai-pulse__track {
-        animation-duration: 160s;
+        animation-duration: 300s;
     }
     .ai-pulse__item {
-        font-size: 0.72rem;
-        line-height: 1;
-        font-weight: 400;
+        font-size: 0.72rem !important;
+        line-height: 1 !important;
+        font-weight: 400 !important;
         letter-spacing: 0.01em;
     }
     .trusted-by__label {
