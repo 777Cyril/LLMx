@@ -16,20 +16,20 @@ function test(name, fn) {
 }
 
 async function invoke({ method = 'POST', body, env = {}, fetchImpl } = {}) {
-  const previousKey = process.env.OPENAI_API_KEY;
-  const previousModel = process.env.OPENAI_MODEL;
+  const previousKey = process.env.ANTHROPIC_API_KEY;
+  const previousModel = process.env.ANTHROPIC_MODEL;
   const previousFetch = global.fetch;
 
-  if (Object.prototype.hasOwnProperty.call(env, 'OPENAI_API_KEY')) {
-    process.env.OPENAI_API_KEY = env.OPENAI_API_KEY;
+  if (Object.prototype.hasOwnProperty.call(env, 'ANTHROPIC_API_KEY')) {
+    process.env.ANTHROPIC_API_KEY = env.ANTHROPIC_API_KEY;
   } else {
-    delete process.env.OPENAI_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
   }
 
-  if (Object.prototype.hasOwnProperty.call(env, 'OPENAI_MODEL')) {
-    process.env.OPENAI_MODEL = env.OPENAI_MODEL;
+  if (Object.prototype.hasOwnProperty.call(env, 'ANTHROPIC_MODEL')) {
+    process.env.ANTHROPIC_MODEL = env.ANTHROPIC_MODEL;
   } else {
-    delete process.env.OPENAI_MODEL;
+    delete process.env.ANTHROPIC_MODEL;
   }
 
   if (fetchImpl) {
@@ -61,11 +61,11 @@ async function invoke({ method = 'POST', body, env = {}, fetchImpl } = {}) {
   try {
     await handler(req, res);
   } finally {
-    if (previousKey === undefined) delete process.env.OPENAI_API_KEY;
-    else process.env.OPENAI_API_KEY = previousKey;
+    if (previousKey === undefined) delete process.env.ANTHROPIC_API_KEY;
+    else process.env.ANTHROPIC_API_KEY = previousKey;
 
-    if (previousModel === undefined) delete process.env.OPENAI_MODEL;
-    else process.env.OPENAI_MODEL = previousModel;
+    if (previousModel === undefined) delete process.env.ANTHROPIC_MODEL;
+    else process.env.ANTHROPIC_MODEL = previousModel;
 
     global.fetch = previousFetch;
   }
@@ -85,23 +85,23 @@ test('returns 400 for invalid payload', async () => {
   assert.equal(res.payload.error, 'invalid_request');
 });
 
-test('returns 503 when OPENAI_API_KEY is missing', async () => {
+test('returns 503 when ANTHROPIC_API_KEY is missing', async () => {
   const res = await invoke({
     body: {
       messages: [{ role: 'user', content: 'what is onyx?' }],
       context: { page: 'home' }
     },
-    env: { OPENAI_API_KEY: undefined }
+    env: { ANTHROPIC_API_KEY: undefined }
   });
 
   assert.equal(res.statusCode, 503);
   assert.equal(res.payload.error, 'temporarily_unavailable');
 });
 
-test('returns reply and sources when OpenAI call succeeds', async () => {
+test('returns reply and sources when Anthropic call succeeds', async () => {
   const mockFetch = async () => ({
     ok: true,
-    json: async () => ({ output_text: 'LLMx helps operators ship practical AI systems quickly.' })
+    json: async () => ({ content: [{ type: 'text', text: 'LLMx helps operators ship practical AI systems quickly.' }] })
   });
 
   const res = await invoke({
@@ -109,7 +109,7 @@ test('returns reply and sources when OpenAI call succeeds', async () => {
       messages: [{ role: 'user', content: 'what is onyx?' }],
       context: { page: 'home' }
     },
-    env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-4.1-mini' },
+    env: { ANTHROPIC_API_KEY: 'test-key', ANTHROPIC_MODEL: 'claude-haiku-4-5-20251001' },
     fetchImpl: mockFetch
   });
 

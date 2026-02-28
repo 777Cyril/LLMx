@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('node:fs');
+const path = require('node:path');
 const core = require('./sidebar-chat-core');
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
@@ -60,7 +62,7 @@ async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages 
     },
     body: JSON.stringify({
       model,
-      max_tokens: 280,
+      max_tokens: 500,
       temperature: 0.25,
       system: `${systemPrompt}\n\nCONTEXT\n${contextBlock}`,
       messages: messages.map((message) => ({
@@ -90,16 +92,7 @@ async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages 
 }
 
 function buildSystemPrompt() {
-  return [
-    'You are LLMx GPT, a website assistant for llmxai.co.',
-    'Voice rules: operator-first, pragmatic, direct, concise, and non-fluffy.',
-    'Behavior rules:',
-    '- Answer using only the provided CONTEXT.',
-    '- If the context is insufficient, state uncertainty plainly.',
-    '- Do not invent services, case studies, offers, metrics, or timelines.',
-    '- Do not proactively pitch or sell; answer-only unless explicitly asked for next steps.',
-    '- Keep responses concise (usually <= 150 words).'
-  ].join('\n');
+  return fs.readFileSync(path.join(__dirname, 'system-prompt.txt'), 'utf8').trim();
 }
 
 async function handler(req, res) {

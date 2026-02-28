@@ -47,13 +47,16 @@ function stripHtmlToText(html) {
     .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<noscript\b[^>]*>[\s\S]*?<\/noscript>/gi, ' ');
 
-  const withBlockBreaks = withoutScripts
+  const withHeadings = withoutScripts
+    .replace(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/gi, '\n\n## $1\n\n')
+    .replace(/<\/h[5-6]>/gi, '\n\n');
+
+  const withBlockBreaks = withHeadings
     .replace(/<\/p>/gi, '\n\n')
     .replace(/<\/div>/gi, '\n')
     .replace(/<\/section>/gi, '\n\n')
     .replace(/<\/article>/gi, '\n\n')
     .replace(/<br\s*\/?\s*>/gi, '\n')
-    .replace(/<\/h[1-6]>/gi, '\n\n')
     .replace(/<li\b[^>]*>/gi, '\n- ')
     .replace(/<\/li>/gi, '');
 
@@ -146,7 +149,10 @@ function chunkText(text, options = {}) {
     }
 
     chunks.push(current);
-    current = paragraph;
+    // Prepend the last sentence of the finalized chunk as overlap context
+    const prevSentences = current.split(/(?<=[.!?])\s+/);
+    const tail = prevSentences[prevSentences.length - 1] || '';
+    current = tail.length > 50 ? `${tail}\n\n${paragraph}` : paragraph;
   }
 
   if (current) chunks.push(current);
@@ -175,6 +181,7 @@ function tokenFrequency(tokens) {
 function buildDocuments() {
   const homepageText = extractMainHtmlText(safeReadFile('home.html'));
   const onyxText = extractMainHtmlText(safeReadFile('onyx.html'));
+  const arcadeText = extractMainHtmlText(safeReadFile('arcade.html'));
 
   const blogRaw = JSON.parse(safeReadFile('posts.json'));
   const publishedPosts = blogRaw.filter((post) => post && post.status === 'published');
@@ -193,6 +200,13 @@ function buildDocuments() {
       url: '/work/onyx/',
       title: 'Onyx Case Study',
       text: onyxText
+    },
+    {
+      key: 'arcade',
+      label: 'Arcade',
+      url: '/arcade/',
+      title: 'LLMx Arcade',
+      text: arcadeText
     }
   ];
 
