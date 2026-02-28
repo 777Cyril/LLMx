@@ -932,7 +932,8 @@ footer {
 .sidebar .meta-label,
 .sidebar .meta-value,
 .sidebar .nav-item,
-.sidebar .theme-toggle {
+.sidebar .theme-toggle,
+.sidebar .music-player {
     opacity: 0;
     animation: logo-load-in 2.5s 0.5s ease-in forwards;
 }
