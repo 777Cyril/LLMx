@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT_DIR = path.resolve(__dirname, '..');
+const CORPUS_DIR = path.join(__dirname, 'corpus');
 const STOPWORDS = new Set([
   'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how', 'i', 'in', 'is', 'it',
   'of', 'on', 'or', 'that', 'the', 'to', 'what', 'when', 'where', 'which', 'who', 'why', 'with',
@@ -14,7 +14,7 @@ const STOPWORDS = new Set([
 let cachedCorpus = null;
 
 function safeReadFile(relativePath) {
-  const absolutePath = path.join(ROOT_DIR, relativePath);
+  const absolutePath = path.join(CORPUS_DIR, relativePath);
   return fs.readFileSync(absolutePath, 'utf8');
 }
 
@@ -173,10 +173,10 @@ function tokenFrequency(tokens) {
 }
 
 function buildDocuments() {
-  const homepageText = extractMainHtmlText(safeReadFile('index.html'));
-  const onyxText = extractMainHtmlText(safeReadFile('work/onyx/index.html'));
+  const homepageText = extractMainHtmlText(safeReadFile('home.html'));
+  const onyxText = extractMainHtmlText(safeReadFile('onyx.html'));
 
-  const blogRaw = JSON.parse(safeReadFile('blog/posts.json'));
+  const blogRaw = JSON.parse(safeReadFile('posts.json'));
   const publishedPosts = blogRaw.filter((post) => post && post.status === 'published');
 
   const docs = [
