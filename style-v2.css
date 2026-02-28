@@ -1468,7 +1468,7 @@ html.darkmode .theme-toggle__label {
     transform: translate(-50%, -50%);
     width: min(560px, 92vw);
     max-height: 80vh;
-    background: var(--paper);
+    background: var(--paper-bg);
     border: 1px solid var(--line-color);
     border-radius: 0;
     display: flex;
