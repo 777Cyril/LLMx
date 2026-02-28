@@ -520,6 +520,7 @@
     ];
 
     function buildPulseTicker(headlines) {
+        const isMobile = window.matchMedia('(max-width: 1024px)').matches;
         const fill = (el) => {
             if (!el) return;
             el.innerHTML = '';
@@ -527,7 +528,12 @@
                 const a = document.createElement('a');
                 a.href = url === '#' ? '#' : url;
                 a.className = 'ai-pulse__item';
-                a.textContent = title;
+                a.textContent = title.replace(/\s+/g, ' ').trim();
+                // Force uniform typography inline — overrides anything from feed HTML or CSS cascade
+                a.style.setProperty('font-size', isMobile ? '0.72rem' : '0.82rem', 'important');
+                a.style.setProperty('font-weight', '400', 'important');
+                a.style.setProperty('line-height', '1', 'important');
+                a.style.setProperty('font-family', 'var(--font-mono)', 'important');
                 if (url !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
                 el.appendChild(a);
             });
