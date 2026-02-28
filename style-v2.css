@@ -738,6 +738,121 @@ h1 {
 
 .list-group li:last-child { border-bottom: none; }
 
+/* Value proposition section */
+.value-prop .text-block p {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    margin-bottom: 0;
+}
+
+.value-prop__title {
+    font-size: clamp(2rem, 3vw, 2.9rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin: 0 0 1rem;
+}
+
+.value-prop__lede {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.72rem !important;
+    opacity: 0.72;
+    margin-bottom: 1.35rem !important;
+}
+
+.value-prop__meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.62;
+    margin-bottom: 1.2rem !important;
+}
+
+.value-prop__rail {
+    border-left: 1px solid rgba(0, 0, 0, 0.22);
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.4rem;
+}
+
+.value-prop__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.value-prop__list li {
+    padding: 0.76rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 0.94rem;
+    line-height: 1.45;
+}
+
+.value-prop__list--compact li {
+    padding: 0.55rem 0;
+}
+
+.value-prop__cta {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.3rem;
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding-bottom: 2px;
+    opacity: 0.74;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.value-prop__cta:hover {
+    opacity: 1;
+    color: #ff0000;
+}
+
+.value-prop__heading {
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    max-width: 20ch;
+    margin: 0 0 1rem;
+}
+
+.value-prop__fit-line {
+    font-size: 0.95rem !important;
+    opacity: 0.86;
+    margin-bottom: 1rem !important;
+}
+
+.value-prop__group {
+    margin-top: 1.05rem;
+}
+
+.value-prop__eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.68rem !important;
+    opacity: 0.65;
+    margin-bottom: 0.5rem !important;
+}
+
+.value-prop__boundary {
+    margin-top: 1.25rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.16);
+    font-family: var(--font-mono);
+    font-size: 0.76rem !important;
+    line-height: 1.5 !important;
+    opacity: 0.8;
+}
+
 .goods-section {
     background-color: var(--ink);
     color: var(--paper-bg);
@@ -1045,6 +1160,11 @@ footer {
     .cs-image { filter: none; }
     .split-section { grid-template-columns: 1fr; }
     .text-block { border-right: none; border-bottom: var(--border-width) solid var(--line-color); padding: 2rem; }
+    .value-prop__title { font-size: clamp(1.7rem, 9.2vw, 2.35rem); }
+    .value-prop__heading { font-size: clamp(1.35rem, 6.4vw, 1.8rem); }
+    .value-prop__rail { margin-bottom: 1.1rem; }
+    .value-prop__list li { font-size: 0.9rem; }
+    .value-prop__cta { margin-top: 1rem; }
     .goods-grid { grid-template-columns: 1fr; gap: 2rem; }
     .goods-section { padding: 2rem; }
 
@@ -1277,6 +1397,16 @@ html.darkmode .text-block--capabilities {
     background-color: #1c1c1c;
 }
 
+html.darkmode .value-prop__rail {
+    border-left-color: rgba(255, 255, 255, 0.22);
+}
+
+html.darkmode .value-prop__list,
+html.darkmode .value-prop__list li,
+html.darkmode .value-prop__boundary {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
 /* List-group dividers (hardcoded rgba(0,0,0,0.1)) */
 html.darkmode .list-group li {
     border-bottom-color: rgba(255, 255, 255, 0.1);
@@ -1406,6 +1536,4 @@ html.darkmode .theme-toggle__label {
     font-size: 0.85rem;
     opacity: 0.8;
 }
-
-
 
