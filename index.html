@@ -712,7 +712,7 @@
             sidebarGptPushMessage({
                 role: 'assistant',
                 content: reply,
-                sources: Array.isArray(data.sources) ? data.sources.slice(0, 4) : []
+                sources: Array.isArray(data.sources) ? data.sources.slice(0, 5) : []
             });
             trackEvent('sidebar_gpt_reply_received', {
                 source_count: Array.isArray(data.sources) ? data.sources.length : 0,

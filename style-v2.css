@@ -1665,8 +1665,9 @@ html.darkmode .theme-toggle__label {
     border-bottom-color: #ff0000;
 }
 
-/* Calendly CTA — visually distinct from regular source links */
-.sidebar-gpt__source[href*="calendly"] {
+/* CTA links (Calendly + mailto) — visually distinct from regular source links */
+.sidebar-gpt__source[href*="calendly"],
+.sidebar-gpt__source[href^="mailto"] {
     opacity: 1;
     color: var(--ink);
     border-bottom-color: rgba(255, 255, 255, 0.5);
@@ -1674,7 +1675,8 @@ html.darkmode .theme-toggle__label {
     letter-spacing: 0.03em;
 }
 
-.sidebar-gpt__source[href*="calendly"]:hover {
+.sidebar-gpt__source[href*="calendly"]:hover,
+.sidebar-gpt__source[href^="mailto"]:hover {
     color: #ff0000;
     border-bottom-color: #ff0000;
 }

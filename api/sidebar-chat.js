@@ -237,6 +237,7 @@ async function handler(req, res) {
   const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly/i;
   if (BOOKING_INTENT.test(reply)) {
     sources.push({ id: 'calendly', label: 'Book a call →', url: 'https://calendly.com/llmxai' });
+    sources.push({ id: 'email', label: 'Email us', url: 'mailto:cyril@llmxai.co' });
   }
 
   return json(res, 200, { reply, sources });
