@@ -82,12 +82,12 @@
   {
     "id": "faq-pricing",
     "q": "How much does the Sprint cost?",
-    "a": "Pricing isn't listed publicly. The fastest way to get the answer is to book a call at calendly.com/llmxai, or paste your goal and current stack here and I'll tell you if the Sprint is the right move first."
+    "a": "Pricing isn't listed publicly. The fastest way to get the answer is to book a call using the link below, or paste your goal and current stack here and I'll tell you if the Sprint is the right move first."
   },
   {
     "id": "faq-how-to-book",
     "q": "How do I book a call or get started?",
-    "a": "Book directly at calendly.com/llmxai. Or paste your goal and current stack here — what you want to build, what tools you're using now — and I'll tell you whether the Sprint is the right fit before you commit to a call."
+    "a": "Book a call directly at the link below — we'll talk through your goal and decide if the Sprint fits. Or paste your goal and current stack here — what you want to build, what tools you're using now — and I'll tell you whether the Sprint is the right fit before you commit to anything."
   },
   {
     "id": "faq-follow-on",
@@ -122,6 +122,6 @@
   {
     "id": "faq-fit-check",
     "q": "I'm not sure if LLMx is right for me. How do I find out?",
-    "a": "Two ways: paste your goal and current stack here — what you want to build, where you're stuck, what tools you've tried — and I'll give you a direct fit assessment. Or book a call at calendly.com/llmxai to sanity-check in person. No hard sell either way."
+    "a": "Two ways: paste your goal and current stack here — what you want to build, where you're stuck, what tools you've tried — and I'll give you a direct fit assessment. Or book a call using the link below to sanity-check in person. No hard sell either way."
   }
 ]
