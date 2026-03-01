@@ -167,6 +167,21 @@ body::before {
     }
 }
 
+@keyframes logo-flash-3 {
+    0%   { opacity: 1; }
+    14%  { opacity: 0; }
+    28%  { opacity: 1; }
+    43%  { opacity: 0; }
+    57%  { opacity: 1; }
+    71%  { opacity: 0; }
+    85%  { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+.logo-area:hover .logo-symbol {
+    animation: logo-flash-3 0.5s step-start forwards !important;
+}
+
 /* ── Sidebar collapse system (Push/Pull) ──────────────────────────────────── */
 
 /* Grid and sidebar animate together */
