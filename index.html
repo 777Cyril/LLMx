@@ -605,9 +605,8 @@
         const modal = document.getElementById('ask-llmx-modal');
         const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal || !backdrop) return;
-        // Auto-expand if there's already a real conversation
-        const hasConversation = askLlmxState.messages.some((m) => m.role === 'user');
-        if (hasConversation) expandModal();
+        // Always start collapsed — expand only on first interaction
+        modal.classList.add('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
         backdrop.removeAttribute('hidden');
         backdrop.removeAttribute('aria-hidden');
@@ -623,6 +622,8 @@
         backdrop.setAttribute('hidden', '');
         backdrop.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        // Reset to collapsed so next open always starts compact
+        modal.classList.add('ask-llmx-modal--collapsed');
     }
 
     function askLlmxSetStatus(isThinking) {
@@ -734,6 +735,9 @@
             });
 
             if (!response.ok) {
+                let errBody = '';
+                try { errBody = await response.text(); } catch (_) {}
+                console.error('[askLlmx] API error', response.status, errBody);
                 throw new Error(`Ask LLMx request failed: ${response.status}`);
             }
 
@@ -750,10 +754,11 @@
                 source_count: Array.isArray(data.sources) ? data.sources.length : 0,
                 page: 'home'
             });
-        } catch (_error) {
+        } catch (err) {
+            console.error('[askLlmx] send failed:', err);
             askLlmxPushMessage({
                 role: 'assistant',
-                content: 'Assistant temporarily unavailable. Try again in a moment.'
+                content: 'Something went wrong — try again in a moment.'
             });
             trackEvent('ask_llmx_error', { page: 'home' });
         } finally {
@@ -789,8 +794,8 @@
             if (event.key === 'Escape') closeGptModal();
         });
 
-        // Expand on first focus
-        input.addEventListener('focus', expandModal, { once: true });
+        // Expand when input is focused
+        input.addEventListener('focus', expandModal);
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -813,6 +818,7 @@
 
         chips.forEach((chip) => {
             chip.addEventListener('click', async () => {
+                expandModal();
                 const prompt = chip.getAttribute('data-seed-question') || '';
                 if (!prompt.trim()) return;
                 await askLlmxSend(prompt, 'chip');
