@@ -149,17 +149,24 @@ async function handler(req, res) {
     return json(res, 400, { error: 'invalid_request' });
   }
 
-  // Build a richer search query using the last 2 user messages.
-  // Short follow-ups like "starting from zero" score poorly in isolation —
-  // combining with the previous turn gives the retrieval much more signal.
-  const searchQuery = messages
+  // Lexical query: combine last 2 user messages for more token signal.
+  // Short follow-ups ("from scratch") have too few tokens alone — the
+  // previous turn adds context that helps the BM25-style scorer match.
+  const lexicalQuery = messages
     .filter((m) => m.role === 'user')
     .slice(-2)
     .map((m) => m.content)
     .join(' ');
 
+  // Semantic query: use the latest message only.
+  // Embeddings are sensitive to noise — "project management dashboard from scratch"
+  // pulls the vector away from FAQ chunks about starting from zero.
+  // The raw latest message ("from scratch") scores ~0.75 against faq-starting-from-zero;
+  // the combined query might score 0.28 and miss the confidence threshold entirely.
+  const semanticQuery = latestUserMessage.content;
+
   const corpus = core.buildCorpus();
-  const ranked = core.rankChunks(searchQuery, corpus.chunks, 6);
+  const ranked = core.rankChunks(lexicalQuery, corpus.chunks, 6);
 
   // ── Semantic search (runs in parallel with lexical; gracefully skipped if keys absent) ──
   const pineconeKey = process.env.PINECONE_API_KEY;
@@ -171,7 +178,7 @@ async function handler(req, res) {
     try {
       const semanticMatches = await Promise.race([
         semantic.semanticSearch(
-          searchQuery,
+          semanticQuery,
           { pineconeKey, openaiKey },
           6
         ),
@@ -190,8 +197,8 @@ async function handler(req, res) {
   // ── Confidence check ──
   // If semantic fired and returned a strong match, trust it and skip lexical fallback.
   // If lexical-only, use the existing isLowConfidence heuristic.
-  const isLowConfidence = core.isLowConfidence(searchQuery, ranked);
-  const semanticConfident = topSemanticScore >= 0.35;
+  const isLowConfidence = core.isLowConfidence(lexicalQuery, ranked);
+  const semanticConfident = topSemanticScore >= 0.28;
   if (!semanticConfident && isLowConfidence) {
     return json(res, 200, {
       reply: core.fallbackReply(),
@@ -200,7 +207,8 @@ async function handler(req, res) {
   }
 
   console.log(JSON.stringify({
-    query: latestUserMessage.content,
+    semanticQuery,
+    lexicalQuery,
     topChunks: finalRanked.slice(0, 3).map((c) => ({ id: c.id, score: c.hybridScore })),
     topSemanticScore,
     lowConfidence: isLowConfidence
