@@ -776,14 +776,6 @@
         const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!form || !input) return;
 
-        // Initial greeting — marked isGreeting so it's excluded from the API payload
-        // (Anthropic requires conversations to start with a user message)
-        askLlmxPushMessage({
-            role: 'assistant',
-            content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.',
-            isGreeting: true
-        });
-
         // Modal open/close — sidebar trigger (if present) + hero card
         if (trigger) trigger.addEventListener('click', openGptModal);
         const heroAskBtn = document.getElementById('hero-ask-llmx');
@@ -1291,11 +1283,11 @@
     <div class="ask-llmx__body">
         <div class="ask-llmx__messages" id="ask-llmx-messages" aria-live="polite"></div>
         <div class="ask-llmx__thinking" id="ask-llmx-thinking" hidden>Thinking…</div>
-        <div class="ask-llmx__chips" id="ask-llmx-chips">
-            <button type="button" class="ask-llmx__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
-            <button type="button" class="ask-llmx__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
-            <button type="button" class="ask-llmx__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
-        </div>
+    </div>
+    <div class="ask-llmx__chips" id="ask-llmx-chips">
+        <button type="button" class="ask-llmx__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+        <button type="button" class="ask-llmx__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
+        <button type="button" class="ask-llmx__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
     </div>
     <form class="ask-llmx__form" id="ask-llmx-form">
         <label for="ask-llmx-input" class="ask-llmx__sr-only">Ask LLMx</label>

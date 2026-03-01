@@ -1823,6 +1823,19 @@ html.darkmode .theme-toggle__label {
     pointer-events: none;
 }
 
+.ask-llmx-modal--collapsed .ask-llmx__header {
+    display: none;
+}
+
+.ask-llmx-modal--collapsed .ask-llmx__form {
+    border-top: none;
+    padding-top: 0;
+}
+
+.ask-llmx-modal--collapsed .ask-llmx__chips {
+    margin-bottom: 0.6rem;
+}
+
 /* ── Seed chips ──────────────────────────────────────────────────────── */
 .ask-llmx__chips {
     display: flex;
