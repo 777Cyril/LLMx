@@ -945,7 +945,7 @@
         const base = 'https://api.rss2json.com/v1/api.json?rss_url=';
         await Promise.allSettled(AI_PULSE_FEEDS.map(async feed => {
             try {
-                const url = `${base}${encodeURIComponent(feed)}&count=6`;
+                const url = `${base}${encodeURIComponent(feed)}`;
                 const d = await fetch(url).then(r => r.json());
                 if (d.status === 'ok' && d.items?.length) {
                     const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
