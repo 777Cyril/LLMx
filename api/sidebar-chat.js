@@ -227,7 +227,10 @@ async function handler(req, res) {
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
-  const sources = core.buildSourceList(finalRanked, 3);
+  // Only surface real site pages as sources — not internal FAQ corpus chunks,
+  // which expose the RAG structure and link to "/" with no useful destination.
+  const pageRanked = finalRanked.filter((c) => c.label !== 'FAQ');
+  const sources = core.buildSourceList(pageRanked, 3);
 
   // Inject Calendly CTA link when the reply contains booking intent signals.
   // The link renders as a clickable source button rather than a raw URL in text.
