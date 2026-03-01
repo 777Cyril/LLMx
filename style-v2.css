@@ -1665,6 +1665,20 @@ html.darkmode .theme-toggle__label {
     border-bottom-color: #ff0000;
 }
 
+/* Calendly CTA — visually distinct from regular source links */
+.sidebar-gpt__source[href*="calendly"] {
+    opacity: 1;
+    color: var(--ink);
+    border-bottom-color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.sidebar-gpt__source[href*="calendly"]:hover {
+    color: #ff0000;
+    border-bottom-color: #ff0000;
+}
+
 /* ── Thinking indicator ──────────────────────────────────────────────── */
 .gpt-modal__thinking {
     font-family: var(--font-mono);

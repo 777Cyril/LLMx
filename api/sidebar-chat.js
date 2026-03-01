@@ -149,8 +149,17 @@ async function handler(req, res) {
     return json(res, 400, { error: 'invalid_request' });
   }
 
+  // Build a richer search query using the last 2 user messages.
+  // Short follow-ups like "starting from zero" score poorly in isolation —
+  // combining with the previous turn gives the retrieval much more signal.
+  const searchQuery = messages
+    .filter((m) => m.role === 'user')
+    .slice(-2)
+    .map((m) => m.content)
+    .join(' ');
+
   const corpus = core.buildCorpus();
-  const ranked = core.rankChunks(latestUserMessage.content, corpus.chunks, 6);
+  const ranked = core.rankChunks(searchQuery, corpus.chunks, 6);
 
   // ── Semantic search (runs in parallel with lexical; gracefully skipped if keys absent) ──
   const pineconeKey = process.env.PINECONE_API_KEY;
@@ -162,7 +171,7 @@ async function handler(req, res) {
     try {
       const semanticMatches = await Promise.race([
         semantic.semanticSearch(
-          latestUserMessage.content,
+          searchQuery,
           { pineconeKey, openaiKey },
           6
         ),
@@ -181,7 +190,7 @@ async function handler(req, res) {
   // ── Confidence check ──
   // If semantic fired and returned a strong match, trust it and skip lexical fallback.
   // If lexical-only, use the existing isLowConfidence heuristic.
-  const isLowConfidence = core.isLowConfidence(latestUserMessage.content, ranked);
+  const isLowConfidence = core.isLowConfidence(searchQuery, ranked);
   const semanticConfident = topSemanticScore >= 0.35;
   if (!semanticConfident && isLowConfidence) {
     return json(res, 200, {
@@ -218,10 +227,16 @@ async function handler(req, res) {
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
-  return json(res, 200, {
-    reply,
-    sources: core.buildSourceList(finalRanked, 3)
-  });
+  const sources = core.buildSourceList(finalRanked, 3);
+
+  // Inject Calendly CTA link when the reply contains booking intent signals.
+  // The link renders as a clickable source button rather than a raw URL in text.
+  const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly/i;
+  if (BOOKING_INTENT.test(reply)) {
+    sources.push({ id: 'calendly', label: 'Book a call →', url: 'https://calendly.com/llmxai' });
+  }
+
+  return json(res, 200, { reply, sources });
 }
 
 handler._internal = {

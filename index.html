@@ -619,7 +619,11 @@
 
             const body = document.createElement('p');
             body.className = 'sidebar-gpt__message-text';
-            body.textContent = message.content;
+            // Strip markdown formatting Claude may emit despite instructions
+            body.textContent = (message.content || '')
+                .replace(/\*\*([^*]+)\*\*/g, '$1')
+                .replace(/\*([^*]+)\*/g, '$1')
+                .replace(/^#{1,6}\s+/gm, '');
             bubble.appendChild(body);
 
             if (Array.isArray(message.sources) && message.sources.length) {
@@ -632,6 +636,11 @@
                     link.className = 'sidebar-gpt__source';
                     link.href = source.url;
                     link.textContent = source.label || 'Source';
+                    // Open external links in a new tab
+                    if (source.url.startsWith('http')) {
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                    }
                     sourceWrap.appendChild(link);
                 });
 
@@ -703,7 +712,7 @@
             sidebarGptPushMessage({
                 role: 'assistant',
                 content: reply,
-                sources: Array.isArray(data.sources) ? data.sources.slice(0, 3) : []
+                sources: Array.isArray(data.sources) ? data.sources.slice(0, 4) : []
             });
             trackEvent('sidebar_gpt_reply_received', {
                 source_count: Array.isArray(data.sources) ? data.sources.length : 0,
