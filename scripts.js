@@ -1,4 +1,3 @@
-const now = new Date();
 let currentSide = "left";
 
 function applyTimeBasedTheme() {
@@ -35,26 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-  
-document.addEventListener("mousemove", (event) => {
-    const isLeft = event.clientX < window.innerWidth / 2;
-    const targetSide = isLeft ? 'left' : 'right';
+function setSide(target) {
+    if (currentSide === target) return;
+    document.body.classList.replace(currentSide, target);
+    currentSide = target;
+}
 
-    if (currentSide !== targetSide) {
-        document.body.classList.remove(currentSide);
-        document.body.classList.add(targetSide);
-        currentSide = targetSide;
-    }
+document.addEventListener("mousemove", (event) => {
+    setSide(event.clientX < window.innerWidth / 2 ? 'left' : 'right');
 });
 
 window.addEventListener("deviceorientation", (event) => {
-    const gamma = event.gamma;
-    const isLeft = event.gamma < 0;
-    const targetSide = isLeft ? 'left' : 'right';
-
-    if (currentSide !== targetSide) {
-        document.body.classList.remove(currentSide);
-        document.body.classList.add(targetSide);
-        currentSide = targetSide;
-    }
+    setSide(event.gamma < 0 ? 'left' : 'right');
 });

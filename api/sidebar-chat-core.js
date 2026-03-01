@@ -318,6 +318,16 @@ function buildBigrams(tokens) {
   return bigrams;
 }
 
+const SCORE = {
+  TOKEN_BASE:       1,
+  TOKEN_FREQ_BOOST: 0.35,
+  TOKEN_FREQ_CAP:   2,
+  EXACT_PHRASE:     4,
+  EXACT_MIN_LEN:    12,
+  BIGRAM_MATCH:     1.2,
+  ALL_TOKENS:       2,
+};
+
 function scoreChunk(queryTokens, queryNorm, queryBigrams, chunk) {
   let score = 0;
   let matchedTokens = 0;
@@ -326,21 +336,21 @@ function scoreChunk(queryTokens, queryNorm, queryBigrams, chunk) {
     const freq = chunk.tokenFreq[token] || 0;
     if (!freq) continue;
     matchedTokens += 1;
-    score += 1 + Math.min(2, freq) * 0.35;
+    score += SCORE.TOKEN_BASE + Math.min(SCORE.TOKEN_FREQ_CAP, freq) * SCORE.TOKEN_FREQ_BOOST;
   }
 
-  if (queryNorm.length >= 12 && chunk.normalized.includes(queryNorm)) {
-    score += 4;
+  if (queryNorm.length >= SCORE.EXACT_MIN_LEN && chunk.normalized.includes(queryNorm)) {
+    score += SCORE.EXACT_PHRASE;
   }
 
   for (const bigram of queryBigrams) {
     if (chunk.normalized.includes(bigram)) {
-      score += 1.2;
+      score += SCORE.BIGRAM_MATCH;
     }
   }
 
   if (queryTokens.length > 1 && matchedTokens === queryTokens.length) {
-    score += 2;
+    score += SCORE.ALL_TOKENS;
   }
 
   return { score, matchedTokens };
