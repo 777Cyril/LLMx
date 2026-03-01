@@ -611,10 +611,16 @@
 
     function openGptModal() {
         const modal = document.getElementById('ask-llmx-modal');
+        const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal) return;
-        // Start collapsed: no chrome, no backdrop — bare chips + input floating
+        // Collapsed: modal container is chromeless, but backdrop dims the page
         modal.classList.add('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
+        if (backdrop) {
+            backdrop.removeAttribute('hidden');
+            backdrop.removeAttribute('aria-hidden');
+        }
+        document.body.style.overflow = 'hidden';
     }
 
     function closeGptModal() {
