@@ -887,9 +887,7 @@
 
 
     // ── AI PULSE ─────────────────────────────────────────────────────────────
-    // Set AI_PULSE_USE_LIVE = true + add a valid rss2json API key to enable live feeds
-    // Currently off — rss2json key returning 401, static headlines shown instead
-    const AI_PULSE_USE_LIVE = false;
+    const AI_PULSE_USE_LIVE = true;
 
     // ── Curate your sources here — full editorial control ──────────────────
     const AI_PULSE_FEEDS = [
@@ -944,24 +942,16 @@
     async function loadAIPulse() {
         if (!AI_PULSE_USE_LIVE) { buildPulseTicker(AI_PULSE_STATIC); return; }
         const all = [];
-        const KEY = '2z7qqvorxfgwezcqvcity02henitjqofcvxzitrv';
         const base = 'https://api.rss2json.com/v1/api.json?rss_url=';
         await Promise.allSettled(AI_PULSE_FEEDS.map(async feed => {
-            const encoded = encodeURIComponent(feed);
-            const attempts = [
-                `${base}${encoded}&count=6&api_key=${KEY}`,
-                `${base}${encoded}`,
-            ];
-            for (const url of attempts) {
-                try {
-                    const d = await fetch(url).then(r => r.json());
-                    if (d.status === 'ok' && d.items?.length) {
-                        const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
-                        d.items.forEach(i => all.push({ title: decode(i.title).replace(/<[^>]*>/g, '').trim(), url: i.link }));
-                        return;
-                    }
-                } catch (e) {}
-            }
+            try {
+                const url = `${base}${encodeURIComponent(feed)}&count=6`;
+                const d = await fetch(url).then(r => r.json());
+                if (d.status === 'ok' && d.items?.length) {
+                    const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+                    d.items.forEach(i => all.push({ title: decode(i.title).replace(/<[^>]*>/g, '').trim(), url: i.link }));
+                }
+            } catch (e) {}
         }));
         buildPulseTicker(all.length ? all : AI_PULSE_STATIC);
     }
