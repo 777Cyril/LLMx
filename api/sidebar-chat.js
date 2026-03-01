@@ -218,10 +218,11 @@ async function handler(req, res) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    const visibleKeys = Object.keys(process.env)
+    const allKeyNames = Object.keys(process.env).sort().join(', ');
+    const relatedKeys = Object.keys(process.env)
       .filter(k => /ANTHROPIC|OPENAI|PINECONE|MODEL/i.test(k))
       .join(', ') || '(none matching)';
-    const detail = `ANTHROPIC_API_KEY not set. Visible related keys: [${visibleKeys}]`;
+    const detail = `ANTHROPIC_API_KEY not set. Related: [${relatedKeys}]. Total visible: ${Object.keys(process.env).length}. All names: [${allKeyNames}]`;
     console.error('[sidebar-chat]', detail);
     return json(res, 503, { error: 'temporarily_unavailable', detail });
   }
