@@ -219,7 +219,7 @@ async function handler(req, res) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     console.error('[sidebar-chat] ANTHROPIC_API_KEY env var is not set');
-    return json(res, 503, { error: 'temporarily_unavailable' });
+    return json(res, 503, { error: 'temporarily_unavailable', detail: 'ANTHROPIC_API_KEY not set in environment' });
   }
 
   const model        = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
@@ -238,7 +238,7 @@ async function handler(req, res) {
     });
   } catch (claudeError) {
     console.error('[sidebar-chat] callClaude failed:', claudeError.message);
-    return json(res, 503, { error: 'temporarily_unavailable' });
+    return json(res, 503, { error: 'temporarily_unavailable', detail: claudeError.message });
   }
 
   const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly/i;
