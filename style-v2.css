@@ -1408,6 +1408,10 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Sidebar GPT ───────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────────
+   GPT MODAL — Dark Liquid Glass
+   ───────────────────────────────────────────────────────────────────────── */
+
 /* ── Sidebar GPT trigger button ─────────────────────────────────────── */
 .sidebar-gpt-trigger {
     margin-top: 1rem;
@@ -1446,13 +1450,13 @@ html.darkmode .theme-toggle__label {
     opacity: 1;
 }
 
-/* ── GPT Modal backdrop ─────────────────────────────────────────────── */
+/* ── Backdrop ────────────────────────────────────────────────────────── */
 .gpt-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px) saturate(140%);
+    -webkit-backdrop-filter: blur(6px) saturate(140%);
     z-index: 1000;
 }
 
@@ -1460,35 +1464,59 @@ html.darkmode .theme-toggle__label {
     display: none;
 }
 
-/* ── GPT Modal ──────────────────────────────────────────────────────── */
+/* ── Modal Shell — Dark Glass ────────────────────────────────────────── */
 .gpt-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(560px, 92vw);
-    max-height: 80vh;
-    background: var(--paper-bg);
-    border: 1px solid var(--line-color);
-    border-radius: 0;
+    width: min(580px, 92vw);
+    max-height: 82vh;
+
+    /* Dark frosted glass */
+    background: rgba(15, 15, 15, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+    /* Glass rim + inset top-edge catch-light */
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        0 24px 64px rgba(0, 0, 0, 0.75),
+        0 4px 16px rgba(0, 0, 0, 0.45);
+
     display: flex;
     flex-direction: column;
     gap: 0;
     z-index: 1001;
-    padding: 1.5rem;
-    margin: 0;
+    padding: 1.6rem;
+    will-change: transform;
 }
 
 .gpt-modal[hidden] {
     display: none;
 }
 
+/* Light mode glass override */
+:root:not(.darkmode) .gpt-modal {
+    background: rgba(240, 240, 240, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.80),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+        0 24px 64px rgba(0, 0, 0, 0.22),
+        0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Header ──────────────────────────────────────────────────────────── */
 .gpt-modal__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.8rem;
 }
 
 .gpt-modal__title-group {
@@ -1499,203 +1527,284 @@ html.darkmode .theme-toggle__label {
 
 .gpt-modal__title {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 600;
+    color: var(--ink);
 }
 
 .gpt-modal__status {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    opacity: 0.45;
+    opacity: 0.55;
+    color: var(--ink);
 }
 
 .gpt-modal__close {
     background: none;
     border: none;
     color: var(--ink);
-    font-size: 0.9rem;
+    font-size: 1.0rem;
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.55;
     padding: 0;
     line-height: 1;
-    transition: opacity 0.15s ease;
+    transition: opacity 0.15s ease, color 0.15s ease;
     flex-shrink: 0;
 }
 
 .gpt-modal__close:hover {
     opacity: 1;
+    color: #ff0000;
 }
 
+/* ── Divider ─────────────────────────────────────────────────────────── */
 .gpt-modal__divider {
     border: none;
-    border-top: 1px solid var(--line-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     margin: 0 0 1rem 0;
 }
 
+:root:not(.darkmode) .gpt-modal__divider {
+    border-top-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Message list ────────────────────────────────────────────────────── */
 .gpt-modal__messages {
     flex: 1 1 auto;
     overflow-y: auto;
     scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
     min-height: 60px;
-    max-height: 340px;
-    margin-bottom: 0.85rem;
+    max-height: 360px;
+    margin-bottom: 0.9rem;
+    padding-right: 2px;
 }
 
-/* Message bubbles — shared classes */
+.gpt-modal__messages::-webkit-scrollbar { width: 4px; }
+.gpt-modal__messages::-webkit-scrollbar-track { background: transparent; }
+.gpt-modal__messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 2px;
+}
+
+:root:not(.darkmode) .gpt-modal__messages {
+    scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+}
+:root:not(.darkmode) .gpt-modal__messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.22);
+}
+
+/* ── Message bubbles ─────────────────────────────────────────────────── */
 .sidebar-gpt__message {
-    border: 1px solid var(--line-color);
-    padding: 0.5rem 0.6rem;
+    padding: 0.55rem 0.7rem;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    border-radius: 6px;
 }
 
+/* User bubble: subtle glass inset */
+.sidebar-gpt__message--user {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+:root:not(.darkmode) .sidebar-gpt__message--user {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+/* Bot bubble: no bg — reads directly on glass */
 .sidebar-gpt__message--assistant {
-    background: rgba(0, 0, 0, 0.03);
+    background: transparent;
+    border: none;
 }
 
-html.darkmode .sidebar-gpt__message--assistant {
-    background: rgba(255, 255, 255, 0.05);
-}
-
+/* Message text: sans for readability; mono stays on UI chrome */
 .sidebar-gpt__message-text {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    line-height: 1.5;
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    line-height: 1.6;
     white-space: pre-wrap;
     margin: 0;
+    color: var(--ink);
 }
 
+/* ── Source links ────────────────────────────────────────────────────── */
 .sidebar-gpt__sources {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
-    margin-top: 0.2rem;
+    margin-top: 0.25rem;
 }
 
 .sidebar-gpt__source {
     text-decoration: none;
     color: var(--ink);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    opacity: 0.7;
+    font-size: 0.7rem;
+    opacity: 0.75;
+    transition: opacity 0.15s ease, color 0.15s ease;
 }
 
-html.darkmode .sidebar-gpt__source {
-    border-bottom-color: rgba(255, 255, 255, 0.3);
+:root:not(.darkmode) .sidebar-gpt__source {
+    border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
 .sidebar-gpt__source:hover {
     opacity: 1;
     color: #ff0000;
+    border-bottom-color: #ff0000;
 }
 
+/* ── Thinking indicator ──────────────────────────────────────────────── */
 .gpt-modal__thinking {
     font-family: var(--font-mono);
-    font-size: 0.64rem;
+    font-size: 0.72rem;
     opacity: 0.55;
     margin-bottom: 0.5rem;
+    color: var(--ink);
+    letter-spacing: 0.03em;
 }
 
+/* ── Seed chips ──────────────────────────────────────────────────────── */
 .gpt-modal__chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-bottom: 0.75rem;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
 }
 
 .gpt-modal__chip {
-    background: none;
-    border: 1px solid var(--line-color);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.13);
     color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    line-height: 1.1;
-    padding: 0.28rem 0.45rem;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    padding: 0.32rem 0.55rem;
     cursor: pointer;
-    transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-    opacity: 0.75;
+    border-radius: 4px;
+    opacity: 0.90;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+:root:not(.darkmode) .gpt-modal__chip {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.14);
 }
 
 .gpt-modal__chip:hover {
     color: #ff0000;
-    border-color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.05);
     opacity: 1;
 }
 
+/* ── Input form ──────────────────────────────────────────────────────── */
 .gpt-modal__form {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 0.4rem;
     align-items: stretch;
-    border-top: 1px solid var(--line-color);
-    padding-top: 0.85rem;
-    margin-bottom: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+:root:not(.darkmode) .gpt-modal__form {
+    border-top-color: rgba(0, 0, 0, 0.12);
 }
 
 .gpt-modal__input {
     resize: none;
-    border: 1px solid var(--line-color);
-    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    line-height: 1.4;
-    padding: 0.45rem 0.55rem;
-    min-height: 38px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    padding: 0.5rem 0.65rem;
+    min-height: 42px;
+    border-radius: 4px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+:root:not(.darkmode) .gpt-modal__input {
+    border-color: rgba(0, 0, 0, 0.14);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .gpt-modal__input::placeholder {
-    opacity: 0.5;
+    opacity: 0.45;
+    color: var(--ink);
 }
 
 .gpt-modal__input:focus {
-    outline: 1px solid #ff0000;
-    outline-offset: 1px;
+    outline: 1.5px solid #ff0000;
+    outline-offset: 2px;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 0, 0, 0.35);
 }
 
+/* ── Send button ─────────────────────────────────────────────────────── */
 .gpt-modal__send {
-    border: 1px solid var(--line-color);
-    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    padding: 0.4rem 0.7rem;
+    font-size: 1.0rem;
+    padding: 0.45rem 0.85rem;
     cursor: pointer;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    border-radius: 4px;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+:root:not(.darkmode) .gpt-modal__send {
+    border-color: rgba(0, 0, 0, 0.14);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .gpt-modal__send:hover {
     color: #ff0000;
-    border-color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.06);
 }
 
+/* ── Focus rings ─────────────────────────────────────────────────────── */
 .gpt-modal__send:focus,
 .gpt-modal__chip:focus,
-.gpt-modal__close:focus {
-    outline: 1px solid #ff0000;
-    outline-offset: 1px;
+.gpt-modal__close:focus,
+.gpt-modal__input:focus {
+    outline: 1.5px solid #ff0000;
+    outline-offset: 2px;
 }
 
+/* ── Footer ──────────────────────────────────────────────────────────── */
 .gpt-modal__footer {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    opacity: 0.35;
-    border-top: 1px solid var(--line-color);
-    padding-top: 0.6rem;
+    opacity: 0.55;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding-top: 0.65rem;
+    color: var(--ink);
 }
 
-/* Shared sr-only utility used by the form label */
+:root:not(.darkmode) .gpt-modal__footer {
+    border-top-color: rgba(0, 0, 0, 0.10);
+}
+
+/* ── Screen-reader utility ───────────────────────────────────────────── */
 .sidebar-gpt__sr-only {
     position: absolute;
     width: 1px;
@@ -1708,11 +1817,17 @@ html.darkmode .sidebar-gpt__source {
     border: 0;
 }
 
+/* ── Reduced motion ──────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+    .gpt-modal,
+    .gpt-modal-backdrop,
     .gpt-modal__chip,
     .gpt-modal__send,
+    .gpt-modal__input,
+    .gpt-modal__close,
     .sidebar-gpt__source,
     .sidebar-gpt-trigger {
         transition: none;
+        animation: none;
     }
 }
