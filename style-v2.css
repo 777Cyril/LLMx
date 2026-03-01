@@ -1518,13 +1518,13 @@ html.darkmode .theme-toggle__label {
     opacity: 0.8;
 }
 
-/* ── Sidebar GPT ───────────────────────────────────────────────────────────── */
+/* ── Ask LLMx ───────────────────────────────────────────────────────────── */
 /* ─────────────────────────────────────────────────────────────────────────
    GPT MODAL — Dark Liquid Glass
    ───────────────────────────────────────────────────────────────────────── */
 
-/* ── Sidebar GPT trigger button ─────────────────────────────────────── */
-.sidebar-gpt-trigger {
+/* ── Ask LLMx trigger button ─────────────────────────────────────── */
+.ask-llmx-trigger {
     margin-top: 1rem;
     padding-top: 0.9rem;
     border-top: 1px solid var(--line-color);
@@ -1550,19 +1550,19 @@ html.darkmode .theme-toggle__label {
     padding-bottom: 0;
 }
 
-.sidebar-gpt-trigger:hover {
+.ask-llmx-trigger:hover {
     opacity: 1;
     color: #ff0000;
 }
 
-.sidebar-gpt-trigger__dot {
+.ask-llmx-trigger__dot {
     font-size: 0.5rem;
     color: #ff0000;
     opacity: 1;
 }
 
 /* ── Backdrop ────────────────────────────────────────────────────────── */
-.gpt-modal-backdrop {
+.ask-llmx-backdrop {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.65);
@@ -1571,12 +1571,12 @@ html.darkmode .theme-toggle__label {
     z-index: 1000;
 }
 
-.gpt-modal-backdrop[hidden] {
+.ask-llmx-backdrop[hidden] {
     display: none;
 }
 
 /* ── Modal Shell — Dark Glass ────────────────────────────────────────── */
-.gpt-modal {
+.ask-llmx-modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1606,12 +1606,12 @@ html.darkmode .theme-toggle__label {
     will-change: transform;
 }
 
-.gpt-modal[hidden] {
+.ask-llmx-modal[hidden] {
     display: none;
 }
 
 /* Light mode glass override */
-:root:not(.darkmode) .gpt-modal {
+:root:not(.darkmode) .ask-llmx-modal {
     background: rgba(240, 240, 240, 0.85);
     border: 1px solid rgba(0, 0, 0, 0.10);
     box-shadow:
@@ -1622,7 +1622,7 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Header ──────────────────────────────────────────────────────────── */
-.gpt-modal__header {
+.ask-llmx__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -1632,13 +1632,13 @@ html.darkmode .theme-toggle__label {
     padding-bottom: 0.8rem;
 }
 
-.gpt-modal__title-group {
+.ask-llmx__title-group {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
-.gpt-modal__title {
+.ask-llmx__title {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     text-transform: uppercase;
@@ -1647,7 +1647,7 @@ html.darkmode .theme-toggle__label {
     color: var(--ink);
 }
 
-.gpt-modal__status-dot {
+.ask-llmx__status-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -1656,12 +1656,12 @@ html.darkmode .theme-toggle__label {
     transition: background 0.3s ease;
 }
 
-.gpt-modal__status-dot.thinking {
+.ask-llmx__status-dot.thinking {
     background: #f97316;
     animation: mic-pulse 0.9s ease-in-out infinite;
 }
 
-.gpt-modal__close {
+.ask-llmx__close {
     background: none;
     border: none;
     color: var(--ink);
@@ -1674,24 +1674,24 @@ html.darkmode .theme-toggle__label {
     flex-shrink: 0;
 }
 
-.gpt-modal__close:hover {
+.ask-llmx__close:hover {
     opacity: 1;
     color: #ff0000;
 }
 
 /* ── Divider ─────────────────────────────────────────────────────────── */
-.gpt-modal__divider {
+.ask-llmx__divider {
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     margin: 0 0 1rem 0;
 }
 
-:root:not(.darkmode) .gpt-modal__divider {
+:root:not(.darkmode) .ask-llmx__divider {
     border-top-color: rgba(0, 0, 0, 0.12);
 }
 
 /* ── Message list ────────────────────────────────────────────────────── */
-.gpt-modal__messages {
+.ask-llmx__messages {
     flex: 1 1 auto;
     overflow-y: auto;
     scrollbar-width: thin;
@@ -1705,22 +1705,22 @@ html.darkmode .theme-toggle__label {
     padding-right: 2px;
 }
 
-.gpt-modal__messages::-webkit-scrollbar { width: 4px; }
-.gpt-modal__messages::-webkit-scrollbar-track { background: transparent; }
-.gpt-modal__messages::-webkit-scrollbar-thumb {
+.ask-llmx__messages::-webkit-scrollbar { width: 4px; }
+.ask-llmx__messages::-webkit-scrollbar-track { background: transparent; }
+.ask-llmx__messages::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.22);
     border-radius: 2px;
 }
 
-:root:not(.darkmode) .gpt-modal__messages {
+:root:not(.darkmode) .ask-llmx__messages {
     scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
 }
-:root:not(.darkmode) .gpt-modal__messages::-webkit-scrollbar-thumb {
+:root:not(.darkmode) .ask-llmx__messages::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.22);
 }
 
 /* ── Message bubbles ─────────────────────────────────────────────────── */
-.sidebar-gpt__message {
+.ask-llmx__message {
     padding: 0.55rem 0.7rem;
     display: flex;
     flex-direction: column;
@@ -1729,24 +1729,24 @@ html.darkmode .theme-toggle__label {
 }
 
 /* User bubble: subtle glass inset */
-.sidebar-gpt__message--user {
+.ask-llmx__message--user {
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-:root:not(.darkmode) .sidebar-gpt__message--user {
+:root:not(.darkmode) .ask-llmx__message--user {
     background: rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 0, 0, 0.10);
 }
 
 /* Bot bubble: no bg — reads directly on glass */
-.sidebar-gpt__message--assistant {
+.ask-llmx__message--assistant {
     background: transparent;
     border: none;
 }
 
 /* Message text: sans for readability; mono stays on UI chrome */
-.sidebar-gpt__message-text {
+.ask-llmx__message-text {
     font-family: var(--font-sans);
     font-size: 0.84rem;
     line-height: 1.6;
@@ -1756,14 +1756,14 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Source links ────────────────────────────────────────────────────── */
-.sidebar-gpt__sources {
+.ask-llmx__sources {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
     margin-top: 0.25rem;
 }
 
-.sidebar-gpt__source {
+.ask-llmx__source {
     text-decoration: none;
     color: var(--ink);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -1773,19 +1773,19 @@ html.darkmode .theme-toggle__label {
     transition: opacity 0.15s ease, color 0.15s ease;
 }
 
-:root:not(.darkmode) .sidebar-gpt__source {
+:root:not(.darkmode) .ask-llmx__source {
     border-bottom-color: rgba(0, 0, 0, 0.25);
 }
 
-.sidebar-gpt__source:hover {
+.ask-llmx__source:hover {
     opacity: 1;
     color: #ff0000;
     border-bottom-color: #ff0000;
 }
 
 /* CTA links (Calendly + mailto) — visually distinct from regular source links */
-.sidebar-gpt__source[href*="calendly"],
-.sidebar-gpt__source[href^="mailto"] {
+.ask-llmx__source[href*="calendly"],
+.ask-llmx__source[href^="mailto"] {
     opacity: 1;
     color: var(--ink);
     border-bottom-color: rgba(255, 255, 255, 0.5);
@@ -1793,14 +1793,14 @@ html.darkmode .theme-toggle__label {
     letter-spacing: 0.03em;
 }
 
-.sidebar-gpt__source[href*="calendly"]:hover,
-.sidebar-gpt__source[href^="mailto"]:hover {
+.ask-llmx__source[href*="calendly"]:hover,
+.ask-llmx__source[href^="mailto"]:hover {
     color: #ff0000;
     border-bottom-color: #ff0000;
 }
 
 /* ── Thinking indicator ──────────────────────────────────────────────── */
-.gpt-modal__thinking {
+.ask-llmx__thinking {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     opacity: 0.55;
@@ -1810,28 +1810,28 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Collapse / expand body ──────────────────────────────────────────── */
-.gpt-modal__body {
+.ask-llmx__body {
     overflow: hidden;
     max-height: 480px;
     opacity: 1;
     transition: max-height 0.3s ease, opacity 0.25s ease;
 }
 
-.gpt-modal--collapsed .gpt-modal__body {
+.ask-llmx-modal--collapsed .ask-llmx__body {
     max-height: 0;
     opacity: 0;
     pointer-events: none;
 }
 
 /* ── Seed chips ──────────────────────────────────────────────────────── */
-.gpt-modal__chips {
+.ask-llmx__chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 0.8rem;
 }
 
-.gpt-modal__chip {
+.ask-llmx__chip {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.13);
     color: var(--ink);
@@ -1845,12 +1845,12 @@ html.darkmode .theme-toggle__label {
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
 }
 
-:root:not(.darkmode) .gpt-modal__chip {
+:root:not(.darkmode) .ask-llmx__chip {
     background: rgba(0, 0, 0, 0.04);
     border-color: rgba(0, 0, 0, 0.14);
 }
 
-.gpt-modal__chip:hover {
+.ask-llmx__chip:hover {
     color: #ff0000;
     border-color: rgba(255, 0, 0, 0.5);
     background: rgba(255, 0, 0, 0.05);
@@ -1858,7 +1858,7 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Input form ──────────────────────────────────────────────────────── */
-.gpt-modal__form {
+.ask-llmx__form {
     display: grid;
     grid-template-columns: 1fr auto auto;
     gap: 0.4rem;
@@ -1868,11 +1868,11 @@ html.darkmode .theme-toggle__label {
     margin-bottom: 0;
 }
 
-:root:not(.darkmode) .gpt-modal__form {
+:root:not(.darkmode) .ask-llmx__form {
     border-top-color: rgba(0, 0, 0, 0.12);
 }
 
-.gpt-modal__input {
+.ask-llmx__input {
     resize: none;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.05);
@@ -1886,17 +1886,17 @@ html.darkmode .theme-toggle__label {
     transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-:root:not(.darkmode) .gpt-modal__input {
+:root:not(.darkmode) .ask-llmx__input {
     border-color: rgba(0, 0, 0, 0.14);
     background: rgba(0, 0, 0, 0.04);
 }
 
-.gpt-modal__input::placeholder {
+.ask-llmx__input::placeholder {
     opacity: 0.45;
     color: var(--ink);
 }
 
-.gpt-modal__input:focus {
+.ask-llmx__input:focus {
     outline: 1.5px solid #ff0000;
     outline-offset: 2px;
     background: rgba(255, 255, 255, 0.07);
@@ -1904,7 +1904,7 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Send button ─────────────────────────────────────────────────────── */
-.gpt-modal__send {
+.ask-llmx__send {
     border: 1px solid rgba(255, 255, 255, 0.13);
     background: rgba(255, 255, 255, 0.05);
     color: var(--ink);
@@ -1916,33 +1916,33 @@ html.darkmode .theme-toggle__label {
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-:root:not(.darkmode) .gpt-modal__send {
+:root:not(.darkmode) .ask-llmx__send {
     border-color: rgba(0, 0, 0, 0.14);
     background: rgba(0, 0, 0, 0.04);
 }
 
-.gpt-modal__send:hover {
+.ask-llmx__send:hover {
     color: #ff0000;
     border-color: rgba(255, 0, 0, 0.5);
     background: rgba(255, 0, 0, 0.06);
 }
 
 /* ── Focus rings ─────────────────────────────────────────────────────── */
-.gpt-modal__send:focus,
-.gpt-modal__mic:focus,
-.gpt-modal__chip:focus,
-.gpt-modal__close:focus,
-.gpt-modal__input:focus {
+.ask-llmx__send:focus,
+.ask-llmx__mic:focus,
+.ask-llmx__chip:focus,
+.ask-llmx__close:focus,
+.ask-llmx__input:focus {
     outline: 1.5px solid #ff0000;
     outline-offset: 2px;
 }
 
-:root:not(.darkmode) .gpt-modal__header {
+:root:not(.darkmode) .ask-llmx__header {
     border-bottom-color: rgba(0, 0, 0, 0.10);
 }
 
 /* ── Mic button ──────────────────────────────────────────────────────── */
-.gpt-modal__mic {
+.ask-llmx__mic {
     border: 1px solid rgba(255, 255, 255, 0.13);
     background: rgba(255, 255, 255, 0.05);
     color: var(--ink);
@@ -1955,18 +1955,18 @@ html.darkmode .theme-toggle__label {
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-:root:not(.darkmode) .gpt-modal__mic {
+:root:not(.darkmode) .ask-llmx__mic {
     border-color: rgba(0, 0, 0, 0.14);
     background: rgba(0, 0, 0, 0.04);
 }
 
-.gpt-modal__mic:hover {
+.ask-llmx__mic:hover {
     color: #ff0000;
     border-color: rgba(255, 0, 0, 0.5);
     background: rgba(255, 0, 0, 0.06);
 }
 
-.gpt-modal__mic.listening {
+.ask-llmx__mic.listening {
     color: #ff0000;
     border-color: rgba(255, 0, 0, 0.6);
     background: rgba(255, 0, 0, 0.08);
@@ -1979,7 +1979,7 @@ html.darkmode .theme-toggle__label {
 }
 
 /* ── Screen-reader utility ───────────────────────────────────────────── */
-.sidebar-gpt__sr-only {
+.ask-llmx__sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1993,14 +1993,14 @@ html.darkmode .theme-toggle__label {
 
 /* ── Reduced motion ──────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .gpt-modal,
-    .gpt-modal-backdrop,
-    .gpt-modal__chip,
-    .gpt-modal__send,
-    .gpt-modal__input,
-    .gpt-modal__close,
-    .sidebar-gpt__source,
-    .sidebar-gpt-trigger {
+    .ask-llmx-modal,
+    .ask-llmx-backdrop,
+    .ask-llmx__chip,
+    .ask-llmx__send,
+    .ask-llmx__input,
+    .ask-llmx__close,
+    .ask-llmx__source,
+    .ask-llmx-trigger {
         transition: none;
         animation: none;
     }

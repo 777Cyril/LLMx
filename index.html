@@ -589,35 +589,35 @@
         musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
     });
 
-    // ── SIDEBAR GPT ───────────────────────────────────────────────────────────
-    const SIDEBAR_GPT_MAX_HISTORY = 10;
-    const sidebarGptState = {
+    // ── ASK LLMX ───────────────────────────────────────────────────────────
+    const ASK_LLMX_MAX_HISTORY = 10;
+    const askLlmxState = {
         messages: [],
         pending: false
     };
 
     function expandModal() {
-        const modal = document.getElementById('gpt-modal');
-        if (modal) modal.classList.remove('gpt-modal--collapsed');
+        const modal = document.getElementById('ask-llmx-modal');
+        if (modal) modal.classList.remove('ask-llmx-modal--collapsed');
     }
 
     function openGptModal() {
-        const modal = document.getElementById('gpt-modal');
-        const backdrop = document.getElementById('gpt-modal-backdrop');
+        const modal = document.getElementById('ask-llmx-modal');
+        const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal || !backdrop) return;
         // Auto-expand if there's already a real conversation
-        const hasConversation = sidebarGptState.messages.some((m) => m.role === 'user');
+        const hasConversation = askLlmxState.messages.some((m) => m.role === 'user');
         if (hasConversation) expandModal();
         modal.removeAttribute('hidden');
         backdrop.removeAttribute('hidden');
         backdrop.removeAttribute('aria-hidden');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => document.getElementById('sidebar-gpt-input')?.focus(), 50);
+        setTimeout(() => document.getElementById('ask-llmx-input')?.focus(), 50);
     }
 
     function closeGptModal() {
-        const modal = document.getElementById('gpt-modal');
-        const backdrop = document.getElementById('gpt-modal-backdrop');
+        const modal = document.getElementById('ask-llmx-modal');
+        const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal || !backdrop) return;
         modal.setAttribute('hidden', '');
         backdrop.setAttribute('hidden', '');
@@ -625,22 +625,22 @@
         document.body.style.overflow = '';
     }
 
-    function sidebarGptSetStatus(isThinking) {
-        const dot = document.getElementById('sidebar-gpt-status');
+    function askLlmxSetStatus(isThinking) {
+        const dot = document.getElementById('ask-llmx-status');
         if (dot) dot.classList.toggle('thinking', isThinking);
     }
 
-    function sidebarGptRenderMessages() {
-        const container = document.getElementById('sidebar-gpt-messages');
+    function askLlmxRenderMessages() {
+        const container = document.getElementById('ask-llmx-messages');
         if (!container) return;
         container.innerHTML = '';
 
-        sidebarGptState.messages.forEach((message) => {
+        askLlmxState.messages.forEach((message) => {
             const bubble = document.createElement('article');
-            bubble.className = `sidebar-gpt__message sidebar-gpt__message--${message.role}`;
+            bubble.className = `ask-llmx__message ask-llmx__message--${message.role}`;
 
             const body = document.createElement('p');
-            body.className = 'sidebar-gpt__message-text';
+            body.className = 'ask-llmx__message-text';
             // Strip markdown formatting Claude may emit despite instructions
             body.textContent = (message.content || '')
                 .replace(/\*\*([^*]+)\*\*/g, '$1')
@@ -650,12 +650,12 @@
 
             if (Array.isArray(message.sources) && message.sources.length) {
                 const sourceWrap = document.createElement('div');
-                sourceWrap.className = 'sidebar-gpt__sources';
+                sourceWrap.className = 'ask-llmx__sources';
 
                 message.sources.forEach((source) => {
                     if (!source || !source.url) return;
                     const link = document.createElement('a');
-                    link.className = 'sidebar-gpt__source';
+                    link.className = 'ask-llmx__source';
                     link.href = source.url;
                     link.textContent = source.label || 'Source';
                     // Open external links in a new tab
@@ -677,103 +677,103 @@
         container.scrollTop = container.scrollHeight;
     }
 
-    function sidebarGptSetThinking(isThinking) {
-        const thinking = document.getElementById('sidebar-gpt-thinking');
-        const input = document.getElementById('sidebar-gpt-input');
-        const send = document.querySelector('.gpt-modal__send');
-        const mic = document.getElementById('sidebar-gpt-mic');
+    function askLlmxSetThinking(isThinking) {
+        const thinking = document.getElementById('ask-llmx-thinking');
+        const input = document.getElementById('ask-llmx-input');
+        const send = document.querySelector('.ask-llmx__send');
+        const mic = document.getElementById('ask-llmx-mic');
 
         if (thinking) thinking.hidden = !isThinking;
         if (input) input.disabled = isThinking;
         if (send) send.disabled = isThinking;
         if (mic) mic.disabled = isThinking;
-        sidebarGptSetStatus(isThinking);
+        askLlmxSetStatus(isThinking);
     }
 
-    function sidebarGptPushMessage(message) {
-        sidebarGptState.messages.push(message);
-        if (sidebarGptState.messages.length > SIDEBAR_GPT_MAX_HISTORY * 2) {
-            sidebarGptState.messages = sidebarGptState.messages.slice(-SIDEBAR_GPT_MAX_HISTORY * 2);
+    function askLlmxPushMessage(message) {
+        askLlmxState.messages.push(message);
+        if (askLlmxState.messages.length > ASK_LLMX_MAX_HISTORY * 2) {
+            askLlmxState.messages = askLlmxState.messages.slice(-ASK_LLMX_MAX_HISTORY * 2);
         }
-        sidebarGptRenderMessages();
+        askLlmxRenderMessages();
     }
 
-    function sidebarGptBuildPayloadMessages() {
-        const msgs = sidebarGptState.messages
+    function askLlmxBuildPayload() {
+        const msgs = askLlmxState.messages
             .filter((message) => !message.isGreeting)
             .filter((message) => message.role === 'user' || message.role === 'assistant')
             .map((message) => ({ role: message.role, content: message.content }))
-            .slice(-SIDEBAR_GPT_MAX_HISTORY);
+            .slice(-ASK_LLMX_MAX_HISTORY);
         // Anthropic requires conversation to start with a user message
         const firstUserIdx = msgs.findIndex((m) => m.role === 'user');
         return firstUserIdx > 0 ? msgs.slice(firstUserIdx) : msgs;
     }
 
-    async function sidebarGptSendMessage(rawMessage, source = 'input') {
+    async function askLlmxSend(rawMessage, source = 'input') {
         const message = String(rawMessage || '').trim();
-        if (!message || sidebarGptState.pending) return;
+        if (!message || askLlmxState.pending) return;
 
-        sidebarGptPushMessage({ role: 'user', content: message });
-        trackEvent('sidebar_gpt_message_sent', { source, length: message.length, page: 'home' });
+        askLlmxPushMessage({ role: 'user', content: message });
+        trackEvent('ask_llmx_message_sent', { source, length: message.length, page: 'home' });
 
         // Remove seed chips after first real message
-        const chipsEl = document.getElementById('sidebar-gpt-chips');
+        const chipsEl = document.getElementById('ask-llmx-chips');
         if (chipsEl) chipsEl.remove();
 
-        sidebarGptState.pending = true;
-        sidebarGptSetThinking(true);
+        askLlmxState.pending = true;
+        askLlmxSetThinking(true);
 
         try {
             const response = await fetch('/api/sidebar-chat', {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify({
-                    messages: sidebarGptBuildPayloadMessages(),
+                    messages: askLlmxBuildPayload(),
                     context: { page: 'home' }
                 })
             });
 
             if (!response.ok) {
-                throw new Error(`Sidebar GPT request failed: ${response.status}`);
+                throw new Error(`Ask LLMx request failed: ${response.status}`);
             }
 
             const data = await response.json();
             const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
             if (!reply) throw new Error('Missing reply content');
 
-            sidebarGptPushMessage({
+            askLlmxPushMessage({
                 role: 'assistant',
                 content: reply,
                 sources: Array.isArray(data.sources) ? data.sources.slice(0, 5) : []
             });
-            trackEvent('sidebar_gpt_reply_received', {
+            trackEvent('ask_llmx_reply_received', {
                 source_count: Array.isArray(data.sources) ? data.sources.length : 0,
                 page: 'home'
             });
         } catch (_error) {
-            sidebarGptPushMessage({
+            askLlmxPushMessage({
                 role: 'assistant',
                 content: 'Assistant temporarily unavailable. Try again in a moment.'
             });
-            trackEvent('sidebar_gpt_error', { page: 'home' });
+            trackEvent('ask_llmx_error', { page: 'home' });
         } finally {
-            sidebarGptState.pending = false;
-            sidebarGptSetThinking(false);
+            askLlmxState.pending = false;
+            askLlmxSetThinking(false);
         }
     }
 
-    function initSidebarGpt() {
-        const form = document.getElementById('sidebar-gpt-form');
-        const input = document.getElementById('sidebar-gpt-input');
+    function initAskLlmx() {
+        const form = document.getElementById('ask-llmx-form');
+        const input = document.getElementById('ask-llmx-input');
         const chips = document.querySelectorAll('[data-seed-question]');
-        const trigger = document.getElementById('sidebar-gpt-trigger');
-        const closeBtn = document.getElementById('gpt-modal-close');
-        const backdrop = document.getElementById('gpt-modal-backdrop');
+        const trigger = document.getElementById('ask-llmx-trigger');
+        const closeBtn = document.getElementById('ask-llmx-close');
+        const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!form || !input) return;
 
         // Initial greeting — marked isGreeting so it's excluded from the API payload
         // (Anthropic requires conversations to start with a user message)
-        sidebarGptPushMessage({
+        askLlmxPushMessage({
             role: 'assistant',
             content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.',
             isGreeting: true
@@ -798,7 +798,7 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            await sidebarGptSendMessage(text, 'input');
+            await askLlmxSend(text, 'input');
         });
 
         input.addEventListener('keydown', async (event) => {
@@ -808,19 +808,19 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
-            await sidebarGptSendMessage(text, 'keyboard');
+            await askLlmxSend(text, 'keyboard');
         });
 
         chips.forEach((chip) => {
             chip.addEventListener('click', async () => {
                 const prompt = chip.getAttribute('data-seed-question') || '';
                 if (!prompt.trim()) return;
-                await sidebarGptSendMessage(prompt, 'chip');
+                await askLlmxSend(prompt, 'chip');
             });
         });
 
         // Dictation
-        const micBtn = document.getElementById('sidebar-gpt-mic');
+        const micBtn = document.getElementById('ask-llmx-mic');
         if (micBtn) {
             const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SR) {
@@ -1158,7 +1158,7 @@
 
     // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
     document.addEventListener('DOMContentLoaded', () => {
-        initSidebarGpt();
+        initAskLlmx();
         if (!ENABLE_FLOATING_LLMX_WIDGET) return;
 
         onWidgetPanelReady((panel) => {
@@ -1269,36 +1269,36 @@
     }
 </style>
 
-<!-- LLMx GPT Modal -->
-<div class="gpt-modal-backdrop" id="gpt-modal-backdrop" hidden aria-hidden="true"></div>
-<dialog class="gpt-modal gpt-modal--collapsed" id="gpt-modal" aria-label="LLMx" hidden>
-    <div class="gpt-modal__header">
-        <div class="gpt-modal__title-group">
-            <span class="gpt-modal__title">LLMx</span>
-            <span class="gpt-modal__status-dot" id="sidebar-gpt-status"></span>
+<!-- LLMx Modal -->
+<div class="ask-llmx-backdrop" id="ask-llmx-backdrop" hidden aria-hidden="true"></div>
+<dialog class="ask-llmx-modal ask-llmx-modal--collapsed" id="ask-llmx-modal" aria-label="LLMx" hidden>
+    <div class="ask-llmx__header">
+        <div class="ask-llmx__title-group">
+            <span class="ask-llmx__title">LLMx</span>
+            <span class="ask-llmx__status-dot" id="ask-llmx-status"></span>
         </div>
-        <button class="gpt-modal__close" id="gpt-modal-close" aria-label="Close">✕</button>
+        <button class="ask-llmx__close" id="ask-llmx-close" aria-label="Close">✕</button>
     </div>
-    <div class="gpt-modal__body">
-        <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
-        <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
-        <div class="gpt-modal__chips" id="sidebar-gpt-chips">
-            <button type="button" class="gpt-modal__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
-            <button type="button" class="gpt-modal__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
-            <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
+    <div class="ask-llmx__body">
+        <div class="ask-llmx__messages" id="ask-llmx-messages" aria-live="polite"></div>
+        <div class="ask-llmx__thinking" id="ask-llmx-thinking" hidden>Thinking…</div>
+        <div class="ask-llmx__chips" id="ask-llmx-chips">
+            <button type="button" class="ask-llmx__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+            <button type="button" class="ask-llmx__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
+            <button type="button" class="ask-llmx__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
         </div>
     </div>
-    <form class="gpt-modal__form" id="sidebar-gpt-form">
-        <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx</label>
+    <form class="ask-llmx__form" id="ask-llmx-form">
+        <label for="ask-llmx-input" class="ask-llmx__sr-only">Ask LLMx</label>
         <textarea
-            class="gpt-modal__input"
-            id="sidebar-gpt-input"
-            name="sidebar-gpt-input"
+            class="ask-llmx__input"
+            id="ask-llmx-input"
+            name="ask-llmx-input"
             rows="1"
             maxlength="500"
             placeholder="Ask anything..."
         ></textarea>
-        <button class="gpt-modal__mic" id="sidebar-gpt-mic" type="button" aria-label="Dictate">
+        <button class="ask-llmx__mic" id="ask-llmx-mic" type="button" aria-label="Dictate">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="2" width="6" height="12" rx="3"/>
                 <path d="M5 10a7 7 0 0 0 14 0"/>
@@ -1306,7 +1306,7 @@
                 <line x1="8" y1="22" x2="16" y2="22"/>
             </svg>
         </button>
-        <button class="gpt-modal__send" type="submit">→</button>
+        <button class="ask-llmx__send" type="submit">→</button>
     </form>
 </dialog>
 
