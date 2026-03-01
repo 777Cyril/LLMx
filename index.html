@@ -793,6 +793,41 @@
                 await sidebarGptSendMessage(prompt, 'chip');
             });
         });
+
+        // Dictation
+        const micBtn = document.getElementById('sidebar-gpt-mic');
+        if (micBtn) {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                micBtn.style.display = 'none';
+            } else {
+                const recognition = new SR();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                let listening = false;
+
+                micBtn.addEventListener('click', () => {
+                    if (listening) { recognition.stop(); return; }
+                    recognition.start();
+                });
+
+                recognition.onstart = () => {
+                    listening = true;
+                    micBtn.classList.add('listening');
+                };
+
+                recognition.onresult = (e) => {
+                    input.value = e.results[0][0].transcript;
+                    input.focus();
+                };
+
+                recognition.onend = recognition.onerror = () => {
+                    listening = false;
+                    micBtn.classList.remove('listening');
+                };
+            }
+        }
     }
 
 
@@ -1199,15 +1234,14 @@
 
 <!-- LLMx GPT Modal -->
 <div class="gpt-modal-backdrop" id="gpt-modal-backdrop" hidden aria-hidden="true"></div>
-<dialog class="gpt-modal" id="gpt-modal" aria-label="LLMx GPT" hidden>
+<dialog class="gpt-modal" id="gpt-modal" aria-label="LLMx" hidden>
     <div class="gpt-modal__header">
         <div class="gpt-modal__title-group">
-            <span class="gpt-modal__title">LLMx GPT</span>
+            <span class="gpt-modal__title">LLMx</span>
             <span class="gpt-modal__status" id="sidebar-gpt-status">Ready</span>
         </div>
         <button class="gpt-modal__close" id="gpt-modal-close" aria-label="Close">✕</button>
     </div>
-    <hr class="gpt-modal__divider">
     <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
     <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
     <div class="gpt-modal__chips" id="sidebar-gpt-chips">
@@ -1216,18 +1250,25 @@
         <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
     </div>
     <form class="gpt-modal__form" id="sidebar-gpt-form">
-        <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx GPT</label>
+        <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx</label>
         <textarea
             class="gpt-modal__input"
             id="sidebar-gpt-input"
             name="sidebar-gpt-input"
             rows="1"
             maxlength="500"
-            placeholder="Ask about services, case studies, or workflow..."
+            placeholder="Ask anything..."
         ></textarea>
+        <button class="gpt-modal__mic" id="sidebar-gpt-mic" type="button" aria-label="Dictate">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="2" width="6" height="12" rx="3"/>
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="8" y1="22" x2="16" y2="22"/>
+            </svg>
+        </button>
         <button class="gpt-modal__send" type="submit">→</button>
     </form>
-    <div class="gpt-modal__footer">By <strong>LLMx</strong></div>
 </dialog>
 
 <!-- 3D LLM Visualization -->

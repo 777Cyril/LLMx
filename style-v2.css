@@ -1627,7 +1627,9 @@ html.darkmode .theme-toggle__label {
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.75rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.8rem;
 }
 
 .gpt-modal__title-group {
@@ -1839,12 +1841,12 @@ html.darkmode .theme-toggle__label {
 /* ── Input form ──────────────────────────────────────────────────────── */
 .gpt-modal__form {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     gap: 0.4rem;
     align-items: stretch;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 0.9rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0;
 }
 
 :root:not(.darkmode) .gpt-modal__form {
@@ -1908,6 +1910,7 @@ html.darkmode .theme-toggle__label {
 
 /* ── Focus rings ─────────────────────────────────────────────────────── */
 .gpt-modal__send:focus,
+.gpt-modal__mic:focus,
 .gpt-modal__chip:focus,
 .gpt-modal__close:focus,
 .gpt-modal__input:focus {
@@ -1915,20 +1918,45 @@ html.darkmode .theme-toggle__label {
     outline-offset: 2px;
 }
 
-/* ── Footer ──────────────────────────────────────────────────────────── */
-.gpt-modal__footer {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.55;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    padding-top: 0.65rem;
-    color: var(--ink);
+:root:not(.darkmode) .gpt-modal__header {
+    border-bottom-color: rgba(0, 0, 0, 0.10);
 }
 
-:root:not(.darkmode) .gpt-modal__footer {
-    border-top-color: rgba(0, 0, 0, 0.10);
+/* ── Mic button ──────────────────────────────────────────────────────── */
+.gpt-modal__mic {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--ink);
+    padding: 0.45rem 0.7rem;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+:root:not(.darkmode) .gpt-modal__mic {
+    border-color: rgba(0, 0, 0, 0.14);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.gpt-modal__mic:hover {
+    color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.06);
+}
+
+.gpt-modal__mic.listening {
+    color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.6);
+    background: rgba(255, 0, 0, 0.08);
+    animation: mic-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
 }
 
 /* ── Screen-reader utility ───────────────────────────────────────────── */
