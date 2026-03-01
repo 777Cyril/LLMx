@@ -846,12 +846,14 @@ footer {
     opacity: 0;
 }
 
-.footer-flip:hover .footer-flip__front {
+.footer-flip:hover .footer-flip__front,
+.footer-flip.is-flipped .footer-flip__front {
     transform: translateY(-100%);
     opacity: 0;
 }
 
-.footer-flip:hover .footer-flip__back {
+.footer-flip:hover .footer-flip__back,
+.footer-flip.is-flipped .footer-flip__back {
     transform: translateY(0);
     opacity: 1;
 }

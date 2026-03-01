@@ -1251,50 +1251,70 @@
             });
         }
 
-        // ── Footer flip cycling: one CTA visible at a time ─────────────
+        // ── Footer flip: 4-state cycle ──────────────────────────────────
+        // States in order: Book now → | Sprint | Try now → | Onyx | repeat
+        // flip[0] = "Try now" / "Onyx"   flip[1] = "Book now" / "Sprint"
         var flips = document.querySelectorAll('.footer-flips .footer-flip');
         var wrapper = document.querySelector('.footer-flips');
         if (flips.length >= 2 && wrapper) {
-            var current = 0;
+            var STATES = [
+                { f: 1, flipped: false },  // Book now →
+                { f: 1, flipped: true  },  // Sprint
+                { f: 0, flipped: false },  // Try now →
+                { f: 0, flipped: true  }   // Onyx
+            ];
+            var stateIdx = 0;
+            var activeFlip = 1;   // tracks which flip element is currently .is-active
             var timerId = null;
+            var isHovered = false;
 
-            function showFlip(next) {
-                if (next === current) return;
-                // Snap incoming flip below without transition, then release
-                flips[next].style.transition = 'none';
-                flips[next].style.transform = 'translateY(100%)';
-                void flips[next].offsetHeight;           // force paint
-                flips[next].style.transition = '';
-                flips[next].style.transform = '';
-                // Swap active class — CSS transition does the rest
-                flips[current].classList.remove('is-active');
-                flips[next].classList.add('is-active');
-                current = next;
+            function goTo(idx) {
+                var s = STATES[idx];
+                if (s.f !== activeFlip) {
+                    // Sliding to a different flip element
+                    flips[activeFlip].classList.remove('is-flipped');
+                    // Snap incoming below, then release to let transition run
+                    flips[s.f].style.transition = 'none';
+                    flips[s.f].style.transform = 'translateY(100%)';
+                    void flips[s.f].offsetHeight;
+                    flips[s.f].style.transition = '';
+                    flips[s.f].style.transform = '';
+                    flips[activeFlip].classList.remove('is-active');
+                    flips[s.f].classList.add('is-active');
+                    activeFlip = s.f;
+                }
+                // Show front or back face
+                flips[activeFlip].classList.toggle('is-flipped', s.flipped);
+                stateIdx = idx;
             }
 
-            function cycle() {
-                showFlip((current + 1) % flips.length);
+            function advance() {
+                goTo((stateIdx + 1) % STATES.length);
             }
 
-            function resetTimer() {
+            function startTimer() {
                 clearInterval(timerId);
-                timerId = setInterval(cycle, 4000);
+                if (!isHovered) {
+                    timerId = setInterval(advance, 3000);
+                }
             }
 
-            // Init: show first flip, start auto-cycle
-            flips[0].classList.add('is-active');
-            resetTimer();
+            // Init: start on "Book now →"
+            flips[1].classList.add('is-active');
+            startTimer();
 
-            // Mouse in → cycle immediately, reset timer so auto doesn't double-fire
+            // Mouse enter → advance one state, pause auto-cycle
             wrapper.addEventListener('mouseenter', function () {
-                cycle();
-                resetTimer();
+                isHovered = true;
+                clearInterval(timerId);
+                advance();
             });
 
-            // Mouse out → cycle back immediately, reset timer
+            // Mouse leave → advance one state, resume auto-cycle
             wrapper.addEventListener('mouseleave', function () {
-                cycle();
-                resetTimer();
+                isHovered = false;
+                advance();
+                startTimer();
             });
         }
     }());
