@@ -451,6 +451,36 @@ h1 {
     padding-left: 1.5rem;
 }
 
+/* ── Hero CTA Cards ─────────────────────────────────────────────────── */
+.hero-cards {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    max-width: 600px;
+}
+
+.hero-card {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    background: transparent;
+    border: var(--border-width) solid var(--line-color);
+    padding: 0.9rem 1.25rem;
+    cursor: pointer;
+    text-align: left;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: opacity 0.15s ease;
+    white-space: nowrap;
+}
+
+.hero-card:hover {
+    opacity: 0.5;
+}
+
 @keyframes trusted-by-scroll {
     from {
         transform: translateX(0);
@@ -969,6 +999,7 @@ footer {
 .main-content p,
 .main-content .small-header,
 .main-content .hero-sub,
+.main-content .hero-cards,
 .main-content .trusted-by,
 .main-content .cs-header,
 .main-content .cs-role,

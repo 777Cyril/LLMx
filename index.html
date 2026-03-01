@@ -59,9 +59,6 @@
                     <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
                 </div>
             </div>
-            <button class="sidebar-gpt-trigger" id="sidebar-gpt-trigger" aria-haspopup="dialog">
-                LLMx GPT <span class="sidebar-gpt-trigger__dot">●</span>
-            </button>
         </div>
         <!-- Desktop sidebar collapse tab — on the right border, near System card -->
         <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
@@ -134,6 +131,14 @@
                     <div class="hero-sub">
                         LLMs are the new OS, English is the interface.
                         Building AI-native tools for operators who need leverage.
+                    </div>
+                    <div class="hero-cards">
+                        <button class="hero-card" id="hero-ask-llmx" type="button" aria-haspopup="dialog">
+                            Ask LLMx
+                        </button>
+                        <button class="hero-card hero-card--book" id="hero-book-sprint" type="button">
+                            Book Your Sprint
+                        </button>
                     </div>
                 </div>
                 <!-- 3D LLM Visualization -->
@@ -757,8 +762,10 @@
             content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.'
         });
 
-        // Modal open/close
+        // Modal open/close — sidebar trigger (if present) + hero card
         if (trigger) trigger.addEventListener('click', openGptModal);
+        const heroAskBtn = document.getElementById('hero-ask-llmx');
+        if (heroAskBtn) heroAskBtn.addEventListener('click', openGptModal);
         if (closeBtn) closeBtn.addEventListener('click', closeGptModal);
         if (backdrop) backdrop.addEventListener('click', closeGptModal);
         document.addEventListener('keydown', (event) => {
@@ -1243,6 +1250,18 @@
         var btn = document.getElementById('footer-book-cta');
         if (btn) {
             btn.addEventListener('click', function () {
+                if (window.Calendly) {
+                    Calendly.initPopupWidget({ url: 'https://calendly.com/llmxai' });
+                } else {
+                    window.open('https://calendly.com/llmxai', '_blank');
+                }
+            });
+        }
+
+        // ── Hero "Book Your Sprint" card → Calendly ─────────────────────
+        var heroBookBtn = document.getElementById('hero-book-sprint');
+        if (heroBookBtn) {
+            heroBookBtn.addEventListener('click', function () {
                 if (window.Calendly) {
                     Calendly.initPopupWidget({ url: 'https://calendly.com/llmxai' });
                 } else {
