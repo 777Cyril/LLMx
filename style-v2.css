@@ -1647,13 +1647,18 @@ html.darkmode .theme-toggle__label {
     color: var(--ink);
 }
 
-.gpt-modal__status {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.55;
-    color: var(--ink);
+.gpt-modal__status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+}
+
+.gpt-modal__status-dot.thinking {
+    background: #f97316;
+    animation: mic-pulse 0.9s ease-in-out infinite;
 }
 
 .gpt-modal__close {
@@ -1802,6 +1807,20 @@ html.darkmode .theme-toggle__label {
     margin-bottom: 0.5rem;
     color: var(--ink);
     letter-spacing: 0.03em;
+}
+
+/* ── Collapse / expand body ──────────────────────────────────────────── */
+.gpt-modal__body {
+    overflow: hidden;
+    max-height: 480px;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.gpt-modal--collapsed .gpt-modal__body {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* ── Seed chips ──────────────────────────────────────────────────────── */

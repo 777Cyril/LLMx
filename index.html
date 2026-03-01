@@ -596,10 +596,18 @@
         pending: false
     };
 
+    function expandModal() {
+        const modal = document.getElementById('gpt-modal');
+        if (modal) modal.classList.remove('gpt-modal--collapsed');
+    }
+
     function openGptModal() {
         const modal = document.getElementById('gpt-modal');
         const backdrop = document.getElementById('gpt-modal-backdrop');
         if (!modal || !backdrop) return;
+        // Auto-expand if there's already a real conversation
+        const hasConversation = sidebarGptState.messages.some((m) => m.role === 'user');
+        if (hasConversation) expandModal();
         modal.removeAttribute('hidden');
         backdrop.removeAttribute('hidden');
         backdrop.removeAttribute('aria-hidden');
@@ -617,9 +625,9 @@
         document.body.style.overflow = '';
     }
 
-    function sidebarGptSetStatus(label) {
-        const el = document.getElementById('sidebar-gpt-status');
-        if (el) el.textContent = label;
+    function sidebarGptSetStatus(isThinking) {
+        const dot = document.getElementById('sidebar-gpt-status');
+        if (dot) dot.classList.toggle('thinking', isThinking);
     }
 
     function sidebarGptRenderMessages() {
@@ -673,11 +681,13 @@
         const thinking = document.getElementById('sidebar-gpt-thinking');
         const input = document.getElementById('sidebar-gpt-input');
         const send = document.querySelector('.gpt-modal__send');
+        const mic = document.getElementById('sidebar-gpt-mic');
 
         if (thinking) thinking.hidden = !isThinking;
         if (input) input.disabled = isThinking;
         if (send) send.disabled = isThinking;
-        sidebarGptSetStatus(isThinking ? 'Thinking' : 'Ready');
+        if (mic) mic.disabled = isThinking;
+        sidebarGptSetStatus(isThinking);
     }
 
     function sidebarGptPushMessage(message) {
@@ -689,10 +699,14 @@
     }
 
     function sidebarGptBuildPayloadMessages() {
-        return sidebarGptState.messages
+        const msgs = sidebarGptState.messages
+            .filter((message) => !message.isGreeting)
             .filter((message) => message.role === 'user' || message.role === 'assistant')
             .map((message) => ({ role: message.role, content: message.content }))
             .slice(-SIDEBAR_GPT_MAX_HISTORY);
+        // Anthropic requires conversation to start with a user message
+        const firstUserIdx = msgs.findIndex((m) => m.role === 'user');
+        return firstUserIdx > 0 ? msgs.slice(firstUserIdx) : msgs;
     }
 
     async function sidebarGptSendMessage(rawMessage, source = 'input') {
@@ -701,6 +715,10 @@
 
         sidebarGptPushMessage({ role: 'user', content: message });
         trackEvent('sidebar_gpt_message_sent', { source, length: message.length, page: 'home' });
+
+        // Remove seed chips after first real message
+        const chipsEl = document.getElementById('sidebar-gpt-chips');
+        if (chipsEl) chipsEl.remove();
 
         sidebarGptState.pending = true;
         sidebarGptSetThinking(true);
@@ -753,10 +771,12 @@
         const backdrop = document.getElementById('gpt-modal-backdrop');
         if (!form || !input) return;
 
-        // Initial greeting message
+        // Initial greeting — marked isGreeting so it's excluded from the API payload
+        // (Anthropic requires conversations to start with a user message)
         sidebarGptPushMessage({
             role: 'assistant',
-            content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.'
+            content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.',
+            isGreeting: true
         });
 
         // Modal open/close — sidebar trigger (if present) + hero card
@@ -769,8 +789,12 @@
             if (event.key === 'Escape') closeGptModal();
         });
 
+        // Expand on first focus
+        input.addEventListener('focus', expandModal, { once: true });
+
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            expandModal();
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
@@ -780,6 +804,7 @@
         input.addEventListener('keydown', async (event) => {
             if (event.key !== 'Enter' || event.shiftKey) return;
             event.preventDefault();
+            expandModal();
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
@@ -807,25 +832,37 @@
                 recognition.lang = 'en-US';
                 let listening = false;
 
+                function micSetListening(on) {
+                    listening = on;
+                    micBtn.classList.toggle('listening', on);
+                }
+
                 micBtn.addEventListener('click', () => {
-                    if (listening) { recognition.stop(); return; }
-                    recognition.start();
+                    expandModal();
+                    if (listening) {
+                        try { recognition.stop(); } catch (_) {}
+                    } else {
+                        try { recognition.start(); } catch (_) {}
+                    }
                 });
 
-                recognition.onstart = () => {
-                    listening = true;
-                    micBtn.classList.add('listening');
-                };
+                recognition.onstart = () => micSetListening(true);
 
                 recognition.onresult = (e) => {
-                    input.value = e.results[0][0].transcript;
-                    input.focus();
+                    let transcript = '';
+                    for (let i = 0; i < e.results.length; i++) {
+                        if (e.results[i].isFinal) {
+                            transcript += e.results[i][0].transcript;
+                        }
+                    }
+                    if (transcript.trim()) {
+                        input.value = transcript.trim();
+                        input.focus();
+                    }
                 };
 
-                recognition.onend = recognition.onerror = () => {
-                    listening = false;
-                    micBtn.classList.remove('listening');
-                };
+                recognition.onerror = () => micSetListening(false);
+                recognition.onend   = () => micSetListening(false);
             }
         }
     }
@@ -1234,20 +1271,22 @@
 
 <!-- LLMx GPT Modal -->
 <div class="gpt-modal-backdrop" id="gpt-modal-backdrop" hidden aria-hidden="true"></div>
-<dialog class="gpt-modal" id="gpt-modal" aria-label="LLMx" hidden>
+<dialog class="gpt-modal gpt-modal--collapsed" id="gpt-modal" aria-label="LLMx" hidden>
     <div class="gpt-modal__header">
         <div class="gpt-modal__title-group">
             <span class="gpt-modal__title">LLMx</span>
-            <span class="gpt-modal__status" id="sidebar-gpt-status">Ready</span>
+            <span class="gpt-modal__status-dot" id="sidebar-gpt-status"></span>
         </div>
         <button class="gpt-modal__close" id="gpt-modal-close" aria-label="Close">✕</button>
     </div>
-    <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
-    <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
-    <div class="gpt-modal__chips" id="sidebar-gpt-chips">
-        <button type="button" class="gpt-modal__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
-        <button type="button" class="gpt-modal__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
-        <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
+    <div class="gpt-modal__body">
+        <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
+        <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
+        <div class="gpt-modal__chips" id="sidebar-gpt-chips">
+            <button type="button" class="gpt-modal__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+            <button type="button" class="gpt-modal__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
+            <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
+        </div>
     </div>
     <form class="gpt-modal__form" id="sidebar-gpt-form">
         <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx</label>
