@@ -1253,24 +1253,49 @@
 
         // ── Footer flip cycling: one CTA visible at a time ─────────────
         var flips = document.querySelectorAll('.footer-flips .footer-flip');
-        if (flips.length >= 2) {
+        var wrapper = document.querySelector('.footer-flips');
+        if (flips.length >= 2 && wrapper) {
             var current = 0;
-            flips[0].classList.add('is-active');
+            var timerId = null;
 
-            setInterval(function () {
-                var next = (current + 1) % flips.length;
-                // Outgoing: slide up and fade
-                flips[current].classList.remove('is-active');
-                // Incoming: reset position below, then slide in
-                flips[next].style.transform = 'translateY(100%)';
+            function showFlip(next) {
+                if (next === current) return;
+                // Snap incoming flip below without transition, then release
                 flips[next].style.transition = 'none';
-                // Force reflow so the reset position is painted before animating
-                void flips[next].offsetHeight;
-                flips[next].style.transform = '';
+                flips[next].style.transform = 'translateY(100%)';
+                void flips[next].offsetHeight;           // force paint
                 flips[next].style.transition = '';
+                flips[next].style.transform = '';
+                // Swap active class — CSS transition does the rest
+                flips[current].classList.remove('is-active');
                 flips[next].classList.add('is-active');
                 current = next;
-            }, 4000);
+            }
+
+            function cycle() {
+                showFlip((current + 1) % flips.length);
+            }
+
+            function resetTimer() {
+                clearInterval(timerId);
+                timerId = setInterval(cycle, 4000);
+            }
+
+            // Init: show first flip, start auto-cycle
+            flips[0].classList.add('is-active');
+            resetTimer();
+
+            // Mouse in → cycle immediately, reset timer so auto doesn't double-fire
+            wrapper.addEventListener('mouseenter', function () {
+                cycle();
+                resetTimer();
+            });
+
+            // Mouse out → cycle back immediately, reset timer
+            wrapper.addEventListener('mouseleave', function () {
+                cycle();
+                resetTimer();
+            });
         }
     }());
 </script>

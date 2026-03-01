@@ -807,8 +807,8 @@ footer {
     font-family: var(--font-sans);
     letter-spacing: -0.04em;
     white-space: nowrap;
-    transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1),
-                opacity 0.4s ease;
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.12s ease;
 }
 
 .footer-flip__front {
@@ -878,8 +878,8 @@ footer {
     transform: translateY(100%);
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1),
-                opacity 0.5s ease;
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.12s ease;
 }
 
 .footer-flips .footer-flip.is-active {
