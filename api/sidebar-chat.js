@@ -227,15 +227,29 @@ async function handler(req, res) {
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
-  // Only surface real site pages as sources — not internal FAQ corpus chunks,
-  // which expose the RAG structure and link to "/" with no useful destination.
-  const pageRanked = finalRanked.filter((c) => c.label !== 'FAQ');
-  const sources = core.buildSourceList(pageRanked, 3);
-
-  // Inject Calendly CTA link when the reply contains booking intent signals.
-  // The link renders as a clickable source button rather than a raw URL in text.
   const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly/i;
-  if (BOOKING_INTENT.test(reply)) {
+  const isBookingIntent = BOOKING_INTENT.test(reply);
+
+  let sources = [];
+
+  if (!isBookingIntent) {
+    // Surface real site pages only — deduplicated by URL, above relevance threshold.
+    // FAQ chunks are internal corpus; duplicate URLs occur when multiple chunks from
+    // the same page are retrieved. Both are suppressed here.
+    const seenUrls = new Set();
+    const relevantPages = finalRanked.filter((c) => {
+      if (c.label === 'FAQ') return false;
+      // Only show if hybrid score clears the relevance bar (when semantic ran),
+      // or if the chunk made it into the top results via lexical alone.
+      const score = typeof c.hybridScore === 'number' ? c.hybridScore : 1;
+      if (score < 0.40) return false;
+      if (seenUrls.has(c.url)) return false;
+      seenUrls.add(c.url);
+      return true;
+    });
+    sources = core.buildSourceList(relevantPages, 3);
+  } else {
+    // Booking intent — suppress page links, focus UI entirely on conversion CTAs.
     sources.push({ id: 'calendly', label: 'Book a call →', url: 'https://calendly.com/llmxai' });
     sources.push({ id: 'email', label: 'Email us', url: 'mailto:cyril@llmxai.co' });
   }
