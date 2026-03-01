@@ -615,7 +615,6 @@
         // Start collapsed: no chrome, no backdrop — bare chips + input floating
         modal.classList.add('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
-        setTimeout(() => document.getElementById('ask-llmx-input')?.focus(), 50);
     }
 
     function closeGptModal() {
@@ -800,9 +799,6 @@
             if (micBtn)  micBtn.classList.toggle('hidden',  hasText);
         }
         input.addEventListener('input', updateFormState);
-
-        // Expand when input is focused
-        input.addEventListener('focus', expandModal);
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
