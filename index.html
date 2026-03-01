@@ -1303,17 +1303,20 @@
             flips[1].classList.add('is-active');
             startTimer();
 
-            // Mouse enter → advance one state, pause auto-cycle
+            // Mouse enter:
+            //   - if on a front face (Book now / Try now) → advance to its back face
+            //   - if already on a back face (Sprint / Onyx) → freeze, don't jump
             wrapper.addEventListener('mouseenter', function () {
                 isHovered = true;
                 clearInterval(timerId);
-                advance();
+                if (!STATES[stateIdx].flipped) {
+                    advance();
+                }
             });
 
-            // Mouse leave → advance one state, resume auto-cycle
+            // Mouse leave → resume auto-cycle from wherever we are, no extra advance
             wrapper.addEventListener('mouseleave', function () {
                 isHovered = false;
-                advance();
                 startTimer();
             });
         }
