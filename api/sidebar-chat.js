@@ -80,7 +80,9 @@ async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages 
     } catch (_error) {
       bodyText = '';
     }
-    throw new Error(`Anthropic request failed (${response.status}): ${bodyText.slice(0, 300)}`);
+    const msg = `Anthropic ${response.status}: ${bodyText.slice(0, 500)}`;
+    console.error('[sidebar-chat] Anthropic API error →', msg);
+    throw new Error(msg);
   }
 
   const data = await response.json();
@@ -216,11 +218,14 @@ async function handler(req, res) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
+    console.error('[sidebar-chat] ANTHROPIC_API_KEY env var is not set');
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
   const model        = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   const contextBlock = core.buildContextBlock(finalRanked, 4);
+
+  console.log('[sidebar-chat] calling Claude model:', model);
 
   let reply;
   try {
@@ -231,7 +236,8 @@ async function handler(req, res) {
       contextBlock,
       messages
     });
-  } catch (_error) {
+  } catch (claudeError) {
+    console.error('[sidebar-chat] callClaude failed:', claudeError.message);
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
