@@ -1,0 +1,127 @@
+[
+  {
+    "id": "faq-what-is-llmx",
+    "q": "What is LLMx?",
+    "a": "LLMx is an execution coaching service for semi-technical operators. We help you go from AI-generated prototype to live, deployed product — fast. We teach by shipping first, then backfilling the fundamentals so you become self-sufficient. No tutorial hell. No passive courses. You leave with something deployed and the skills to keep building."
+  },
+  {
+    "id": "faq-what-is-sprint",
+    "q": "What is the 0→1 Shipping Sprint?",
+    "a": "The flagship offer: 4 sessions where you ship something real in the first session (under 3 hours), then spend Sessions 2–4 building the workflow, tools, and judgment to keep shipping independently. You leave with a deployed MVP and the capability to keep building on your own."
+  },
+  {
+    "id": "faq-what-do-i-leave-with",
+    "q": "What do I actually leave with after the Sprint?",
+    "a": "A deployed MVP, live website, or internal tool. A working local + cloud development workflow. A GitHub repo and deployment pipeline. An agentic coding setup (tools, prompts, workflow). A debugging and iteration process. A clear next-build roadmap. And the ability to ship your next thing without needing help."
+  },
+  {
+    "id": "faq-how-is-it-different-from-course",
+    "q": "How is LLMx different from a course or bootcamp?",
+    "a": "We build and deploy something real together in Session 1 — not a tutorial, not homework, something live. A consultant extracts value for you. A teacher gives you concepts. LLMx gives you a shipped result and transferable capability. No passive content, no tutorial hell."
+  },
+  {
+    "id": "faq-how-is-it-different-from-freelancer",
+    "q": "How is LLMx different from hiring a freelancer or agency?",
+    "a": "A freelancer builds it for you — you stay dependent. LLMx builds it with you so you become self-sufficient. The goal is to make you independently dangerous, not to create an ongoing services relationship. Done-with-you, not done-for-you."
+  },
+  {
+    "id": "faq-who-is-it-for",
+    "q": "Who is LLMx for?",
+    "a": "PMs, consultants, agency owners, creators with an audience, startup employees, founders validating ideas, and marketers or growth leads trying to build tools or workflows. The common thread: high-agency, semi-technical, and blocked by implementation friction — not motivation. Around 30–50% technical fluency is the sweet spot."
+  },
+  {
+    "id": "faq-what-is-semi-technical",
+    "q": "What does semi-technical mean? Do I need to know how to code?",
+    "a": "You don't need to know how to code. Semi-technical means: you can use ChatGPT or Claude well, describe what you want to build, copy/paste code, and maybe use tools like Cursor, Replit, v0, Lovable, or Bolt. You understand product flows. You just get stuck at repo structure, Git, deployment, debugging, and moving from prototype to repeatable workflow."
+  },
+  {
+    "id": "faq-what-fluency-level",
+    "q": "What level of technical fluency do I need?",
+    "a": "Around 30–50% technical fluency is the ideal fit. Smart enough to learn fast, blocked by implementation friction, motivated by leverage, and willing to pay because time matters. If you've never touched AI tools at all, the Sprint may be premature. If you're already shipping confidently, you may not need it."
+  },
+  {
+    "id": "faq-who-is-not-a-fit",
+    "q": "Who is LLMx NOT for?",
+    "a": "LLMx is not the right fit if you want someone to build your full product for you, need indefinite debugging support, aren't comfortable with basic AI tools like ChatGPT or Claude, or don't have a concrete use case or urgency. We focus on scoped MVPs and operator capability transfer — not full product agencies or ongoing retainers."
+  },
+  {
+    "id": "faq-session-1",
+    "q": "What happens in Session 1?",
+    "a": "Session 1 is execution-first. We build and deploy something real together in under 3 hours. You leave with something live — not a plan, not a wireframe, not a tutorial. An actual deployed product or tool. This proves the model works before we spend time on workflow and fundamentals."
+  },
+  {
+    "id": "faq-sessions-2-4",
+    "q": "What happens in Sessions 2 through 4?",
+    "a": "Sessions 2–4 are capability-building. We systematically fill the technical gaps specific to you: workflow setup, Git and GitHub habits, debugging and iteration skills, deployment pipeline, agentic coding setup. By Session 4 the goal is that you can ship and iterate independently without needing to come back."
+  },
+  {
+    "id": "faq-what-can-we-build",
+    "q": "What can we actually build in the Sprint?",
+    "a": "An MVP, a live website, an internal tool, or an automation workflow — anything scoped to a real first version. The Sprint is not for building full startups or complex multi-system architectures. If you have a concrete project in mind, share it and I can tell you directly if it's a fit."
+  },
+  {
+    "id": "faq-starting-from-zero",
+    "q": "Is this right if I'm starting from zero with no existing code?",
+    "a": "It depends on what zero means. If you have a clear idea, can describe what you want, and are comfortable using AI tools — yes, you can start from zero. We'll build it together from scratch in Session 1. If you've never used AI tools and have no idea what to build, the Sprint may be premature. A quick call can clarify."
+  },
+  {
+    "id": "faq-already-have-code",
+    "q": "What if I already have code or a prototype but can't get it deployed?",
+    "a": "That's one of the most common fits. If you're stuck at the deployment layer — repo structure, Git workflows, environment issues, reliable deploy/iterate — that's exactly the gap LLMx fills. We can use your existing prototype as the starting point for Session 1."
+  },
+  {
+    "id": "faq-how-long",
+    "q": "How long is each session?",
+    "a": "Sessions are approximately 3 hours. Session 1 is execution-first — you ship something live in that window. Follow-up sessions are structured around your specific gaps and current state. The total Sprint is 4 sessions."
+  },
+  {
+    "id": "faq-tools",
+    "q": "What tools will I use in the Sprint?",
+    "a": "It depends on your project, but the typical stack: Cursor or a similar agentic coding tool, GitHub, a deployment platform (Vercel, Railway, or similar), and Claude or another AI model for generation. You'll leave with a working setup you actually understand — not a black box someone else configured."
+  },
+  {
+    "id": "faq-pricing",
+    "q": "How much does the Sprint cost?",
+    "a": "Pricing isn't listed publicly. The fastest way to get the answer is to book a call at calendly.com/llmxai, or paste your goal and current stack here and I'll tell you if the Sprint is the right move first."
+  },
+  {
+    "id": "faq-how-to-book",
+    "q": "How do I book a call or get started?",
+    "a": "Book directly at calendly.com/llmxai. Or paste your goal and current stack here — what you want to build, what tools you're using now — and I'll tell you whether the Sprint is the right fit before you commit to a call."
+  },
+  {
+    "id": "faq-follow-on",
+    "q": "Is there a follow-on option after the Sprint?",
+    "a": "Yes. LLMx Builder Continuation is a monthly engagement for clients who've completed the Sprint and want to keep momentum: office hours, architecture reviews, deployment and debugging support, and support for a second build or refactor."
+  },
+  {
+    "id": "faq-why-not-just-use-cursor",
+    "q": "How is this different from just using Cursor or Claude on my own?",
+    "a": "Most people who try Cursor or Claude alone hit the same walls: environment setup, Git confusion, deployment failures, losing context across tools. LLMx provides live hands-on guidance through exactly those gaps, plus the workflow judgment to navigate them independently afterward. You're not watching someone use the tools — you're using them yourself with expert co-piloting."
+  },
+  {
+    "id": "faq-icp-statement",
+    "q": "What kind of person gets the most out of LLMx?",
+    "a": "High-agency, semi-technical professionals who can generate AI-assisted prototypes but get stuck at the implementation and deployment layer. They have a concrete goal, urgency, and are motivated by leverage — not just learning. They want to ship a real v1 quickly and build the technical workflow habits to become self-sufficient AI-native operators."
+  },
+  {
+    "id": "faq-outcomes-they-buy",
+    "q": "What do clients say they got out of it?",
+    "a": "Common outcomes: 'I shipped my MVP.' 'I can now deploy updates myself.' 'I know what tools to use and why.' 'I am no longer dependent on freelancers or tutorials.' The goal isn't just the deployed product — it's the capability and confidence to keep building."
+  },
+  {
+    "id": "faq-onyx",
+    "q": "What is the Onyx case study?",
+    "a": "Onyx is a case study on the LLMx Work page showing how the Sprint methodology was applied to build and ship a real product. It walks through the execution-first approach in practice — what was built, how it was structured, and what the client left with."
+  },
+  {
+    "id": "faq-arcade",
+    "q": "What is the LLMx Arcade?",
+    "a": "The Arcade is a section of the LLMx site with interactive demos and playable experiments — games like Tetris, Snake, Pong, Asteroids, Space Invaders, and Pac-Man. It's a showcase of what's possible to build with the agentic coding approach LLMx teaches."
+  },
+  {
+    "id": "faq-fit-check",
+    "q": "I'm not sure if LLMx is right for me. How do I find out?",
+    "a": "Two ways: paste your goal and current stack here — what you want to build, where you're stuck, what tools you've tried — and I'll give you a direct fit assessment. Or book a call at calendly.com/llmxai to sanity-check in person. No hard sell either way."
+  }
+]

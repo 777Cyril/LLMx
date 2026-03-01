@@ -277,6 +277,31 @@ function buildCorpus() {
     });
   }
 
+  // FAQ pairs — one chunk per pair for maximum retrieval precision.
+  // The question text acts as a natural semantic anchor; the answer
+  // is what gets passed to Claude as context.
+  try {
+    const faqsRaw = JSON.parse(safeReadFile('faqs.json'));
+    for (let i = 0; i < faqsRaw.length; i++) {
+      const faq = faqsRaw[i];
+      if (!faq.q || !faq.a) continue;
+      const text = `Q: ${faq.q}\nA: ${faq.a}`;
+      const normalized = normalizeWhitespace(text.toLowerCase());
+      const tokens = tokenize(text);
+      chunks.push({
+        id: faq.id || `faq-${i + 1}`,
+        label: 'FAQ',
+        url: '/',
+        title: 'LLMx FAQ',
+        text,
+        normalized,
+        tokenFreq: tokenFrequency(tokens)
+      });
+    }
+  } catch (_err) {
+    // faqs.json missing or malformed — skip silently, HTML corpus still works
+  }
+
   cachedCorpus = {
     docs,
     chunks
