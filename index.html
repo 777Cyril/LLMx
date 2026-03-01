@@ -598,31 +598,37 @@
 
     function expandModal() {
         const modal = document.getElementById('ask-llmx-modal');
-        if (modal) modal.classList.remove('ask-llmx-modal--collapsed');
+        const backdrop = document.getElementById('ask-llmx-backdrop');
+        if (!modal || !modal.classList.contains('ask-llmx-modal--collapsed')) return;
+        modal.classList.remove('ask-llmx-modal--collapsed');
+        // Backdrop + scroll-lock only kick in once the full modal opens
+        if (backdrop) {
+            backdrop.removeAttribute('hidden');
+            backdrop.removeAttribute('aria-hidden');
+        }
+        document.body.style.overflow = 'hidden';
     }
 
     function openGptModal() {
         const modal = document.getElementById('ask-llmx-modal');
-        const backdrop = document.getElementById('ask-llmx-backdrop');
-        if (!modal || !backdrop) return;
-        // Always start collapsed — expand only on first interaction
+        if (!modal) return;
+        // Start collapsed: no chrome, no backdrop — bare chips + input floating
         modal.classList.add('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
-        backdrop.removeAttribute('hidden');
-        backdrop.removeAttribute('aria-hidden');
-        document.body.style.overflow = 'hidden';
         setTimeout(() => document.getElementById('ask-llmx-input')?.focus(), 50);
     }
 
     function closeGptModal() {
         const modal = document.getElementById('ask-llmx-modal');
         const backdrop = document.getElementById('ask-llmx-backdrop');
-        if (!modal || !backdrop) return;
+        if (!modal) return;
         modal.setAttribute('hidden', '');
-        backdrop.setAttribute('hidden', '');
-        backdrop.setAttribute('aria-hidden', 'true');
+        if (backdrop) {
+            backdrop.setAttribute('hidden', '');
+            backdrop.setAttribute('aria-hidden', 'true');
+        }
         document.body.style.overflow = '';
-        // Reset to collapsed so next open always starts compact
+        // Reset to collapsed so next open always starts bare
         modal.classList.add('ask-llmx-modal--collapsed');
     }
 
