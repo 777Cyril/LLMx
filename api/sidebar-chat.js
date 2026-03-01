@@ -181,13 +181,21 @@ async function handler(req, res) {
   // ── Confidence check ──
   // If semantic fired and returned a strong match, trust it and skip lexical fallback.
   // If lexical-only, use the existing isLowConfidence heuristic.
+  const isLowConfidence = core.isLowConfidence(latestUserMessage.content, ranked);
   const semanticConfident = topSemanticScore >= 0.35;
-  if (!semanticConfident && core.isLowConfidence(latestUserMessage.content, ranked)) {
+  if (!semanticConfident && isLowConfidence) {
     return json(res, 200, {
       reply: core.fallbackReply(),
       sources: []
     });
   }
+
+  console.log(JSON.stringify({
+    query: latestUserMessage.content,
+    topChunks: finalRanked.slice(0, 3).map((c) => ({ id: c.id, score: c.hybridScore })),
+    topSemanticScore,
+    lowConfidence: isLowConfidence
+  }));
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
