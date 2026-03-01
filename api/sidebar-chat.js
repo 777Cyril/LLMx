@@ -3,6 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const core = require('./sidebar-chat-core');
+const semantic = require('./semantic');
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const MAX_HISTORY_MESSAGES = 10;
@@ -95,6 +96,35 @@ function buildSystemPrompt() {
   return fs.readFileSync(path.join(__dirname, 'system-prompt.txt'), 'utf8').trim();
 }
 
+/**
+ * Merge lexical BM25-style scores with Pinecone cosine-similarity scores.
+ * Lexical scores are normalised to 0–1 before blending.
+ * Returns chunks sorted by hybrid score descending.
+ */
+function hybridMerge(lexicalRanked, semanticMatches) {
+  const maxLexical = lexicalRanked.reduce((m, c) => Math.max(m, c.score), 1);
+
+  const lexicalMap = new Map(
+    lexicalRanked.map((c) => [c.id, { chunk: c, norm: c.score / maxLexical }])
+  );
+  const semanticMap = new Map(
+    semanticMatches.map((m) => [m.id, { chunk: m, score: m.score }])
+  );
+
+  const allIds = new Set([...lexicalMap.keys(), ...semanticMap.keys()]);
+
+  const merged = [...allIds].map((id) => {
+    const lEntry = lexicalMap.get(id);
+    const sEntry = semanticMap.get(id);
+    const lScore = lEntry ? lEntry.norm  : 0;
+    const sScore = sEntry ? sEntry.score : 0;
+    const chunk  = (lEntry?.chunk) || (sEntry?.chunk);
+    return { ...chunk, hybridScore: 0.4 * lScore + 0.6 * sScore };
+  });
+
+  return merged.sort((a, b) => b.hybridScore - a.hybridScore);
+}
+
 async function handler(req, res) {
   const method = String(req?.method || 'GET').toUpperCase();
   if (method !== 'POST') {
@@ -122,7 +152,37 @@ async function handler(req, res) {
   const corpus = core.buildCorpus();
   const ranked = core.rankChunks(latestUserMessage.content, corpus.chunks, 6);
 
-  if (core.isLowConfidence(latestUserMessage.content, ranked)) {
+  // ── Semantic search (runs in parallel with lexical; gracefully skipped if keys absent) ──
+  const pineconeKey = process.env.PINECONE_API_KEY;
+  const openaiKey   = process.env.OPENAI_API_KEY;
+  let finalRanked   = ranked;
+  let topSemanticScore = 0;
+
+  if (pineconeKey && openaiKey) {
+    try {
+      const semanticMatches = await Promise.race([
+        semantic.semanticSearch(
+          latestUserMessage.content,
+          { pineconeKey, openaiKey },
+          6
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('semantic timeout')), 4500)
+        )
+      ]);
+      topSemanticScore = semanticMatches[0]?.score || 0;
+      finalRanked = hybridMerge(ranked, semanticMatches);
+    } catch (_err) {
+      // Fall back to lexical-only — no user-facing impact
+      finalRanked = ranked;
+    }
+  }
+
+  // ── Confidence check ──
+  // If semantic fired and returned a strong match, trust it and skip lexical fallback.
+  // If lexical-only, use the existing isLowConfidence heuristic.
+  const semanticConfident = topSemanticScore >= 0.35;
+  if (!semanticConfident && core.isLowConfidence(latestUserMessage.content, ranked)) {
     return json(res, 200, {
       reply: core.fallbackReply(),
       sources: []
@@ -134,8 +194,8 @@ async function handler(req, res) {
     return json(res, 503, { error: 'temporarily_unavailable' });
   }
 
-  const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
-  const contextBlock = core.buildContextBlock(ranked, 4);
+  const model        = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
+  const contextBlock = core.buildContextBlock(finalRanked, 4);
 
   let reply;
   try {
@@ -152,7 +212,7 @@ async function handler(req, res) {
 
   return json(res, 200, {
     reply,
-    sources: core.buildSourceList(ranked, 3)
+    sources: core.buildSourceList(finalRanked, 3)
   });
 }
 
