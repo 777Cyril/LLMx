@@ -1824,13 +1824,14 @@ html.darkmode .theme-toggle__label {
 }
 
 /* Collapsed = no chrome — just chips + input floating bare on the page */
-.ask-llmx-modal--collapsed {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0;
+/* Double-class + !important beats light-mode overrides and base modal styles */
+.ask-llmx-modal.ask-llmx-modal--collapsed {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
 }
 
 .ask-llmx-modal--collapsed .ask-llmx__header {
