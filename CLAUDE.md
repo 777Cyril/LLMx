@@ -8,7 +8,7 @@ LLMx is an AI coaching platform. The site markets a **4-session "0→1 Shipping 
 - Onyx case study (`/onyx/`, `/work/onyx/`)
 - Retro arcade games (`/arcade/`)
 
-**Active branch:** `redesign/v2` — ongoing homepage redesign. PRs target `main`.
+**Workflow:** Iterating directly on `main` (deployed to production via Vercel on every push).
 
 ---
 
