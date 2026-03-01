@@ -794,6 +794,15 @@
             if (event.key === 'Escape') closeGptModal();
         });
 
+        // Toggle send ↔ mic based on whether the textarea has content
+        const sendBtn = document.querySelector('.ask-llmx__send');
+        function updateFormState() {
+            const hasText = input.value.trim().length > 0;
+            if (sendBtn) sendBtn.classList.toggle('visible', hasText);
+            if (micBtn)  micBtn.classList.toggle('hidden',  hasText);
+        }
+        input.addEventListener('input', updateFormState);
+
         // Expand when input is focused
         input.addEventListener('focus', expandModal);
 
@@ -803,6 +812,7 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
+            updateFormState();
             await askLlmxSend(text, 'input');
         });
 
@@ -813,6 +823,7 @@
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
+            updateFormState();
             await askLlmxSend(text, 'keyboard');
         });
 
@@ -864,6 +875,7 @@
                     if (transcript.trim()) {
                         input.value = transcript.trim();
                         input.focus();
+                        updateFormState(); // show send button after dictation
                     }
                 };
 
@@ -1305,14 +1317,19 @@
             placeholder="Ask anything..."
         ></textarea>
         <button class="ask-llmx__mic" id="ask-llmx-mic" type="button" aria-label="Dictate">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="2" width="6" height="12" rx="3"/>
                 <path d="M5 10a7 7 0 0 0 14 0"/>
                 <line x1="12" y1="19" x2="12" y2="22"/>
                 <line x1="8" y1="22" x2="16" y2="22"/>
             </svg>
         </button>
-        <button class="ask-llmx__send" type="submit">→</button>
+        <button class="ask-llmx__send" type="submit" aria-label="Send">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"/>
+                <polyline points="5 12 12 5 19 12"/>
+            </svg>
+        </button>
     </form>
 </dialog>
 

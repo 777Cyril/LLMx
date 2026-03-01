@@ -1903,28 +1903,30 @@ html.darkmode .theme-toggle__label {
     border-color: rgba(255, 0, 0, 0.35);
 }
 
-/* ── Send button ─────────────────────────────────────────────────────── */
+/* ── Send button — hidden until textarea has content ─────────────────── */
 .ask-llmx__send {
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 1.0rem;
-    padding: 0.45rem 0.85rem;
+    display: none;
+    border: none;
+    background: #ff0000;
+    color: #fff;
+    padding: 0.45rem 0.75rem;
     cursor: pointer;
-    border-radius: 4px;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.1s ease;
 }
 
-:root:not(.darkmode) .ask-llmx__send {
-    border-color: rgba(0, 0, 0, 0.14);
-    background: rgba(0, 0, 0, 0.04);
+.ask-llmx__send.visible {
+    display: flex;
 }
 
 .ask-llmx__send:hover {
-    color: #ff0000;
-    border-color: rgba(255, 0, 0, 0.5);
-    background: rgba(255, 0, 0, 0.06);
+    background: #cc0000;
+}
+
+.ask-llmx__send:active {
+    transform: scale(0.93);
 }
 
 /* ── Focus rings ─────────────────────────────────────────────────────── */
@@ -1964,6 +1966,10 @@ html.darkmode .theme-toggle__label {
     color: #ff0000;
     border-color: rgba(255, 0, 0, 0.5);
     background: rgba(255, 0, 0, 0.06);
+}
+
+.ask-llmx__mic.hidden {
+    display: none;
 }
 
 .ask-llmx__mic.listening {
