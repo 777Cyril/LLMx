@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Admin — LLMx</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/blog/blog.css">
+</head>
+<body>
+
+<header class="blog-site-header">
+  <a href="/" class="wordmark">LLMx <span>— Admin</span></a>
+  <nav>
+    <a href="/blog/">View Blog</a>
+    <a href="/blog/admin/" class="active">Editor</a>
+  </nav>
+</header>
+
+<!-- AUTH GATE -->
+<div id="auth-gate" style="max-width:400px;margin:120px auto;padding:0 24px;">
+  <div style="font-family:'Courier New',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(17,17,17,0.45);margin-bottom:16px;">LLMx — Blog Admin</div>
+  <input type="password" id="auth-input" placeholder="Enter admin password"
+    style="width:100%;padding:12px 14px;border:1px solid rgba(17,17,17,0.25);background:#fff;font-family:'Courier New',monospace;font-size:0.875rem;color:#111;outline:none;box-sizing:border-box;margin-bottom:12px;">
+  <button onclick="checkAuth()"
+    style="width:100%;padding:12px;background:#111;color:#dcdcdc;border:none;font-family:'Courier New',monospace;font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;">
+    Enter →
+  </button>
+  <div id="auth-error" style="margin-top:10px;font-family:'Courier New',monospace;font-size:9px;color:#8a3a1a;display:none;">Incorrect password.</div>
+</div>
+
+<!-- EDITOR (hidden until auth) -->
+<div id="editor-app" style="display:none;">
+<div class="admin-layout">
+
+  <div class="admin-header">
+    <span class="admin-title">Blog Editor</span>
+    <span class="admin-status" id="editor-status">New post</span>
+  </div>
+
+  <!-- Post metadata -->
+  <div class="editor-meta-row">
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="field-label" for="post-title">Title *</label>
+      <input class="field-input" id="post-title" type="text" placeholder="Post title">
+    </div>
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="field-label" for="post-slug">Slug *</label>
+      <input class="field-input mono" id="post-slug" type="text" placeholder="my-post-slug">
+    </div>
+    <div class="field-group" style="margin-bottom:0;">
+      <label class="field-label" for="post-readtime">Read time</label>
+      <input class="field-input mono" id="post-readtime" type="text" placeholder="5 min read">
+    </div>
+  </div>
+
+  <div class="field-group" style="margin-top:16px;">
+    <label class="field-label" for="post-excerpt">Excerpt</label>
+    <input class="field-input" id="post-excerpt" type="text" placeholder="One or two sentences. Shown on the index.">
+  </div>
+
+  <!-- Markdown editor -->
+  <div class="field-group">
+    <label class="field-label">Body (Markdown)</label>
+    <div class="editor-toolbar">
+      <button class="toolbar-btn" onclick="wrap('**','**')" title="Bold">B</button>
+      <button class="toolbar-btn" onclick="wrap('*','*')" title="Italic"><em>I</em></button>
+      <button class="toolbar-btn" onclick="insertHeading(2)">H2</button>
+      <button class="toolbar-btn" onclick="insertHeading(3)">H3</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" onclick="wrap('`','`')">Code</button>
+      <button class="toolbar-btn" onclick="insertBlock('```\n','\n```')">Block</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" onclick="insertLine('> ')">Quote</button>
+      <button class="toolbar-btn" onclick="insertLine('- ')">List</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" onclick="insertLine('---')">HR</button>
+      <button class="toolbar-btn" onclick="insertLink()">Link</button>
+    </div>
+    <textarea id="md-editor" spellcheck="true" placeholder="Write your post in Markdown…&#10;&#10;## Section Heading&#10;&#10;Your paragraph here."></textarea>
+  </div>
+
+  <!-- Actions -->
+  <div class="admin-actions">
+    <button class="btn-publish" id="btn-publish" onclick="publishPost()">Publish →</button>
+    <button class="btn-preview" onclick="togglePreview()">Preview</button>
+    <button class="btn-save-draft" onclick="saveDraft()">Save draft</button>
+    <span style="flex:1;"></span>
+    <button class="btn-save-draft" onclick="clearEditor()" style="color:rgba(17,17,17,0.35);">Clear</button>
+  </div>
+
+  <div class="publish-result" id="publish-result"></div>
+
+  <!-- Live preview -->
+  <div class="preview-pane" id="preview-pane">
+    <div class="preview-label">Preview</div>
+    <div class="post-body" id="preview-body"></div>
+  </div>
+
+  <!-- Existing posts -->
+  <div class="admin-post-list">
+    <div class="admin-post-list-header">Published &amp; Draft Posts</div>
+    <div id="post-list-admin"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  // ── Auth ───────────────────────────────────────────────────────────────
+  const ADMIN_PASS = 'llmx2025'; // Change this to your preferred password
+
+  function checkAuth() {
+    const val = document.getElementById('auth-input').value;
+    if (val === ADMIN_PASS) {
+      sessionStorage.setItem('llmx_admin', '1');
+      document.getElementById('auth-gate').style.display = 'none';
+      document.getElementById('editor-app').style.display = 'block';
+      init();
+    } else {
+      document.getElementById('auth-error').style.display = 'block';
+    }
+  }
+
+  document.getElementById('auth-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkAuth();
+  });
+
+  if (sessionStorage.getItem('llmx_admin') === '1') {
+    document.getElementById('auth-gate').style.display = 'none';
+    document.getElementById('editor-app').style.display = 'block';
+  }
+
+  // ── State ──────────────────────────────────────────────────────────────
+  let posts = [];
+  let editingId = null;
+
+  // ── Init ───────────────────────────────────────────────────────────────
+  async function init() {
+    await loadPosts();
+    renderPostList();
+    restoreDraft();
+
+    // Auto-slug from title
+    document.getElementById('post-title').addEventListener('input', e => {
+      if (!editingId) {
+        document.getElementById('post-slug').value = slugify(e.target.value);
+      }
+      setStatus('Unsaved changes');
+    });
+
+    document.getElementById('md-editor').addEventListener('input', () => setStatus('Unsaved changes'));
+  }
+
+  if (sessionStorage.getItem('llmx_admin') === '1') init();
+
+  // ── Load posts from JSON ───────────────────────────────────────────────
+  async function loadPosts() {
+    try {
+      const res = await fetch('/blog/posts.json?_=' + Date.now());
+      posts = await res.json();
+    } catch {
+      posts = [];
+    }
+  }
+
+  // ── Render post list in admin ──────────────────────────────────────────
+  function renderPostList() {
+    const el = document.getElementById('post-list-admin');
+    if (!posts.length) { el.innerHTML = '<div style="font-family:\'Courier New\',monospace;font-size:10px;color:rgba(17,17,17,0.4);padding:12px 0;">No posts yet.</div>'; return; }
+
+    el.innerHTML = posts.map(p => `
+      <div class="admin-post-item">
+        <span class="admin-post-item-title">
+          ${escHtml(p.title)}
+          <span style="margin-left:8px;font-size:8px;opacity:0.5;text-transform:uppercase;letter-spacing:0.1em;">${p.status}</span>
+        </span>
+        <span class="admin-post-item-date">${formatDate(p.date)}</span>
+        <div class="admin-post-actions">
+          <button onclick="editPost('${p.id}')">Edit</button>
+          <button onclick="toggleStatus('${p.id}')">${p.status === 'published' ? 'Unpublish' : 'Publish'}</button>
+          <button class="btn-delete" onclick="deletePost('${p.id}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Publish post ───────────────────────────────────────────────────────
+  async function publishPost() {
+    const title    = document.getElementById('post-title').value.trim();
+    const slug     = document.getElementById('post-slug').value.trim();
+    const excerpt  = document.getElementById('post-excerpt').value.trim();
+    const readtime = document.getElementById('post-readtime').value.trim();
+    const body     = document.getElementById('md-editor').value.trim();
+
+    if (!title || !slug || !body) {
+      showResult('Title, slug, and body are required.', 'error');
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+
+    if (editingId) {
+      const idx = posts.findIndex(p => p.id === editingId);
+      if (idx !== -1) {
+        posts[idx] = { ...posts[idx], title, id: slug, excerpt, readtime, body, status: 'published' };
+      }
+    } else {
+      if (posts.find(p => p.id === slug)) {
+        showResult(`A post with slug "${slug}" already exists.`, 'error');
+        return;
+      }
+      posts.unshift({ id: slug, title, excerpt, date: today, readtime, status: 'published', body });
+    }
+
+    await savePostsToGitHub();
+    clearDraft();
+    clearEditorFields();
+    editingId = null;
+    renderPostList();
+    setStatus('Published');
+    showResult(`"${title}" is now live. <a href="/blog/post.html?id=${slug}" target="_blank">View post →</a>`, 'success');
+  }
+
+  // ── Save draft (localStorage) ──────────────────────────────────────────
+  function saveDraft() {
+    const draft = {
+      title:    document.getElementById('post-title').value,
+      slug:     document.getElementById('post-slug').value,
+      excerpt:  document.getElementById('post-excerpt').value,
+      readtime: document.getElementById('post-readtime').value,
+      body:     document.getElementById('md-editor').value,
+      editingId,
+    };
+    localStorage.setItem('llmx_draft', JSON.stringify(draft));
+    setStatus('Draft saved');
+  }
+
+  function restoreDraft() {
+    try {
+      const raw = localStorage.getItem('llmx_draft');
+      if (!raw) return;
+      const d = JSON.parse(raw);
+      document.getElementById('post-title').value    = d.title    || '';
+      document.getElementById('post-slug').value     = d.slug     || '';
+      document.getElementById('post-excerpt').value  = d.excerpt  || '';
+      document.getElementById('post-readtime').value = d.readtime || '';
+      document.getElementById('md-editor').value     = d.body     || '';
+      editingId = d.editingId || null;
+      if (d.title || d.body) setStatus('Draft restored');
+    } catch {}
+  }
+
+  function clearDraft() { localStorage.removeItem('llmx_draft'); }
+
+  function clearEditorFields() {
+    ['post-title','post-slug','post-excerpt','post-readtime','md-editor'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('preview-pane').classList.remove('visible');
+  }
+
+  function clearEditor() {
+    if (!confirm('Clear the editor? Unsaved work will be lost.')) return;
+    clearEditorFields();
+    clearDraft();
+    editingId = null;
+    setStatus('New post');
+  }
+
+  // ── Edit / delete / toggle ─────────────────────────────────────────────
+  function editPost(id) {
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
+    document.getElementById('post-title').value    = post.title    || '';
+    document.getElementById('post-slug').value     = post.id       || '';
+    document.getElementById('post-excerpt').value  = post.excerpt  || '';
+    document.getElementById('post-readtime').value = post.readtime || '';
+    document.getElementById('md-editor').value     = post.body     || '';
+    editingId = id;
+    setStatus(`Editing: ${post.title}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function toggleStatus(id) {
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
+    post.status = post.status === 'published' ? 'draft' : 'published';
+    await savePostsToGitHub();
+    renderPostList();
+  }
+
+  async function deletePost(id) {
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    posts = posts.filter(p => p.id !== id);
+    await savePostsToGitHub();
+    renderPostList();
+  }
+
+  // ── Save posts.json to GitHub via API ─────────────────────────────────
+  async function savePostsToGitHub() {
+    const token  = sessionStorage.getItem('llmx_gh_token');
+    const owner  = '777Cyril';
+    const repo   = 'LLMx';
+    const path   = 'blog/posts.json';
+    const branch = 'redesign/v2';
+
+    if (!token) {
+      // Fallback: download the JSON for manual upload
+      downloadJson();
+      return;
+    }
+
+    try {
+      // Get current file SHA
+      const fileRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+      });
+      const fileData = await fileRes.json();
+      const sha = fileData.sha;
+
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(posts, null, 2))));
+
+      await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `Blog: update posts.json`, content, sha, branch }),
+      });
+    } catch (e) {
+      console.error('GitHub save failed, falling back to download:', e);
+      downloadJson();
+    }
+  }
+
+  function downloadJson() {
+    const blob = new Blob([JSON.stringify(posts, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'posts.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showResult('posts.json downloaded. Replace the file in /blog/ and push to GitHub to publish.', 'success');
+  }
+
+  // GitHub token setup (stored in sessionStorage, never persisted)
+  function promptGithubToken() {
+    const token = prompt('Enter your GitHub Personal Access Token (repo scope).\nThis is stored only for this browser session — never saved permanently.');
+    if (token) sessionStorage.setItem('llmx_gh_token', token);
+  }
+
+  // ── Preview ────────────────────────────────────────────────────────────
+  function togglePreview() {
+    const pane = document.getElementById('preview-pane');
+    const md   = document.getElementById('md-editor').value;
+    pane.classList.toggle('visible');
+    if (pane.classList.contains('visible')) {
+      document.getElementById('preview-body').innerHTML = mdToHtml(md);
+    }
+  }
+
+  // ── Toolbar helpers ────────────────────────────────────────────────────
+  function wrap(before, after) {
+    const ta = document.getElementById('md-editor');
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const selected = ta.value.substring(s, e) || 'text';
+    const replacement = before + selected + after;
+    ta.setRangeText(replacement, s, e, 'select');
+    ta.focus();
+  }
+
+  function insertHeading(level) {
+    const ta = document.getElementById('md-editor');
+    const prefix = '#'.repeat(level) + ' ';
+    const s = ta.selectionStart;
+    const lineStart = ta.value.lastIndexOf('\n', s - 1) + 1;
+    ta.setRangeText('\n' + prefix, lineStart, lineStart, 'end');
+    ta.focus();
+  }
+
+  function insertLine(prefix) {
+    const ta = document.getElementById('md-editor');
+    const s = ta.selectionStart;
+    ta.setRangeText('\n' + prefix, s, s, 'end');
+    ta.focus();
+  }
+
+  function insertBlock(before, after) {
+    const ta = document.getElementById('md-editor');
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const selected = ta.value.substring(s, e) || '';
+    ta.setRangeText('\n' + before + selected + after + '\n', s, e, 'end');
+    ta.focus();
+  }
+
+  function insertLink() {
+    const ta = document.getElementById('md-editor');
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const selected = ta.value.substring(s, e) || 'link text';
+    ta.setRangeText(`[${selected}](https://)`, s, e, 'select');
+    ta.focus();
+  }
+
+  // ── Markdown renderer (same as post.html) ─────────────────────────────
+  function mdToHtml(md) {
+    let html = md
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => `<pre><code>${code.trimEnd()}</code></pre>`);
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^---$/gm, '<hr>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    html = html.replace(/((?:^[*-] .+\n?)+)/gm, block => {
+      const items = block.trim().split('\n').map(l => `<li>${l.replace(/^[*-] /, '')}</li>`).join('');
+      return `<ul>${items}</ul>`;
+    });
+    html = html.replace(/((?:^\d+\. .+\n?)+)/gm, block => {
+      const items = block.trim().split('\n').map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('');
+      return `<ol>${items}</ol>`;
+    });
+    const blockTags = /^<(h[1-6]|ul|ol|li|blockquote|pre|hr)/;
+    html = html.split('\n\n').map(block => {
+      block = block.trim();
+      if (!block) return '';
+      if (blockTags.test(block)) return block;
+      return `<p>${block.replace(/\n/g, ' ')}</p>`;
+    }).join('\n');
+    return html;
+  }
+
+  // ── Utilities ──────────────────────────────────────────────────────────
+  function slugify(s) {
+    return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const [y, m, d] = iso.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[parseInt(m,10)-1]} ${parseInt(d,10)}, ${y}`;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function setStatus(msg) {
+    document.getElementById('editor-status').textContent = msg;
+  }
+
+  function showResult(msg, type) {
+    const el = document.getElementById('publish-result');
+    el.innerHTML = msg;
+    el.className = `publish-result ${type}`;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 8000);
+  }
+</script>
+
+<!-- GitHub token setup button (subtle, in the corner) -->
+<div style="position:fixed;bottom:20px;right:20px;">
+  <button onclick="promptGithubToken()"
+    style="padding:6px 12px;background:none;border:1px solid rgba(17,17,17,0.2);font-family:'Courier New',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(17,17,17,0.4);cursor:pointer;">
+    GitHub Token
+  </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — LLMx</title>
+  <meta name="description" content="Field notes from inside the work. Opinions on models, workflows, and what the AI discourse gets wrong.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/blog/blog.css">
+</head>
+<body>
+
+<header class="blog-site-header">
+  <a href="/" class="wordmark">LLMx <span>— Studio</span></a>
+  <nav>
+    <a href="/blog/" class="active">Blog</a>
+    <a href="/bootcamp/">Bootcamp</a>
+    <a href="/#about">About</a>
+  </nav>
+</header>
+
+<main class="blog-index">
+  <div class="blog-index-header">
+    <div class="blog-index-eyebrow">LLMx — Field Notes</div>
+    <h1 class="blog-index-title">Blog</h1>
+    <p class="blog-index-desc">Opinions on models, workflows, and what the AI discourse gets wrong. Written when there's something real to say.</p>
+  </div>
+
+  <ul class="post-list" id="post-list">
+    <li class="blog-empty">Loading posts…</li>
+  </ul>
+</main>
+
+<script>
+  async function loadPosts() {
+    const list = document.getElementById('post-list');
+    try {
+      const res = await fetch('/blog/posts.json');
+      const posts = await res.json();
+      const published = posts.filter(p => p.status === 'published');
+
+      if (!published.length) {
+        list.innerHTML = '<li class="blog-empty">No posts yet.</li>';
+        return;
+      }
+
+      list.innerHTML = published.map(p => `
+        <li class="post-list-item">
+          <div class="post-meta-row">
+            <span class="post-date">${formatDate(p.date)}</span>
+            <span class="post-readtime">${p.readtime || ''}</span>
+          </div>
+          <h2 class="post-list-title">
+            <a href="/blog/post.html?id=${p.id}">${escHtml(p.title)}</a>
+          </h2>
+          <p class="post-excerpt">${escHtml(p.excerpt || '')}</p>
+          <a href="/blog/post.html?id=${p.id}" class="post-read-link">Read →</a>
+        </li>
+      `).join('');
+    } catch (e) {
+      list.innerHTML = '<li class="blog-empty">Could not load posts.</li>';
+    }
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    const [y, m, d] = iso.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[parseInt(m,10)-1]} ${parseInt(d,10)}, ${y}`;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>

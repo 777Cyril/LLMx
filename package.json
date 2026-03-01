@@ -1,0 +1,12 @@
+{
+  "name": "llmx",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@pinecone-database/pinecone": "^3.0.0",
+    "openai": "^4.0.0"
+  }
+}

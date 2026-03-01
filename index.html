@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>LLMx</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>LLMx | AI Strategy & Digital Design</title>
+
     <meta property="og:title" content="LLMx - AI Strategy">
     <meta property="og:url" content="http://llmxai.co/">
     <meta property="og:image" content="https://llmxai.co/LLMx2.jpg">
@@ -13,80 +12,1332 @@
     <meta property="og:description" content="LLMs are the new OS. English is the new programming language">
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style-v2.css">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 </head>
-<body class="left"> 
-    <main>
-        <section class="col-a">
-            <div class="logo first">
-                
-                <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g>
-                        <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z" fill="black"/>
-                        <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z" fill="black"/>
-                        <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z" fill="black"/>
-                        <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z" fill="black"/>
-                    </g>
-                </svg>  
+<body>
+<div class="grid-container">
 
-                <h1>LLMx</h1>
-                <small>AI Strategy & Digital Design</small>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-symbol">
+                <span></span><span></span><span></span>
             </div>
-            <div class="colophon">
-                <small>©&hairsp;2025 Brooklyn,NY</small>
+            <!-- Mobile hamburger — inside logo-area so it sits right of the dots on mobile -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="meta-block">
+            <span class="meta-label u-uppercase">Series</span>
+            <div class="meta-value">Studio<br>Vol. 01</div>
+        </div>
+        <div class="meta-block">
+            <span class="meta-label u-uppercase">Subject</span>
+            <div class="meta-value">LLMx<br>BK / 11201</div>
+        </div>
+        <div class="meta-block" style="border-bottom: none; flex-grow: 1;">
+            <span class="meta-label u-uppercase">System</span>
+            <div class="meta-value u-mono" style="font-size: 0.8rem; margin-top: 0.5rem;">
+                Status: Active<br>
+                Time: <span id="time">00:00:00</span><br>
+                Models Deployed: 2
             </div>
-        </section>
-
-        <section class="col-b">
-            <div class="content">
-                <section class="about">
-                    <h3>About</h3>
-                    <p>LLMs are the new OS, and English is the interface. We train the next generation of AI operators.
-                    </p>
-                </section>
-                <section>
-                    <h3>Products</h3>
-                    <p><a href="/onyx/">Onyx</a></p>
-                </section>
-                <section>
-                    <h3>Services</h3>
-                    <p>AI Strategy, Digital Design</p>
-                    <small><!-- Calendly link widget begin -->
-                        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-                        <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-                        <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/llmx'});return false;">Book a Call</a>
-                    </small>
-                </section>
-                <section>
-                    <h3>Resources</h3>
-                    <p><a href="/prompts/">Prompts</a>, <a href="/knowledge/">Knowledge</a></p>
-                </section>
-                <section>
-                    <h3><a href="/arcade/">Arcade</a></h3>
-                    <p><a href="/arcade/tetris/">Tetris</a>, <a href="/arcade/snake/">Snake</a>, <a href="/arcade/pong/">Pong</a>, and more</p>
-                </section>
-                <section>
-                    <h3><a href="/work/">Work</a></h3>
-                </section>
-                <section>
-                    <h3>Contact</h3>
-                    <p><a href="mailto:cyril@llmxai.co">Email</a></p>
-                </section> 
-                    
+            <div id="theme-toggle" class="theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+                <span class="theme-toggle__label" id="theme-label">Dark</span>
+                <div class="theme-toggle__track">
+                    <div class="theme-toggle__thumb"></div>
+                </div>
             </div>
-            <a href="/grid/" class="logo last">
-                <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M464.521 120V0H545.386L573.632 53.3871L603.009 0H680V120H618.988V60.6451L586.706 120H557.492L525.372 60.6451V120H464.521Z" fill="black"/>
-                    <path d="M312.413 0H373.748V77.258H457.034V120H312.413V0Z" fill="black"/>
-                    <path d="M160.305 0H221.64V77.258H304.927V120H160.305V0Z" fill="black"/>
-                    <path d="M63.2718 120H0.64563L30.3446 74.1935L0 33.2258H64.0788L78.7669 56.4516L91.3567 33.2258H154.628L126.544 73.5484L158.018 120H93.2936L78.6055 93.8709L63.2718 120Z" fill="black"/>
-                    </svg>
+            <!-- Music player scaffold — add tracks to MUSIC_TRACKS in JS -->
+            <div class="music-player" id="music-player">
+                <button class="music-now-playing" id="music-now-playing" aria-expanded="false">Now Playing</button>
+                <div class="music-controls" id="music-controls" hidden>
+                    <button class="music-btn" id="music-prev" aria-label="Previous track">|&#9664;</button>
+                    <button class="music-btn music-btn--play" id="music-play" aria-label="Play or pause">&#9654;</button>
+                    <button class="music-btn" id="music-next" aria-label="Next track">&#9654;|</button>
+                </div>
+            </div>
+        </div>
+        <!-- Desktop sidebar collapse tab — on the right border, near System card -->
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true">
+            <span class="sidebar-toggle-icon">⟨</span>
+        </button>
+        <nav class="nav-links">
+            <a href="#work" class="nav-item">
+                Work <span>01</span>
             </a>
-        </section>
-    </main>
-    
+            <a href="#about" class="nav-item">
+                About <span>02</span>
+            </a>
+            <a href="https://www.llmxai.co/arcade/" class="nav-item">
+                Arcade <span>03</span>
+            </a>
+            <div class="nav-item nav-resources">
+                Library <span>04</span>
+                <div class="resources-flyout">
+                    <a href="https://www.llmxai.co/prompts/" class="flyout-link">Prompts</a>
+                    <a href="https://www.llmxai.co/knowledge/" class="flyout-link">Knowledge</a>
+                </div>
+            </div>
+            <a href="mailto:cyril@llmxai.co" class="nav-item">
+                Contact <span>05</span>
+            </a>
+        </nav>
 
-    <script src="scripts.js"></script>
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+        <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-inner">
+                <div class="mobile-menu-grid">
+                    <a href="#work" class="mobile-menu-item" data-close>Work</a>
+                    <a href="#about" class="mobile-menu-item" data-close>About</a>
+                    <a href="https://www.llmxai.co/arcade/" class="mobile-menu-item">Arcade</a>
+                    <a href="/blog/" class="mobile-menu-item">Blog</a>
+                    <a href="/bootcamp/" class="mobile-menu-item">Bootcamp</a>
+                    <a href="https://www.llmxai.co/prompts/" class="mobile-menu-item">Prompts</a>
+                    <a href="https://www.llmxai.co/knowledge/" class="mobile-menu-item">Knowledge</a>
+                    <a href="mailto:cyril@llmxai.co" class="mobile-menu-item">Contact</a>
+                </div>
+                <div class="mobile-menu-footer">
+                    <span class="u-mono" style="font-size:0.7rem;opacity:0.35;">LLMx — BK / 11201</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Fixed tab: only visible when sidebar is collapsed, lets user reopen it -->
+    <button class="sidebar-open-tab" id="sidebar-open-tab" aria-label="Open sidebar" hidden>
+        <span>⟩</span>
+    </button>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-header">
+                <div class="hero-text">
+                    <div class="hero-logo">
+                        <svg width="680" height="120" viewBox="0 0 680 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0H61.2718V77.2581H144.473V120H0V0Z"/>
+                            <path d="M151.951 0H213.223V77.2581H296.424V120H151.951V0Z"/>
+                            <path d="M303.903 120V0H384.685L412.902 53.3871L442.248 0H519.16V120H458.211V60.6452L425.963 120H396.778L364.691 60.6452V120H303.903Z"/>
+                            <path d="M585.351 120H522.789L552.458 74.1935L522.144 33.2258H586.157L600.83 56.4516L613.407 33.2258H676.614L648.558 73.5484L680 120H615.342L600.669 93.871L585.351 120Z"/>
+                        </svg>
+                    </div>
+                    <span class="small-header">Index No. 2025-A</span>
+                    <h1>AI Strategy<br>Digital Design<br>System Architecture</h1>
+                    <div class="hero-sub">
+                        LLMs are the new OS, English is the interface.
+                        Building AI-native tools for operators who need leverage.
+                    </div>
+                    <div class="hero-cards">
+                        <button class="hero-card" id="hero-ask-llmx" type="button" aria-haspopup="dialog">
+                            Ask LLMx
+                        </button>
+                        <button class="hero-card hero-card--book" id="hero-book-sprint" type="button">
+                            Book Your Sprint
+                        </button>
+                    </div>
+                </div>
+                <!-- 3D LLM Visualization -->
+                <div class="llm-viz-container">
+                    <a class="llm-viz-link" href="https://bbycroft.net/llm" target="_blank" rel="noopener"
+                       aria-label="3D LLM Visualization by Brendan Bycroft">
+                        <canvas id="llm-viz" class="llm-viz" aria-label="LLM Visualization"></canvas>
+                    </a>
+                </div>
+            </div>
+            <!-- AI Pulse — live news ticker (edit AI_PULSE_STATIC in JS to curate) -->
+            <div class="ai-pulse" aria-label="AI news pulse">
+                <span class="ai-pulse__label">AI Pulse</span>
+                <div class="ai-pulse__marquee">
+                    <div class="ai-pulse__track">
+                        <div class="ai-pulse__group" id="ai-pulse-group"></div>
+                        <div class="ai-pulse__group" aria-hidden="true" id="ai-pulse-group-mirror"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK GRID -->
+        <section id="work" class="work-grid">
+
+            <article class="case-study cs-tiffany" onclick="window.location='https://www.llmxai.co/work/onyx/'">
+                <div class="cs-header">
+                    <div class="cs-meta">
+                        <span class="u-uppercase">Case Study 01</span>
+                        <span>2024–Present</span>
+                    </div>
+                    <h2 class="cs-title">Onyx</h2>
+                    <div class="cs-role">Prompt Engine / Product Design & Development</div>
+                </div>
+                <div class="cs-image">
+                    <div class="cs-spine-text">PRODUCT</div>
+                </div>
+            </article>
+
+            <article class="case-study cs-apple">
+                <div class="cs-header">
+                    <div class="cs-meta">
+                        <span class="u-uppercase">Case Study 02</span>
+                        <span>2024–Present</span>
+                    </div>
+                    <h2 class="cs-title">Moments Collective</h2>
+                    <div class="cs-role">Client Engagements / AI Conversion Tooling</div>
+                </div>
+                <div class="cs-image">
+                    <div class="cs-spine-text">TOOLING</div>
+                </div>
+            </article>
+
+            <article class="case-study cs-wc">
+                <div class="cs-header">
+                    <div class="cs-meta">
+                        <span class="u-uppercase">Case Study 03</span>
+                        <span>2025–Present</span>
+                    </div>
+                    <h2 class="cs-title">Studio 11</h2>
+                    <div class="cs-role">Strategy & Systems / Web Design</div>
+                </div>
+                <div class="cs-image">
+                    <div class="cs-spine-text">DESIGN</div>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- ABOUT / SPLIT SECTION -->
+        <section id="about" class="split-section">
+            <div class="text-block">
+                <span class="small-header">Services</span>
+                <p>You know what to build. You're blocked on implementation — not motivation.</p>
+                <p>The 0→1 Shipping Sprint is four sessions. We ship something live together in the first one — under three hours. Sessions 2–4 build the workflow, tools, and judgment to keep shipping on your own.</p>
+                <p style="font-size: 1rem; font-family: var(--font-mono); opacity: 0.8;">
+                    Done-with-you, not done-for-you. A consultant extracts value for you. A course gives you concepts. LLMx gives you a shipped result and the capability to build the next thing without us.
+                </p>
+            </div>
+            <div class="text-block text-block--capabilities">
+                <span class="small-header">What You Leave With</span>
+                <ul class="list-group">
+                    <li>
+                        <strong>Deployed MVP, live site, or internal tool</strong>
+                        <span class="u-mono">Shipped</span>
+                    </li>
+                    <li>
+                        <strong>GitHub repo + deployment pipeline</strong>
+                        <span class="u-mono">Owned</span>
+                    </li>
+                    <li>
+                        <strong>Agentic coding workflow + tool setup</strong>
+                        <span class="u-mono">Repeatable</span>
+                    </li>
+                    <li>
+                        <strong>Next-build roadmap + self-sufficiency</strong>
+                        <span class="u-mono">Independent</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- GOODS SECTION -->
+        <section id="goods" class="goods-section">
+            <span class="small-header">Studio</span>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 2rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2rem;">
+                <h2 style="font-size: 4rem; line-height: 1;">LLMx<br>Studio.</h2>
+                <div class="u-mono">Est. 2025 <span class="archive-tag">LIVE</span></div>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                    <h3>Blog</h3>
+                    <p>Field notes from inside the work. Opinions on models, workflows, and what the AI discourse gets wrong. Written when there's something real to say — not on a schedule.</p>
+                    <p style="margin-top: 1.5rem;">
+                        <a href="/blog/" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--paper-bg); opacity: 0.6; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">Read →</a>
+                    </p>
+                </div>
+                <div class="goods-card">
+                    <h3>Bootcamp</h3>
+                    <p>On-demand video curriculum covering LLMs, prompt engineering, and AI workflow design from first principles. Free. Built for operators who learn by doing, not by reading whitepapers.</p>
+                    <p style="margin-top: 1.5rem;">
+                        <a href="/bootcamp/" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--paper-bg); opacity: 0.6; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px;">Start learning →</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="trusted-by" aria-label="Trusted by">
+                <span class="trusted-by__label">Trusted by</span>
+                <div class="trusted-by__marquee">
+                    <div class="trusted-by__track">
+                        <div class="trusted-by__group">
+                            <span class="trusted-by__item">Studio 11</span>
+                            <span class="trusted-by__item">Goods &amp; Objects</span>
+                            <span class="trusted-by__item">Moments Collective</span>
+                        </div>
+                        <div class="trusted-by__group" aria-hidden="true">
+                            <span class="trusted-by__item">Studio 11</span>
+                            <span class="trusted-by__item">Goods &amp; Objects</span>
+                            <span class="trusted-by__item">Moments Collective</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="u-mono" style="font-size: 0.8rem;">
+                    © 2025 LLMx<br>
+                    Brooklyn, NY<br>
+                    All Rights Reserved.
+                </div>
+                <div class="footer-flips">
+                    <a href="/onyx/" class="footer-flip">
+                        <span class="footer-flip__front">
+                            <span class="footer-flip__label">Try now</span>
+                            <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                                <path d="M10 50H142M98 10L142 50L98 90"></path>
+                            </svg>
+                        </span>
+                        <span class="footer-flip__back">Onyx</span>
+                    </a>
+                    <button class="footer-flip footer-flip--book" type="button" id="footer-book-cta" aria-label="Book a Sprint call">
+                        <span class="footer-flip__front">
+                            <span class="footer-flip__label">Book now</span>
+                            <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                                <path d="M10 50H142M98 10L142 50L98 90"></path>
+                            </svg>
+                        </span>
+                        <span class="footer-flip__back">Sprint</span>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+    window.ENABLE_FLOATING_LLMX_WIDGET = false;
+    const ENABLE_FLOATING_LLMX_WIDGET = Boolean(window.ENABLE_FLOATING_LLMX_WIDGET);
+
+    function trackEvent(eventName, props = {}) {
+        try {
+            if (typeof window.llmxTrack === 'function') {
+                window.llmxTrack(eventName, props);
+                return;
+            }
+            if (typeof window.plausible === 'function') {
+                window.plausible(eventName, { props });
+                return;
+            }
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', eventName, props);
+            }
+        } catch (_error) {
+            // Deliberately swallow analytics errors.
+        }
+    }
+    // ── THEME ──────────────────────────────────────────────────────────────
+    function applyTimeBasedTheme() {
+        const hour = new Date().getHours();
+        document.documentElement.classList.toggle('darkmode', hour >= 19 || hour < 7);
+    }
+
+    function updateThemeToggle() {
+        const isDark = document.documentElement.classList.contains('darkmode');
+        const label  = document.getElementById('theme-label');
+        if (label) label.textContent = isDark ? 'Light' : 'Dark';
+    }
+
+    (function initTheme() {
+        // sessionStorage override only lasts the current tab session.
+        // A fresh page load always falls through to time-based default.
+        const override = sessionStorage.getItem('themeOverride');
+        if (override) {
+            document.documentElement.classList.toggle('darkmode', override === 'dark');
+        } else {
+            applyTimeBasedTheme();
+        }
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateThemeToggle();
+
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) {
+            function doToggle() {
+                const isDark = document.documentElement.classList.toggle('darkmode');
+                sessionStorage.setItem('themeOverride', isDark ? 'dark' : 'light');
+                updateThemeToggle();
+            }
+            toggle.addEventListener('click', doToggle);
+            toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') doToggle(); });
+        }
+    });
+
+    // ── TIME ───────────────────────────────────────────────────────────────
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+        document.getElementById('time').textContent = timeString;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // ── MOBILE MENU ────────────────────────────────────────────────────────
+    const menuBtn    = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Force-close the widget (external CDN, no public API — reset via DOM IDs)
+    function forceCloseWidget() {
+        if (!ENABLE_FLOATING_LLMX_WIDGET) return;
+        const panel   = document.getElementById('llmx-panel');
+        const overlay = document.getElementById('llmx-overlay');
+        const trigger = document.getElementById('llmx-trigger');
+        if (panel) {
+            panel.classList.remove('llmx-open');
+            panel.setAttribute('aria-hidden', 'true');
+            panel.style.removeProperty('pointer-events');
+            panel.style.removeProperty('visibility');
+        }
+        if (overlay) {
+            overlay.classList.remove('llmx-visible');
+            overlay.style.pointerEvents = 'none';
+            overlay.style.visibility = 'hidden';
+        }
+        if (trigger) {
+            trigger.style.display = '';
+        }
+        document.documentElement.classList.remove('llmx-widget-open');
+        document.body.classList.remove('llmx-widget-open');
+        document.documentElement.style.removeProperty('--llmx-vv-height');
+        document.documentElement.style.removeProperty('--llmx-vv-offset-top');
+        document.documentElement.style.removeProperty('--llmx-kb-inset');
+    }
+
+    function openMenu() {
+        if (!menuBtn || !mobileMenu) return;
+        forceCloseWidget(); // ensure widget never sits above the menu
+        menuBtn.classList.add('is-open');
+        mobileMenu.classList.add('is-open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        if (!menuBtn || !mobileMenu) return;
+        menuBtn.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.contains('is-open') ? closeMenu() : openMenu();
+        });
+    }
+
+    document.querySelectorAll('[data-close]').forEach(el => {
+        el.addEventListener('click', closeMenu);
+    });
+
+    // ── DESKTOP SIDEBAR COLLAPSE ────────────────────────────────────────────
+    const sidebarToggle  = document.getElementById('sidebar-toggle');
+    const sidebarOpenTab = document.getElementById('sidebar-open-tab');
+
+    function setSidebarState(collapsed) {
+        document.body.classList.toggle('sidebar-collapsed', collapsed);
+        sidebarToggle?.setAttribute('aria-expanded', String(!collapsed));
+        // Show/hide the reopen tab
+        if (sidebarOpenTab) {
+            sidebarOpenTab.hidden = !collapsed;
+        }
+        localStorage.setItem('sidebarCollapsed', String(collapsed));
+        // Blur both tabs so the :focus red outline fades via CSS transition
+        sidebarToggle?.blur();
+        sidebarOpenTab?.blur();
+    }
+
+    function toggleSidebar() {
+        const willCollapse = !document.body.classList.contains('sidebar-collapsed');
+        setSidebarState(willCollapse);
+    }
+
+    sidebarToggle?.addEventListener('click', toggleSidebar);
+    sidebarOpenTab?.addEventListener('click', toggleSidebar);
+    // Hovering the reopen tab opens the sidebar immediately (no click needed)
+    sidebarOpenTab?.addEventListener('mouseenter', () => setSidebarState(false));
+
+    // Restore state on load — default open (first visit)
+    const storedState = localStorage.getItem('sidebarCollapsed') === 'true';
+    setSidebarState(storedState);
+
+    // ── MUSIC PLAYER ──────────────────────────────────────────────────────────
+    // Playlist from /now playing (shuffled at runtime, managed by tools/sync-now-playing.js).
+    const NOW_PLAYING_FILES = [
+        '24Hrs - Nine Vicious.mp3',
+        '30inchRIMS (GRAX).mp3',
+        'AMIAT JEANS - NOAH SINCERE.mp3',
+        'BABY OSAMA - Pacer Test.mp3',
+        'BABY OSAMA - SEE THANGS.mp3',
+        'ball before i leave.mp3',
+        'Bby Kell - LEAN N OVA.mp3',
+        'building a ladder by hiatus kaiyote.mp3',
+        'Cameras + Good Ones Go Interlude by Drake.mp3',
+        'Cash Cow.mp3',
+        'Days Are Cold by Shawny Binladen.mp3',
+        'Dear X by Xuperp.mp3',
+        'Deposit - Boof x 2ski.mp3',
+        'Drake - Free Spirit (ft. Rick Ross).mp3',
+        'Drake - Jungle.mp3',
+        'Drake - Paris Morton Music.mp3',
+        'Drake - Sweeterman.mp3',
+        'E85 - Don Toliver.mp3',
+        'From Time By Drake.mp3',
+        'Gunna ft. Young Thug - Good Day (Unreleased).mp3',
+        'havana by pz.mp3',
+        'Heartfelt.mp3',
+        'ICYTWAT - Need U.mp3',
+        'Jumbo Kay - Billion.mp3',
+        'juna by clairo.mp3',
+        'Keys - Pz.mp3',
+        'long time by playboi carti.mp3',
+        'meeting god by swapa.mp3',
+        'NOAH SINCERE - PERPETUAL SADNESS.mp3',
+        'old habits by swapa.mp3',
+        'Over 2 by lunchbox.mp3',
+        'Oxy Interlude - KanKan.mp3',
+        'PARTYNEXTDOOR - Kehlani\'s Freestyle.mp3',
+        'place by playboi carti.mp3',
+        'Returned The Favor - Boof Ft Kkanii.mp3',
+        'Since Way Back.mp3',
+        'So What:Money Faction - KanKan.mp3',
+        'SOFT SERVE by Laila.mp3',
+        'Sojas! - iayze.mp3',
+        'Spike\'s Hotline - 454.mp3',
+        'Stuntin My Cho - oym.mp3',
+        'Swapa - commas.mp3',
+        'swapa - i wouldve been drunk.mp3',
+        'taliban music by texako + bagboybando.mp3',
+        'The Sweetest Taboo - Sade.mp3',
+        'trendy - sk8star.mp3',
+        'Uh Uh - Chief Keef x Carti.mp3',
+        'untiljapan - my bad shorty (reidmd) [slump audios exclusive].mp3',
+        'use to care by swapa.mp3',
+        'Xan! by BEAR1BOSS.mp3',
+        'YhapoJJ - Not On My Level.mp3'
+    ];
+
+    const MUSIC_TRACKS = NOW_PLAYING_FILES.map((filename) => ({
+        title: filename.replace(/\.mp3$/i, ''),
+        src: `/now%20playing/${encodeURIComponent(filename)}`
+    }));
+
+    const musicState = {
+        tracks: [],
+        current: 0,
+        playing: false,
+        audio: new Audio()
+    };
+
+    function shuffleTracks(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function musicUpdateUI() {
+        const playBtn = document.getElementById('music-play');
+        if (playBtn) playBtn.innerHTML = musicState.playing ? '&#9646;&#9646;' : '&#9654;';
+    }
+
+    function musicLoad(index) {
+        const len = musicState.tracks.length;
+        if (!len) return;
+        musicState.current = ((index % len) + len) % len;
+        musicState.audio.src = musicState.tracks[musicState.current].src;
+        musicUpdateUI();
+    }
+
+    function musicPlay()  { if (!musicState.tracks.length) return; musicState.audio.play(); musicState.playing = true;  musicUpdateUI(); }
+    function musicPause() { musicState.audio.pause(); musicState.playing = false; musicUpdateUI(); }
+    function musicNext()  { musicLoad(musicState.current + 1); if (musicState.playing) musicPlay(); }
+    function musicPrev()  { musicLoad(musicState.current - 1); if (musicState.playing) musicPlay(); }
+
+    musicState.audio.addEventListener('ended', musicNext);
+    musicState.tracks = shuffleTracks(MUSIC_TRACKS);
+    if (musicState.tracks.length) musicLoad(0);
+    musicUpdateUI();
+
+    document.getElementById('music-prev')?.addEventListener('click', musicPrev);
+    document.getElementById('music-next')?.addEventListener('click', musicNext);
+    document.getElementById('music-play')?.addEventListener('click', () => musicState.playing ? musicPause() : musicPlay());
+
+    // "Now Playing" toggles controls visibility
+    const musicNowPlaying = document.getElementById('music-now-playing');
+    const musicControlsEl = document.getElementById('music-controls');
+    musicNowPlaying?.addEventListener('click', () => {
+        const isHidden = musicControlsEl.hidden;
+        musicControlsEl.hidden = !isHidden;
+        musicNowPlaying.setAttribute('aria-expanded', String(isHidden));
+    });
+
+    // ── SIDEBAR GPT ───────────────────────────────────────────────────────────
+    const SIDEBAR_GPT_MAX_HISTORY = 10;
+    const sidebarGptState = {
+        messages: [],
+        pending: false
+    };
+
+    function openGptModal() {
+        const modal = document.getElementById('gpt-modal');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
+        if (!modal || !backdrop) return;
+        modal.removeAttribute('hidden');
+        backdrop.removeAttribute('hidden');
+        backdrop.removeAttribute('aria-hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('sidebar-gpt-input')?.focus(), 50);
+    }
+
+    function closeGptModal() {
+        const modal = document.getElementById('gpt-modal');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
+        if (!modal || !backdrop) return;
+        modal.setAttribute('hidden', '');
+        backdrop.setAttribute('hidden', '');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function sidebarGptSetStatus(label) {
+        const el = document.getElementById('sidebar-gpt-status');
+        if (el) el.textContent = label;
+    }
+
+    function sidebarGptRenderMessages() {
+        const container = document.getElementById('sidebar-gpt-messages');
+        if (!container) return;
+        container.innerHTML = '';
+
+        sidebarGptState.messages.forEach((message) => {
+            const bubble = document.createElement('article');
+            bubble.className = `sidebar-gpt__message sidebar-gpt__message--${message.role}`;
+
+            const body = document.createElement('p');
+            body.className = 'sidebar-gpt__message-text';
+            // Strip markdown formatting Claude may emit despite instructions
+            body.textContent = (message.content || '')
+                .replace(/\*\*([^*]+)\*\*/g, '$1')
+                .replace(/\*([^*]+)\*/g, '$1')
+                .replace(/^#{1,6}\s+/gm, '');
+            bubble.appendChild(body);
+
+            if (Array.isArray(message.sources) && message.sources.length) {
+                const sourceWrap = document.createElement('div');
+                sourceWrap.className = 'sidebar-gpt__sources';
+
+                message.sources.forEach((source) => {
+                    if (!source || !source.url) return;
+                    const link = document.createElement('a');
+                    link.className = 'sidebar-gpt__source';
+                    link.href = source.url;
+                    link.textContent = source.label || 'Source';
+                    // Open external links in a new tab
+                    if (source.url.startsWith('http')) {
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                    }
+                    sourceWrap.appendChild(link);
+                });
+
+                if (sourceWrap.childElementCount) {
+                    bubble.appendChild(sourceWrap);
+                }
+            }
+
+            container.appendChild(bubble);
+        });
+
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function sidebarGptSetThinking(isThinking) {
+        const thinking = document.getElementById('sidebar-gpt-thinking');
+        const input = document.getElementById('sidebar-gpt-input');
+        const send = document.querySelector('.gpt-modal__send');
+
+        if (thinking) thinking.hidden = !isThinking;
+        if (input) input.disabled = isThinking;
+        if (send) send.disabled = isThinking;
+        sidebarGptSetStatus(isThinking ? 'Thinking' : 'Ready');
+    }
+
+    function sidebarGptPushMessage(message) {
+        sidebarGptState.messages.push(message);
+        if (sidebarGptState.messages.length > SIDEBAR_GPT_MAX_HISTORY * 2) {
+            sidebarGptState.messages = sidebarGptState.messages.slice(-SIDEBAR_GPT_MAX_HISTORY * 2);
+        }
+        sidebarGptRenderMessages();
+    }
+
+    function sidebarGptBuildPayloadMessages() {
+        return sidebarGptState.messages
+            .filter((message) => message.role === 'user' || message.role === 'assistant')
+            .map((message) => ({ role: message.role, content: message.content }))
+            .slice(-SIDEBAR_GPT_MAX_HISTORY);
+    }
+
+    async function sidebarGptSendMessage(rawMessage, source = 'input') {
+        const message = String(rawMessage || '').trim();
+        if (!message || sidebarGptState.pending) return;
+
+        sidebarGptPushMessage({ role: 'user', content: message });
+        trackEvent('sidebar_gpt_message_sent', { source, length: message.length, page: 'home' });
+
+        sidebarGptState.pending = true;
+        sidebarGptSetThinking(true);
+
+        try {
+            const response = await fetch('/api/sidebar-chat', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                    messages: sidebarGptBuildPayloadMessages(),
+                    context: { page: 'home' }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Sidebar GPT request failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+            if (!reply) throw new Error('Missing reply content');
+
+            sidebarGptPushMessage({
+                role: 'assistant',
+                content: reply,
+                sources: Array.isArray(data.sources) ? data.sources.slice(0, 5) : []
+            });
+            trackEvent('sidebar_gpt_reply_received', {
+                source_count: Array.isArray(data.sources) ? data.sources.length : 0,
+                page: 'home'
+            });
+        } catch (_error) {
+            sidebarGptPushMessage({
+                role: 'assistant',
+                content: 'Assistant temporarily unavailable. Try again in a moment.'
+            });
+            trackEvent('sidebar_gpt_error', { page: 'home' });
+        } finally {
+            sidebarGptState.pending = false;
+            sidebarGptSetThinking(false);
+        }
+    }
+
+    function initSidebarGpt() {
+        const form = document.getElementById('sidebar-gpt-form');
+        const input = document.getElementById('sidebar-gpt-input');
+        const chips = document.querySelectorAll('[data-seed-question]');
+        const trigger = document.getElementById('sidebar-gpt-trigger');
+        const closeBtn = document.getElementById('gpt-modal-close');
+        const backdrop = document.getElementById('gpt-modal-backdrop');
+        if (!form || !input) return;
+
+        // Initial greeting message
+        sidebarGptPushMessage({
+            role: 'assistant',
+            content: 'Ask me what LLMx does, who it serves, or how the Onyx case study works.'
+        });
+
+        // Modal open/close — sidebar trigger (if present) + hero card
+        if (trigger) trigger.addEventListener('click', openGptModal);
+        const heroAskBtn = document.getElementById('hero-ask-llmx');
+        if (heroAskBtn) heroAskBtn.addEventListener('click', openGptModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeGptModal);
+        if (backdrop) backdrop.addEventListener('click', closeGptModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeGptModal();
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            await sidebarGptSendMessage(text, 'input');
+        });
+
+        input.addEventListener('keydown', async (event) => {
+            if (event.key !== 'Enter' || event.shiftKey) return;
+            event.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            await sidebarGptSendMessage(text, 'keyboard');
+        });
+
+        chips.forEach((chip) => {
+            chip.addEventListener('click', async () => {
+                const prompt = chip.getAttribute('data-seed-question') || '';
+                if (!prompt.trim()) return;
+                await sidebarGptSendMessage(prompt, 'chip');
+            });
+        });
+    }
+
+
+    // ── AI PULSE ─────────────────────────────────────────────────────────────
+    // Set AI_PULSE_USE_LIVE = true + add your rss2json API key to enable live feeds
+    const AI_PULSE_USE_LIVE = true;
+
+    // ── Curate your sources here — full editorial control ──────────────────
+    const AI_PULSE_FEEDS = [
+        'https://openai.com/blog/rss.xml',
+        'https://techcrunch.com/category/artificial-intelligence/feed/',
+        'https://export.arxiv.org/rss/cs.AI',
+    ];
+
+    // ── Static headlines (displayed by default, replace with your own) ─────
+    const AI_PULSE_STATIC = [
+        { title: 'Frontier models close in on AGI benchmarks',      url: '#' },
+        { title: 'LLM inference costs drop 90% year-over-year',     url: '#' },
+        { title: 'Open-source models close gap with frontier labs',  url: '#' },
+        { title: 'AI coding tools now touch 40% of pull requests',   url: '#' },
+        { title: 'RAG pipelines become enterprise standard',         url: '#' },
+        { title: 'Context windows stretch past 1M tokens',           url: '#' },
+        { title: 'Multimodal reasoning reshapes product design',     url: '#' },
+    ];
+
+    function buildPulseTicker(headlines) {
+        const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+        const fill = (el) => {
+            if (!el) return;
+            el.innerHTML = '';
+            headlines.forEach(({ title, url }) => {
+                const a = document.createElement('a');
+                a.href = url === '#' ? '#' : url;
+                a.className = 'ai-pulse__item';
+                a.textContent = title.replace(/\s+/g, ' ').trim();
+                // Force uniform typography inline — overrides anything from feed HTML or CSS cascade
+                a.style.setProperty('font-size', isMobile ? '0.72rem' : '0.82rem', 'important');
+                a.style.setProperty('font-weight', '400', 'important');
+                a.style.setProperty('line-height', '1', 'important');
+                a.style.setProperty('font-family', 'var(--font-mono)', 'important');
+                if (url !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
+                el.appendChild(a);
+            });
+        };
+        fill(document.getElementById('ai-pulse-group'));
+        fill(document.getElementById('ai-pulse-group-mirror'));
+        // Reset animation to t=0 after content is injected.
+        // Without this, the animation is already mid-scroll when items arrive,
+        // causing headlines to flash past and disappear off the left edge.
+        const track = document.querySelector('.ai-pulse__track');
+        if (track) {
+            track.style.animation = 'none';
+            track.offsetHeight; // force reflow
+            track.style.animation = '';
+        }
+    }
+
+    async function loadAIPulse() {
+        if (!AI_PULSE_USE_LIVE) { buildPulseTicker(AI_PULSE_STATIC); return; }
+        const all = [];
+        const KEY = '2z7qqvorxfgwezcqvcity02henitjqofcvxzitrv';
+        const base = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        await Promise.allSettled(AI_PULSE_FEEDS.map(async feed => {
+            const encoded = encodeURIComponent(feed);
+            const attempts = [
+                `${base}${encoded}&count=6&api_key=${KEY}`,
+                `${base}${encoded}`,
+            ];
+            for (const url of attempts) {
+                try {
+                    const d = await fetch(url).then(r => r.json());
+                    if (d.status === 'ok' && d.items?.length) {
+                        const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+                        d.items.forEach(i => all.push({ title: decode(i.title).replace(/<[^>]*>/g, '').trim(), url: i.link }));
+                        return;
+                    }
+                } catch (e) {}
+            }
+        }));
+        buildPulseTicker(all.length ? all : AI_PULSE_STATIC);
+    }
+
+    loadAIPulse();
+
+    function onWidgetPanelReady(callback) {
+        const existing = document.getElementById('llmx-panel');
+        if (existing) {
+            callback(existing);
+            return;
+        }
+
+        const bodyObserver = new MutationObserver((_, obs) => {
+            const panel = document.getElementById('llmx-panel');
+            if (!panel) return;
+            obs.disconnect();
+            callback(panel);
+        });
+
+        bodyObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function onWidgetOverlayReady(callback) {
+        const existing = document.getElementById('llmx-overlay');
+        if (existing) {
+            callback(existing);
+            return;
+        }
+
+        const bodyObserver = new MutationObserver((_, obs) => {
+            const overlay = document.getElementById('llmx-overlay');
+            if (!overlay) return;
+            obs.disconnect();
+            callback(overlay);
+        });
+
+        bodyObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function computeWidgetOpenState(state) {
+        const panelOpen = Boolean(state.panelOpen) && !Boolean(state.panelAriaHidden);
+        const panelVisible = state.panelActuallyVisible !== false;
+        if (!panelOpen || !panelVisible) return false;
+
+        if (!Boolean(state.overlayPresent)) {
+            return panelOpen;
+        }
+
+        const overlayOpen = Boolean(state.overlayVisible) && !Boolean(state.overlayAriaHidden);
+        const overlayVisible = state.overlayActuallyVisible !== false;
+        if (!overlayVisible) return false;
+
+        return panelOpen && overlayOpen;
+    }
+
+    function shouldCloseMenuFromWidgetTransition(previousOpen, currentOpen) {
+        return Boolean(previousOpen) && !Boolean(currentOpen);
+    }
+
+    function elementActuallyVisible(el) {
+        if (!(el instanceof HTMLElement)) return false;
+        const style = window.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden') return false;
+        if (style.pointerEvents === 'none') return false;
+        const opacity = Number.parseFloat(style.opacity || '1');
+        if (Number.isFinite(opacity) && opacity <= 0.01) return false;
+        const rect = el.getBoundingClientRect();
+        const hasSize = rect.width > 0 && rect.height > 0;
+        if (!hasSize) return false;
+        const inViewport = rect.bottom > 0 &&
+                           rect.top < window.innerHeight &&
+                           rect.right > 0 &&
+                           rect.left < window.innerWidth;
+        return inViewport;
+    }
+
+    function isWidgetOpen(panel) {
+        const overlay = document.getElementById('llmx-overlay');
+        return computeWidgetOpenState({
+            panelOpen: panel.classList.contains('llmx-open'),
+            panelAriaHidden: panel.getAttribute('aria-hidden') === 'true',
+            panelActuallyVisible: elementActuallyVisible(panel),
+            overlayPresent: Boolean(overlay),
+            overlayVisible: overlay ? overlay.classList.contains('llmx-visible') : false,
+            overlayAriaHidden: overlay ? overlay.getAttribute('aria-hidden') === 'true' : false,
+            overlayActuallyVisible: overlay ? elementActuallyVisible(overlay) : false
+        });
+    }
+
+    function syncWidgetOverlayHitbox(isOpen) {
+        const overlay = document.getElementById('llmx-overlay');
+        if (!overlay) return;
+
+        if (isOpen) {
+            overlay.style.removeProperty('pointer-events');
+            overlay.style.removeProperty('visibility');
+            return;
+        }
+
+        overlay.style.pointerEvents = 'none';
+        overlay.style.visibility = 'hidden';
+    }
+
+    function installWidgetMobileViewportBehavior(panel) {
+        if (!panel || panel.dataset.mobileViewportReady === 'true') return;
+        panel.dataset.mobileViewportReady = 'true';
+
+        const root = document.documentElement;
+        const mobileQuery = window.matchMedia('(max-width: 1024px)');
+        let activeComposer = null;
+        let scrollIntoViewTimers = [];
+
+        const isComposerField = (el) =>
+            el instanceof HTMLElement &&
+            panel.contains(el) &&
+            (el.id === 'llmx-input' ||
+             el.matches('textarea, input[type="text"], input[type="search"], input[type="email"], input:not([type])'));
+
+        const clearScrollIntoViewTimers = () => {
+            scrollIntoViewTimers.forEach(clearTimeout);
+            scrollIntoViewTimers = [];
+        };
+
+        const updateViewportVars = () => {
+            if (!mobileQuery.matches || !window.visualViewport) return;
+            const vv = window.visualViewport;
+            const keyboardInset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+            root.style.setProperty('--llmx-vv-height', `${Math.max(0, vv.height)}px`);
+            root.style.setProperty('--llmx-vv-offset-top', `${Math.max(0, vv.offsetTop)}px`);
+            root.style.setProperty('--llmx-kb-inset', `${keyboardInset}px`);
+        };
+
+        const resetViewportVars = () => {
+            root.style.removeProperty('--llmx-vv-height');
+            root.style.removeProperty('--llmx-vv-offset-top');
+            root.style.removeProperty('--llmx-kb-inset');
+        };
+
+        const keepComposerVisible = () => {
+            if (!activeComposer) return;
+            activeComposer.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        };
+
+        const scheduleComposerVisibility = () => {
+            clearScrollIntoViewTimers();
+            [0, 90, 180, 300].forEach((delay) => {
+                scrollIntoViewTimers.push(setTimeout(keepComposerVisible, delay));
+            });
+        };
+
+        const syncOpenStateClass = () => {
+            const isOpen = isWidgetOpen(panel);
+            root.classList.toggle('llmx-widget-open', isOpen);
+            document.body.classList.toggle('llmx-widget-open', isOpen);
+            syncWidgetOverlayHitbox(isOpen);
+
+            if (!isOpen) {
+                activeComposer = null;
+                clearScrollIntoViewTimers();
+                resetViewportVars();
+                return;
+            }
+
+            updateViewportVars();
+        };
+
+        panel.addEventListener('focusin', (event) => {
+            const target = event.target;
+            if (!isComposerField(target)) return;
+            activeComposer = target;
+            updateViewportVars();
+            scheduleComposerVisibility();
+        }, true);
+
+        panel.addEventListener('focusout', (event) => {
+            if (event.target !== activeComposer) return;
+            activeComposer = null;
+            clearScrollIntoViewTimers();
+            setTimeout(updateViewportVars, 0);
+        }, true);
+
+        if (window.visualViewport) {
+            const onViewportUpdate = () => {
+                if (!isWidgetOpen(panel)) return;
+                updateViewportVars();
+                if (activeComposer) scheduleComposerVisibility();
+            };
+            window.visualViewport.addEventListener('resize', onViewportUpdate);
+            window.visualViewport.addEventListener('scroll', onViewportUpdate);
+        }
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (!isWidgetOpen(panel)) return;
+                updateViewportVars();
+                if (activeComposer) scheduleComposerVisibility();
+            }, 120);
+        });
+
+        syncOpenStateClass();
+    }
+
+    // Clean up stale menu/widget state on in-page navigation or bfcache restores.
+    if (ENABLE_FLOATING_LLMX_WIDGET) {
+        ['hashchange', 'pageshow'].forEach((eventName) => {
+            window.addEventListener(eventName, () => {
+                closeMenu();
+                forceCloseWidget();
+            });
+        });
+    }
+
+    // Watch for the widget closing via its own controls and stabilize mobile focus behavior.
+    document.addEventListener('DOMContentLoaded', () => {
+        initSidebarGpt();
+        if (!ENABLE_FLOATING_LLMX_WIDGET) return;
+
+        onWidgetPanelReady((panel) => {
+            let wasWidgetOpen = isWidgetOpen(panel);
+
+            const syncStateFromDom = () => {
+                const isOpen = isWidgetOpen(panel);
+                const justClosed = shouldCloseMenuFromWidgetTransition(wasWidgetOpen, isOpen);
+                document.documentElement.classList.toggle('llmx-widget-open', isOpen);
+                document.body.classList.toggle('llmx-widget-open', isOpen);
+                syncWidgetOverlayHitbox(isOpen);
+                if (!isOpen) {
+                    if (justClosed) closeMenu();
+                    document.documentElement.style.removeProperty('--llmx-vv-height');
+                    document.documentElement.style.removeProperty('--llmx-vv-offset-top');
+                    document.documentElement.style.removeProperty('--llmx-kb-inset');
+                }
+                wasWidgetOpen = isOpen;
+            };
+
+            if (panel.dataset.closeObserverReady !== 'true') {
+                panel.dataset.closeObserverReady = 'true';
+                new MutationObserver(syncStateFromDom).observe(panel, {
+                    attributes: true,
+                    attributeFilter: ['class', 'aria-hidden']
+                });
+            }
+
+            onWidgetOverlayReady((overlay) => {
+                if (overlay.dataset.closeObserverReady === 'true') return;
+                overlay.dataset.closeObserverReady = 'true';
+                new MutationObserver(syncStateFromDom).observe(overlay, {
+                    attributes: true,
+                    attributeFilter: ['class', 'aria-hidden']
+                });
+                syncStateFromDom();
+            });
+
+            installWidgetMobileViewportBehavior(panel);
+
+            if (panel.dataset.stateWatchdogReady !== 'true') {
+                panel.dataset.stateWatchdogReady = 'true';
+                setInterval(syncStateFromDom, 700);
+                window.addEventListener('focus', syncStateFromDom);
+                window.addEventListener('resize', syncStateFromDom);
+                window.addEventListener('pageshow', syncStateFromDom);
+            }
+        });
+    });
+</script>
+
+<!-- LLMx Prompt Stack Widget — disabled by default -->
+<script>
+    if (window.ENABLE_FLOATING_LLMX_WIDGET) {
+        const widgetScript = document.createElement('script');
+        widgetScript.src = 'https://ll-mx-widget.vercel.app/widget/llmx-widget.js';
+        widgetScript.defer = true;
+        document.body.appendChild(widgetScript);
+    }
+</script>
+
+<!-- Widget overrides: iOS keyboard fixes -->
+<style>
+    :root {
+        --llmx-vv-height: 100dvh;
+        --llmx-vv-offset-top: 0px;
+        --llmx-kb-inset: 0px;
+    }
+
+    @media (max-width: 1024px) {
+        body.llmx-widget-open {
+            overflow: hidden;
+        }
+    }
+
+    /* dvh tracks the visual viewport so the panel doesn't squish when
+       the software keyboard appears on mobile */
+    @media (max-width: 1024px) {
+        #llmx-panel {
+            position: fixed !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: var(--llmx-vv-offset-top) !important;
+            bottom: auto !important;
+            width: 100vw !important;
+            height: var(--llmx-vv-height) !important;
+            max-height: var(--llmx-vv-height) !important;
+            min-height: var(--llmx-vv-height) !important;
+            border-radius: 0 !important;
+            overscroll-behavior: contain;
+        }
+
+        #llmx-input,
+        #llmx-panel textarea,
+        #llmx-panel input {
+            scroll-margin-bottom: calc(max(96px, var(--llmx-kb-inset) + 56px)) !important;
+        }
+    }
+
+    /* iOS auto-zooms any input with font-size < 16px on focus.
+       Override the widget's 12px textarea to prevent the zoom. */
+    #llmx-input,
+    #llmx-panel textarea,
+    #llmx-panel input {
+        font-size: 16px !important;
+        line-height: 1.35 !important;
+        -webkit-text-size-adjust: 100%;
+    }
+</style>
+
+<!-- LLMx GPT Modal -->
+<div class="gpt-modal-backdrop" id="gpt-modal-backdrop" hidden aria-hidden="true"></div>
+<dialog class="gpt-modal" id="gpt-modal" aria-label="LLMx GPT" hidden>
+    <div class="gpt-modal__header">
+        <div class="gpt-modal__title-group">
+            <span class="gpt-modal__title">LLMx GPT</span>
+            <span class="gpt-modal__status" id="sidebar-gpt-status">Ready</span>
+        </div>
+        <button class="gpt-modal__close" id="gpt-modal-close" aria-label="Close">✕</button>
+    </div>
+    <hr class="gpt-modal__divider">
+    <div class="gpt-modal__messages" id="sidebar-gpt-messages" aria-live="polite"></div>
+    <div class="gpt-modal__thinking" id="sidebar-gpt-thinking" hidden>Thinking…</div>
+    <div class="gpt-modal__chips" id="sidebar-gpt-chips">
+        <button type="button" class="gpt-modal__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>
+        <button type="button" class="gpt-modal__chip" data-seed-question="Who is LLMx for?">Who is LLMx for?</button>
+        <button type="button" class="gpt-modal__chip" data-seed-question="Tell me about the Onyx case study">Onyx case study</button>
+    </div>
+    <form class="gpt-modal__form" id="sidebar-gpt-form">
+        <label for="sidebar-gpt-input" class="sidebar-gpt__sr-only">Ask LLMx GPT</label>
+        <textarea
+            class="gpt-modal__input"
+            id="sidebar-gpt-input"
+            name="sidebar-gpt-input"
+            rows="1"
+            maxlength="500"
+            placeholder="Ask about services, case studies, or workflow..."
+        ></textarea>
+        <button class="gpt-modal__send" type="submit">→</button>
+    </form>
+    <div class="gpt-modal__footer">By <strong>LLMx</strong></div>
+</dialog>
+
+<!-- 3D LLM Visualization -->
+<script>
+    window.LLM_VIZ_ASSET_BASE = '/llm-viz';
+    window.LLM_VIZ_AUTO_ROTATE = true;
+    window.LLM_VIZ_ASPECT_SCALE = 0.85;
+    window.LLM_VIZ_MODEL_SCALE = 0.9;
+</script>
+<script async src="/llm-viz/llm-viz.iife.js"></script>
+
+<!-- Calendly popup widget -->
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+    (function () {
+        // ── Calendly popup on "Book now" click ──────────────────────────
+        var btn = document.getElementById('footer-book-cta');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                if (window.Calendly) {
+                    Calendly.initPopupWidget({ url: 'https://calendly.com/llmxai' });
+                } else {
+                    window.open('https://calendly.com/llmxai', '_blank');
+                }
+            });
+        }
+
+        // ── Hero "Book Your Sprint" card → Calendly ─────────────────────
+        var heroBookBtn = document.getElementById('hero-book-sprint');
+        if (heroBookBtn) {
+            heroBookBtn.addEventListener('click', function () {
+                if (window.Calendly) {
+                    Calendly.initPopupWidget({ url: 'https://calendly.com/llmxai' });
+                } else {
+                    window.open('https://calendly.com/llmxai', '_blank');
+                }
+            });
+        }
+
+        // ── Footer flip: 4-state cycle ──────────────────────────────────
+        // States in order: Book now → | Sprint | Try now → | Onyx | repeat
+        // flip[0] = "Try now" / "Onyx"   flip[1] = "Book now" / "Sprint"
+        var flips = document.querySelectorAll('.footer-flips .footer-flip');
+        var wrapper = document.querySelector('.footer-flips');
+        if (flips.length >= 2 && wrapper) {
+            var STATES = [
+                { f: 1, flipped: false },  // Book now →
+                { f: 1, flipped: true  },  // Sprint
+                { f: 0, flipped: false },  // Try now →
+                { f: 0, flipped: true  }   // Onyx
+            ];
+            var stateIdx = 0;
+            var activeFlip = 1;   // tracks which flip element is currently .is-active
+            var timerId = null;
+            var isHovered = false;
+
+            function goTo(idx) {
+                var s = STATES[idx];
+                if (s.f !== activeFlip) {
+                    // Sliding to a different flip element
+                    flips[activeFlip].classList.remove('is-flipped');
+                    // Snap incoming below, then release to let transition run
+                    flips[s.f].style.transition = 'none';
+                    flips[s.f].style.transform = 'translateY(100%)';
+                    void flips[s.f].offsetHeight;
+                    flips[s.f].style.transition = '';
+                    flips[s.f].style.transform = '';
+                    flips[activeFlip].classList.remove('is-active');
+                    flips[s.f].classList.add('is-active');
+                    activeFlip = s.f;
+                }
+                // Show front or back face
+                flips[activeFlip].classList.toggle('is-flipped', s.flipped);
+                stateIdx = idx;
+            }
+
+            function advance() {
+                goTo((stateIdx + 1) % STATES.length);
+            }
+
+            function startTimer() {
+                clearInterval(timerId);
+                if (!isHovered) {
+                    timerId = setInterval(advance, 3000);
+                }
+            }
+
+            // Init: start on "Book now →"
+            flips[1].classList.add('is-active');
+            startTimer();
+
+            // Mouse enter:
+            //   - if on a front face (Book now / Try now) → advance to its back face
+            //   - if already on a back face (Sprint / Onyx) → freeze, don't jump
+            wrapper.addEventListener('mouseenter', function () {
+                isHovered = true;
+                clearInterval(timerId);
+                if (!STATES[stateIdx].flipped) {
+                    advance();
+                }
+            });
+
+            // Mouse leave → resume auto-cycle from wherever we are, no extra advance
+            wrapper.addEventListener('mouseleave', function () {
+                isHovered = false;
+                startTimer();
+            });
+        }
+    }());
+</script>
 </body>
 </html>
 

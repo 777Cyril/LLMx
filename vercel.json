@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/sidebar-chat.js": {
+      "includeFiles": "api/corpus/**"
+    }
+  }
+}
