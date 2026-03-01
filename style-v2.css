@@ -856,6 +856,50 @@ footer {
     opacity: 1;
 }
 
+/* ── Two-flip wrapper: cycles between Try now → and Book now → ───────── */
+.footer-flips {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    margin: 0 0 0 1.25rem;
+    height: clamp(5rem, 14vw, 16rem);
+    align-self: center;
+    overflow: hidden;
+}
+
+/* Each flip is stacked, slides in/out via JS .is-active class */
+.footer-flips .footer-flip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1),
+                opacity 0.5s ease;
+}
+
+.footer-flips .footer-flip.is-active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Reset <button> styles so .footer-flip--book matches <a> appearance */
+.footer-flip--book {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 
 .archive-tag {
     background: var(--ink);
@@ -956,6 +1000,14 @@ footer {
     }
     .footer-flip__front {
         gap: clamp(0.6rem, 1.25vw, 1.6rem);
+    }
+    .footer-flips {
+        margin: 0;
+        height: clamp(5.5rem, 13vw, 11.5rem);
+    }
+    .footer-flips .footer-flip {
+        height: 100%;
+        margin: 0;
     }
 }
 
@@ -1076,6 +1128,19 @@ footer {
     .footer-flip__front,
     .footer-flip__back {
         font-size: clamp(2.5rem, 16vw, 14rem);
+    }
+    .footer-flips {
+        grid-area: cta;
+        margin: 0;
+        width: 100%;
+        height: clamp(3rem, 16vw, 10rem);
+        align-self: start;
+    }
+    .footer-flips .footer-flip {
+        grid-area: unset;
+        height: 100%;
+        width: 100%;
+        margin: 0;
     }
     footer .u-mono      { grid-area: copy; align-self: end; }
     .footer-contact     { grid-area: logo; align-self: end; display: block; text-align: right; }

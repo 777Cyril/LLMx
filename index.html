@@ -13,6 +13,7 @@
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/style-v2.css">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 </head>
 <body>
 <div class="grid-container">
@@ -288,15 +289,26 @@
                     Brooklyn, NY<br>
                     All Rights Reserved.
                 </div>
-                <a href="/onyx/" class="footer-flip">
-                    <span class="footer-flip__front">
-                        <span class="footer-flip__label">Try now</span>
-                        <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
-                            <path d="M10 50H142M98 10L142 50L98 90"></path>
-                        </svg>
-                    </span>
-                    <span class="footer-flip__back">Onyx</span>
-                </a>
+                <div class="footer-flips">
+                    <a href="/onyx/" class="footer-flip">
+                        <span class="footer-flip__front">
+                            <span class="footer-flip__label">Try now</span>
+                            <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                                <path d="M10 50H142M98 10L142 50L98 90"></path>
+                            </svg>
+                        </span>
+                        <span class="footer-flip__back">Onyx</span>
+                    </a>
+                    <button class="footer-flip footer-flip--book" type="button" id="footer-book-cta" aria-label="Book a Sprint call">
+                        <span class="footer-flip__front">
+                            <span class="footer-flip__label">Book now</span>
+                            <svg class="footer-flip__arrow" viewBox="0 0 180 100" aria-hidden="true" focusable="false">
+                                <path d="M10 50H142M98 10L142 50L98 90"></path>
+                            </svg>
+                        </span>
+                        <span class="footer-flip__back">Sprint</span>
+                    </button>
+                </div>
             </div>
         </footer>
 
@@ -1222,5 +1234,45 @@
     window.LLM_VIZ_MODEL_SCALE = 0.9;
 </script>
 <script async src="/llm-viz/llm-viz.iife.js"></script>
+
+<!-- Calendly popup widget -->
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+    (function () {
+        // ── Calendly popup on "Book now" click ──────────────────────────
+        var btn = document.getElementById('footer-book-cta');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                if (window.Calendly) {
+                    Calendly.initPopupWidget({ url: 'https://calendly.com/llmxai' });
+                } else {
+                    window.open('https://calendly.com/llmxai', '_blank');
+                }
+            });
+        }
+
+        // ── Footer flip cycling: one CTA visible at a time ─────────────
+        var flips = document.querySelectorAll('.footer-flips .footer-flip');
+        if (flips.length >= 2) {
+            var current = 0;
+            flips[0].classList.add('is-active');
+
+            setInterval(function () {
+                var next = (current + 1) % flips.length;
+                // Outgoing: slide up and fade
+                flips[current].classList.remove('is-active');
+                // Incoming: reset position below, then slide in
+                flips[next].style.transform = 'translateY(100%)';
+                flips[next].style.transition = 'none';
+                // Force reflow so the reset position is painted before animating
+                void flips[next].offsetHeight;
+                flips[next].style.transform = '';
+                flips[next].style.transition = '';
+                flips[next].classList.add('is-active');
+                current = next;
+            }, 4000);
+        }
+    }());
+</script>
 </body>
 </html>
