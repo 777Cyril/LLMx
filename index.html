@@ -1382,10 +1382,11 @@
                 var s = STATES[idx];
                 if (s.f !== activeFlip) {
                     // Sliding to a different flip element.
-                    // Do NOT unflip the outgoing element — let it slide away showing its
-                    // current face so there's no flash of the front face mid-transition.
-                    // Snap incoming below, then release to let transition run
+                    // Set the incoming element's flip state AND snap its position
+                    // together inside transition:none so it slides in already showing
+                    // the correct face — prevents stale face showing mid-transition.
                     flips[s.f].style.transition = 'none';
+                    flips[s.f].classList.toggle('is-flipped', s.flipped);
                     flips[s.f].style.transform = 'translateY(100%)';
                     void flips[s.f].offsetHeight;
                     flips[s.f].style.transition = '';
@@ -1394,7 +1395,7 @@
                     flips[s.f].classList.add('is-active');
                     activeFlip = s.f;
                 }
-                // Show front or back face
+                // Show front or back face (same-element flip, or no-op for element-swap)
                 flips[activeFlip].classList.toggle('is-flipped', s.flipped);
                 stateIdx = idx;
             }
