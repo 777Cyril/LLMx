@@ -4,6 +4,19 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const CORPUS_DIR = path.join(__dirname, 'corpus');
+
+// Chunk sizing
+const CHUNK = {
+  TARGET_SIZE:      700,
+  MIN_SIZE:         500,
+  MAX_SIZE:         900,
+  MIN_FINAL_LENGTH: 120,
+  PREVIEW_LENGTH:   700,
+  TAIL_OVERLAP_MIN:  50,
+};
+
+// Confidence thresholds
+const LEXICAL_CONFIDENCE_THRESHOLD = 1.6;
 const STOPWORDS = new Set([
   'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how', 'i', 'in', 'is', 'it',
   'of', 'on', 'or', 'that', 'the', 'to', 'what', 'when', 'where', 'which', 'who', 'why', 'with',
@@ -123,9 +136,9 @@ function splitLongParagraph(paragraph, maxChunkSize) {
 }
 
 function chunkText(text, options = {}) {
-  const targetSize = options.targetSize || 700;
-  const minChunkSize = options.minChunkSize || 500;
-  const maxChunkSize = options.maxChunkSize || 900;
+  const targetSize = options.targetSize || CHUNK.TARGET_SIZE;
+  const minChunkSize = options.minChunkSize || CHUNK.MIN_SIZE;
+  const maxChunkSize = options.maxChunkSize || CHUNK.MAX_SIZE;
 
   const paragraphs = normalizeWhitespace(text)
     .split(/\n{2,}/)
@@ -152,14 +165,14 @@ function chunkText(text, options = {}) {
     // Prepend the last sentence of the finalized chunk as overlap context
     const prevSentences = current.split(/(?<=[.!?])\s+/);
     const tail = prevSentences[prevSentences.length - 1] || '';
-    current = tail.length > 50 ? `${tail}\n\n${paragraph}` : paragraph;
+    current = tail.length > CHUNK.TAIL_OVERLAP_MIN ? `${tail}\n\n${paragraph}` : paragraph;
   }
 
   if (current) chunks.push(current);
 
   return chunks
     .map((item) => normalizeWhitespace(item))
-    .filter((item) => item.length >= 120);
+    .filter((item) => item.length >= CHUNK.MIN_FINAL_LENGTH);
 }
 
 function tokenize(text) {
@@ -387,7 +400,7 @@ function isLowConfidence(query, rankedChunks) {
   if (!rankedChunks.length) return true;
 
   const top = rankedChunks[0];
-  if (top.score < 1.6) return true;
+  if (top.score < LEXICAL_CONFIDENCE_THRESHOLD) return true;
 
   if (queryTokens.length >= 3 && top.matchedTokens < 2) return true;
   if (queryTokens.length >= 5 && top.matchedTokens < 3) return true;
@@ -399,7 +412,7 @@ function buildContextBlock(topChunks, maxChunks = 4) {
   return topChunks
     .slice(0, maxChunks)
     .map((chunk) => {
-      const preview = chunk.text.length > 700 ? `${chunk.text.slice(0, 700)}...` : chunk.text;
+      const preview = chunk.text.length > CHUNK.PREVIEW_LENGTH ? `${chunk.text.slice(0, CHUNK.PREVIEW_LENGTH)}...` : chunk.text;
       return `[${chunk.id} | ${chunk.label} | ${chunk.url}]\n${preview}`;
     })
     .join('\n\n');

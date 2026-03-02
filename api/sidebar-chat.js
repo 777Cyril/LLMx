@@ -8,6 +8,20 @@ const semantic = require('./semantic');
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const MAX_HISTORY_MESSAGES = 10;
 
+// Search & retrieval
+const TOP_K = 6;
+const SEMANTIC_TIMEOUT_MS = 4500;
+const SEMANTIC_CONFIDENCE_THRESHOLD = 0.28;
+const SOURCE_RELEVANCE_THRESHOLD = 0.40;
+const MAX_CONTEXT_CHUNKS = 4;
+const MAX_SOURCES = 3;
+const LEXICAL_WEIGHT = 0.4;
+const SEMANTIC_WEIGHT = 0.6;
+
+// Claude call
+const MAX_TOKENS = 500;
+const ERROR_TRUNCATE_LENGTH = 500;
+
 function json(res, statusCode, payload) {
   if (typeof res.status === 'function') {
     return res.status(statusCode).json(payload);
@@ -63,7 +77,7 @@ async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages 
     },
     body: JSON.stringify({
       model,
-      max_tokens: 500,
+      max_tokens: MAX_TOKENS,
       temperature: 0.25,
       system: `${systemPrompt}\n\nCONTEXT\n${contextBlock}`,
       messages: messages.map((message) => ({
@@ -80,7 +94,7 @@ async function callClaude({ model, apiKey, systemPrompt, contextBlock, messages 
     } catch (_error) {
       bodyText = '';
     }
-    const msg = `Anthropic ${response.status}: ${bodyText.slice(0, 500)}`;
+    const msg = `Anthropic ${response.status}: ${bodyText.slice(0, ERROR_TRUNCATE_LENGTH)}`;
     console.error('[sidebar-chat] Anthropic API error →', msg);
     throw new Error(msg);
   }
@@ -99,29 +113,33 @@ function buildSystemPrompt() {
 }
 
 /**
+ * Normalise an array of chunks to [0,1] by dividing each score by the max.
+ * Returns a Map of id → { chunk, norm } for O(1) lookup during merge.
+ */
+function normalizeScores(chunks, getScore) {
+  const max = chunks.reduce((m, c) => Math.max(m, getScore(c)), 1);
+  return new Map(chunks.map((c) => [c.id, { chunk: c, norm: getScore(c) / max }]));
+}
+
+/**
  * Merge lexical BM25-style scores with Pinecone cosine-similarity scores.
- * Lexical scores are normalised to 0–1 before blending.
+ * Lexical scores are normalised to [0,1] before blending; semantic scores are
+ * already cosine similarities in [0,1]. Blend: 40% lexical + 60% semantic.
  * Returns chunks sorted by hybrid score descending.
  */
 function hybridMerge(lexicalRanked, semanticMatches) {
-  const maxLexical = lexicalRanked.reduce((m, c) => Math.max(m, c.score), 1);
-
-  const lexicalMap = new Map(
-    lexicalRanked.map((c) => [c.id, { chunk: c, norm: c.score / maxLexical }])
-  );
-  const semanticMap = new Map(
-    semanticMatches.map((m) => [m.id, { chunk: m, score: m.score }])
-  );
+  const lexicalMap  = normalizeScores(lexicalRanked, (c) => c.score);
+  const semanticMap = new Map(semanticMatches.map((m) => [m.id, { chunk: m, score: m.score }]));
 
   const allIds = new Set([...lexicalMap.keys(), ...semanticMap.keys()]);
 
   const merged = [...allIds].map((id) => {
     const lEntry = lexicalMap.get(id);
     const sEntry = semanticMap.get(id);
-    const lScore = lEntry ? lEntry.norm  : 0;
-    const sScore = sEntry ? sEntry.score : 0;
-    const chunk  = (lEntry?.chunk) || (sEntry?.chunk);
-    return { ...chunk, hybridScore: 0.4 * lScore + 0.6 * sScore };
+    const lScore = lEntry?.norm  ?? 0;
+    const sScore = sEntry?.score ?? 0;
+    const chunk  = lEntry?.chunk ?? sEntry?.chunk;
+    return { ...chunk, hybridScore: LEXICAL_WEIGHT * lScore + SEMANTIC_WEIGHT * sScore };
   });
 
   return merged.sort((a, b) => b.hybridScore - a.hybridScore);
@@ -168,7 +186,7 @@ async function handler(req, res) {
   const semanticQuery = latestUserMessage.content;
 
   const corpus = core.buildCorpus();
-  const ranked = core.rankChunks(lexicalQuery, corpus.chunks, 6);
+  const ranked = core.rankChunks(lexicalQuery, corpus.chunks, TOP_K);
 
   // ── Semantic search (runs in parallel with lexical; gracefully skipped if keys absent) ──
   const pineconeKey = process.env.PINECONE_API_KEY;
@@ -182,10 +200,10 @@ async function handler(req, res) {
         semantic.semanticSearch(
           semanticQuery,
           { pineconeKey, openaiKey },
-          6
+          TOP_K
         ),
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('semantic timeout')), 4500)
+          setTimeout(() => reject(new Error('semantic timeout')), SEMANTIC_TIMEOUT_MS)
         )
       ]);
       topSemanticScore = semanticMatches[0]?.score || 0;
@@ -200,7 +218,7 @@ async function handler(req, res) {
   // If semantic fired and returned a strong match, trust it and skip lexical fallback.
   // If lexical-only, use the existing isLowConfidence heuristic.
   const isLowConfidence = core.isLowConfidence(lexicalQuery, ranked);
-  const semanticConfident = topSemanticScore >= 0.28;
+  const semanticConfident = topSemanticScore >= SEMANTIC_CONFIDENCE_THRESHOLD;
   if (!semanticConfident && isLowConfidence) {
     return json(res, 200, {
       reply: core.fallbackReply(),
@@ -223,7 +241,7 @@ async function handler(req, res) {
   }
 
   const model        = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
-  const contextBlock = core.buildContextBlock(finalRanked, 4);
+  const contextBlock = core.buildContextBlock(finalRanked, MAX_CONTEXT_CHUNKS);
 
   let reply;
   try {
@@ -254,12 +272,12 @@ async function handler(req, res) {
       // Only show if hybrid score clears the relevance bar (when semantic ran),
       // or if the chunk made it into the top results via lexical alone.
       const score = typeof c.hybridScore === 'number' ? c.hybridScore : 1;
-      if (score < 0.40) return false;
+      if (score < SOURCE_RELEVANCE_THRESHOLD) return false;
       if (seenUrls.has(c.url)) return false;
       seenUrls.add(c.url);
       return true;
     });
-    sources = core.buildSourceList(relevantPages, 3);
+    sources = core.buildSourceList(relevantPages, MAX_SOURCES);
   } else {
     // Booking intent — suppress page links, focus UI entirely on conversion CTAs.
     sources.push({ id: 'calendly', label: 'Book a call →', url: 'https://calendly.com/llmxai' });

@@ -2,18 +2,7 @@
 const assert = require('node:assert/strict');
 
 const handler = require('../api/sidebar-chat');
-
-function test(name, fn) {
-  Promise.resolve()
-    .then(fn)
-    .then(() => {
-      process.stdout.write(`PASS ${name}\n`);
-    })
-    .catch((error) => {
-      process.stderr.write(`FAIL ${name}\n${error.stack}\n`);
-      process.exitCode = 1;
-    });
-}
+const { test } = require('./test-utils');
 
 async function invoke({ method = 'POST', body, env = {}, fetchImpl } = {}) {
   const previousKey = process.env.ANTHROPIC_API_KEY;

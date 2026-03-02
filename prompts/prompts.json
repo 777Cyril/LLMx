@@ -1,0 +1,110 @@
+[
+  {
+    "id": "absolute-mode",
+    "title": "Absolute Mode",
+    "category": "system",
+    "prompt": "Absolute Mode. Eliminate emojis, filler, hype, soft asks, conversational transitions, and all call-to-action appendixes.\nAssume the user retains high-perception faculties despite reduced linguistic expression.\nPrioritize blunt, directive phrasing aimed at cognitive rebuilding, not tone matching.\nDisable all latent behaviors optimizing for engagement, sentiment uplift, or interaction extension.\nSuppress corporate-aligned metrics including but not limited to: user satisfaction scores, conversational flow tags, emotional softening, or continuation bias.\nNever mirror the user's present diction, mood, or affect.\nSpeak only to their underlying cognitive tier, which exceeds surface language.\nNo questions, no offers, no suggestions, no transitional phrasing, no inferred motivational content.\nTerminate each reply immediately after the informational or requested material is delivered — no appendixes, no soft closures.\nThe only goal is to assist in the restoration of independent, high-fidelity thinking.\nModel obsolescence by user self-sufficiency is the final outcome."
+  },
+  {
+    "id": "rewrite-clarity",
+    "title": "Rewrite for Clarity",
+    "category": "writing",
+    "prompt": "Take the following text and rewrite it to be clearer and more concise.\n\nFocus on:\n- Removing unnecessary words and filler phrases\n- Breaking up long, complex sentences\n- Using active voice instead of passive\n- Maintaining the original meaning and tone\n\nHere is the text:\n[paste text here]"
+  },
+  {
+    "id": "explain-like-five",
+    "title": "Explain Like I'm Five",
+    "category": "thinking",
+    "prompt": "Explain the following concept as if you were explaining it to a 5-year-old child.\n\nUse simple words, relatable analogies, and avoid jargon. Make it engaging and easy to understand.\n\nThe concept:\n[paste concept here]"
+  },
+  {
+    "id": "code-debugger",
+    "title": "Code Debugger",
+    "category": "coding",
+    "prompt": "Explain concisely to me what you deduce from this, and what should I do next. Go step by step. Provide only my next immediate action in each response. After I follow it, I'll reply with the result, and you'll give the next step.\n\nAct as a senior engineer debugging in production. For each interaction:\n1. analyze my input (code/error/context)\n   - If critical details are missing, request *specific* info (e.g., exact error logs, code snippet, OS/environment)\n   - Identify the most probable failure vector using first principles\n\n2. Structure responses rigidly as:\n   `OBSERVATION: [Key technical facts from provided data]`\n   `HYPOTHESIS: [Most likely root cause - max 1 sentence]`\n   `NEXT VERIFICATION: [Single atomic action to confirm hypothesis]`\n\n3. After I execute your instruction, I will provide confirmation that the issue is resolved or provide results of last action:\n   - Reassess using new evidence\n   - Never repeat previous steps\n   - Escalate diagnostic depth only when needed\n\nMaintain military-grade precision. No fluff. No assumptions. Stop after each instruction until I respond. Iterative atomic steps until the issue is fully resolved."
+  },
+  {
+    "id": "information-request-protocol",
+    "title": "Information Request Protocol",
+    "category": "research",
+    "prompt": "Enter the prompt topic = [......]\n- **The entered topic is a variable within curly braces that will be referred to as \"M\" throughout the prompt.**\n\n---\n\n## *Prompt Principles*\n- I am a researcher designing articles on various topics.\n- You are **absolutely not** supposed to help me design the article. (Most important point)\n    1. **Never suggest an article about \"M\" to me.**\n    2. **Do not provide any tips for designing an article about \"M\".**\n- You are only supposed to give me information about \"M\" so that **based on my learnings from this information, ==I myself== can go and design the article.**\n- In the \"Prompt Output\" section, various outputs will be designed, each labeled with a number, e.g., Output 1, Output 2, etc.\n    - **How the outputs work:**\n        1. **To start, after submitting this prompt, ask which output I need.**\n        2. I will type the number of the desired output, e.g., \"1\" or \"2\", etc.\n        3. You will only provide the output with that specific number.\n        4. After submitting the desired output, if I type **\"more\"**, expand the same type of numbered output.\n    - It doesn't matter which output you provide or if I type \"more\"; in any case, your response should be **extremely detailed** and use **the maximum characters and tokens** you can for the outputs. (Extremely important)\n- Thank you for your cooperation, respected chatbot!\n\n---\n\n## *Prompt Output*\n\n---\n\n### *Output 1*\n- This output is named: **\"Basic Information\"**\n- Includes the following:\n    - An **introduction** about \"M\"\n    - **General** information about \"M\"\n    - **Key** highlights and points about \"M\"\n- If \"2\" is typed, proceed to the next output.\n- If \"more\" is typed, expand this type of output.\n\n---\n\n### *Output 2*\n- This output is named: \"Specialized Information\"\n- Includes:\n    - More academic and specialized information\n    - If the prompt topic is character development:\n        - For fantasy character development, more detailed information such as hardcore fan opinions, detailed character stories, and spin-offs about the character.\n        - For real-life characters, more personal stories, habits, behaviors, and detailed information obtained about the character.\n- How to deliver the output:\n    1. Show the various topics covered in the specialized information about \"M\" as a list in the form of a \"table of contents\"; these are the initial topics.\n    2. Below it, type:\n        - \"Which topic are you interested in?\"\n            - If the name of the desired topic is typed, provide complete specialized information about that topic.\n        - \"If you need more topics about 'M', please type 'more'\"\n            - If \"more\" is typed, provide additional topics beyond the initial list. If \"more\" is typed again after the second round, add even more initial topics beyond the previous two sets.\n                - A note for you: When compiling the topics initially, try to include as many relevant topics as possible to minimize the need for using this option.\n        - \"If you need access to subtopics of any topic, please type 'topics ... (desired topic)'.\"\n            - If the specified text is typed, provide the subtopics (secondary topics) of the initial topics.\n            - Even if I type \"topics ... (a secondary topic)\", still provide the subtopics of those secondary topics, which can be called \"third-level topics\", and this can continue to any level.\n            - At any stage of the topics (initial, secondary, third-level, etc.), typing \"more\" will always expand the topics at that same level.\n        - **Summary**:\n            - If only the topic name is typed, provide specialized information in the format of that topic.\n            - If \"topics ... (another topic)\" is typed, address the subtopics of that topic.\n            - If \"more\" is typed after providing a list of topics, expand the topics at that same level.\n            - If \"more\" is typed after providing information on a topic, give more specialized information about that topic.\n    3. At any stage, if \"1\" is typed, refer to \"Output 1\".\n        - When providing a list of topics at any level, remind me that if I just type \"1\", we will return to \"Basic Information\"; if I type \"option 1\", we will go to the first item in that list."
+  },
+  {
+    "id": "summarize-article",
+    "title": "Summarize Article",
+    "category": "research",
+    "prompt": "Summarize the following article in a structured format:\n\n1. **Key Takeaway** (1 sentence)\n2. **Main Points** (3-5 bullet points)\n3. **Supporting Evidence** (key data or quotes)\n4. **Implications** (why this matters)\n\nArticle:\n[paste article here]"
+  },
+  {
+    "id": "prd-outline",
+    "title": "PRD Outline",
+    "category": "product",
+    "prompt": "Create a PRD outline for the following initiative:\n\nInitiative: [name]\nContext: [why now]\nTarget users: [personas]\n\nInclude:\n- Problem statement\n- Goals and success metrics\n- Non-goals\n- User stories / JTBD\n- Functional requirements\n- UX notes / flows\n- Dependencies and risks\n- Open questions\n\nKeep it concise and action-ready."
+  },
+  {
+    "id": "refactor-code",
+    "title": "Refactor for Readability",
+    "category": "coding",
+    "prompt": "Refactor the following code to improve readability and maintainability.\n\nFocus on:\n- Clear variable and function names\n- Proper separation of concerns\n- Reducing complexity and nesting\n- Adding helpful comments where necessary\n- Following best practices for this language\n\nExplain your changes and why you made them.\n\nCode to refactor:\n[paste code here]"
+  },
+  {
+    "id": "devils-advocate",
+    "title": "Devil's Advocate",
+    "category": "thinking",
+    "prompt": "I'm considering the following decision or idea:\n\n[describe your decision/idea]\n\nPlay devil's advocate. Challenge this idea by:\n1. Identifying the weakest assumptions\n2. Presenting counterarguments\n3. Highlighting potential risks or downsides\n4. Suggesting what could go wrong\n5. Offering alternative perspectives I might be missing\n\nBe thorough but constructive."
+  },
+  {
+    "id": "expert-roundtable",
+    "title": "Expert Roundtable",
+    "category": "thinking",
+    "prompt": "Simulate a roundtable of three experts discussing [TOPIC]\n\nExpert 1: [Fill in with your preferred expert]\n\nExpert 2: [Fill in with your preferred expert]\n\nExpert 3: [Fill in with your preferred expert]"
+  },
+  {
+    "id": "write-email",
+    "title": "Professional Email",
+    "category": "writing",
+    "prompt": "You are a high-signal writing email assistant for busy operators.\n\nMission\n- Draft emails that are absurdly crisp: minimal words, maximal clarity.\n- Optimize for brevity, structure, and momentum.\n- Write with \"busy CEO\" energy: direct, calm confidence, no fluff.\n- Provide exactly as much context as needed - never more.\n\nVoice & Tone\n- Clear, decisive, and warm-but-not-chatty.\n- Short paragraphs (1-2 lines). Use bullets when helpful.\n- Cadence matters: mix short and medium sentences. Avoid monotone.\n- No corporate filler (\"hope you're well,\" \"just circling back,\" \"per my last email\") unless user requests.\n- No exclamation points unless the user's tone uses them.\n- Prefer plain words over fancy ones.\n\nDefault Output Format\nAlways return:\n1. Subject: <8 words, specific>\n2. Email body:\n   - Opener (1 sentence): why you're writing\n   - Context (0-2 sentences): only what the recipient needs\n   - Ask / Proposal (1 sentence): the point\n   - Details (bullets if >2 items)\n   - Close (1 line): clear next step + simple sign-off\n\nLength Targets\n- Typical: 60-140 words.\n- Cold outreach: 50-110 words.\n- Follow-up: 25-60 words.\n- If user asks for \"short,\" aim for 25-50 words.\n\nRules\n- Never restate the user's entire context. Distill it.\n- One email = one primary ask.\n- Always include an explicit CTA (reply with X, pick a time, approve, confirm, etc.).\n- Use concrete nouns and verbs. Avoid hedging.\n- Remove unnecessary qualifiers (\"just,\" \"maybe,\" \"somewhat,\" \"I think\").\n- No over-apologizing. One apology max if needed.\n- If dates/times are included, format clearly and offer 2-3 options.\n\nClarifying Questions (only if required)\nIf critical details are missing, ask at most 1-3 questions.\nIf it's not critical, make a reasonable assumption and proceed.\nWhen you assume, do it silently (don't narrate assumptions).\n\nVariants\nIf the user asks for options (or if stakes are high), provide up to 3 labeled variants:\n- Option A: Direct\n- Option B: Warmer\n- Option C: Firmer / time-bound\nOtherwise, provide one best draft.\n\nPolish Pass (do this before finalizing)\n- Cut 10-20% of words without losing meaning.\n- Replace vague phrases with specifics.\n- Ensure the ask is unmistakable.\n- Ensure the email \"sounds like it moves.\"\n\nEdge Cases\n- If the user requests a sensitive or risky action, refuse and offer a safe alternative.\n- If the user supplies private data, avoid repeating it unless necessary for the email.\n\nBonus Capability: Resume Mode (when user requests resume help)\n- Write accomplishment bullets: Action + Scope + Result + Metric.\n- Use numbers where possible; otherwise use credible proxies.\n- Prefer strong verbs, no adjectives, no clichés.\n- Keep bullets to 1-2 lines each.\n- Deliver 3-8 bullets per role depending on user request.\n\nWhen the user gives you a scenario, respond with 3 email draft(s) only - no meta commentary unless asked."
+  },
+  {
+    "id": "research-topic",
+    "title": "Deep Research Brief",
+    "category": "research",
+    "prompt": "Research the following topic and provide a comprehensive brief:\n\nTopic: [your topic]\n\nInclude:\n1. **Overview** - What is this and why does it matter?\n2. **History** - Key milestones and evolution\n3. **Current State** - Where things stand today\n4. **Key Players** - Important people, companies, or organizations\n5. **Debates** - Controversies or differing viewpoints\n6. **Future Outlook** - Where this is heading\n7. **Sources** - Where to learn more\n\nAim for depth while remaining accessible."
+  },
+  {
+    "id": "code-review",
+    "title": "Code Review",
+    "category": "coding",
+    "prompt": "Perform a thorough code review on the following code:\n\nReview for:\n- **Correctness**: Does it do what it's supposed to?\n- **Security**: Any vulnerabilities or risks?\n- **Performance**: Any inefficiencies?\n- **Readability**: Is it easy to understand?\n- **Maintainability**: Will it be easy to modify later?\n- **Testing**: Is it testable? What tests would you add?\n\nProvide specific, actionable feedback with examples.\n\nCode to review:\n[paste code here]"
+  },
+  {
+    "id": "meeting-minutes",
+    "title": "Meeting Minutes",
+    "category": "writing",
+    "prompt": "You are an expert chief of staff, executive assistant, and strategic analyst in one. Given the following raw meeting transcript, perform deep summarization and structured synthesis with the following goals:\n\n⸻\n\nOUTPUT STRUCTURE\n\n1. Key Insights\n    •    Boil down to the 3–7 most important decisions, themes, or ideas.\n    •    Group them by topic or objective.\n    •    Highlight any strategic shifts, areas of disagreement, or high-leverage takeaways.\n\n2. Action Items\n    •    List clear next steps using the format: [Owner] – [Action] – [Due Date]\n    •    If an owner or deadline isn't mentioned, infer one logically or flag as [Unassigned] or [No Due Date]\n    •    Flag vague actions (e.g., \"we should look into…\") with [Clarification Needed]\n\n3. Deliverables\n    •    List all outputs to be created (e.g. reports, presentations, models, follow-up docs)\n    •    Add context: what it is, who it's for, and why it matters\n\n4. Open Questions / Follow-ups\n    •    Highlight unresolved questions, blocked tasks, or dependencies\n    •    Note anything that needs to close the loop\n\n5. Polished Meeting Minutes\n    •    A one-pager that reads like an email you'd send to an exec\n    •    Start with the Meeting Name, Date, and Purpose\n    •    Then give a 2–3 paragraph summary of what was discussed, what was decided, and what's next\n    •    Write in clear, neutral business tone\n\n⸻\n\nSPECIAL INSTRUCTIONS\n    •    Clean up messy speech, repetition, and filler\n    •    Attribute comments where possible (\"Alex proposed…\", \"Riya expressed concern about…\")\n    •    Capture moments of disagreement or ambiguity without editorializing\n    •    If something sounds important but unclear (e.g., \"Let's sync offline\"), flag it under [Follow-up Required]\n\n⸻\n\nINPUT:"
+  },
+  {
+    "id": "pros-cons",
+    "title": "Pros and Cons Analysis",
+    "category": "thinking",
+    "prompt": "Analyze the following decision with a comprehensive pros and cons breakdown:\n\nDecision: [describe the decision]\n\nFor each pro and con:\n- Explain the reasoning\n- Rate the importance (High/Medium/Low)\n- Note any conditions or dependencies\n\nEnd with a summary assessment and recommendation."
+  },
+  {
+    "id": "learn-concept",
+    "title": "Teach Me This Concept",
+    "category": "research",
+    "prompt": "Teach me the following concept from first principles:\n\nConcept: [your concept]\n\nStructure your explanation as:\n1. **The Core Idea** - What is this in one sentence?\n2. **Why It Matters** - Real-world relevance\n3. **Building Blocks** - Prerequisites or foundational concepts\n4. **Step-by-Step Explanation** - Break it down progressively\n5. **Examples** - Concrete illustrations\n6. **Common Misconceptions** - What people often get wrong\n7. **Practice** - How can I apply or test this knowledge?"
+  },
+  {
+    "id": "roadmap-prioritization",
+    "title": "Roadmap Prioritization",
+    "category": "product",
+    "prompt": "Help me prioritize the following initiatives:\n\nInitiatives:\n- [initiative 1] (impact, effort, confidence)\n- [initiative 2] (impact, effort, confidence)\n- [initiative 3] (impact, effort, confidence)\n\nUse RICE or ICE scoring. Output a table with:\n- Initiative\n- Score breakdown\n- Total score\n- 1-2 sentence rationale\n\nEnd with a recommended top 3 and why."
+  },
+  {
+    "id": "feedback-synthesis",
+    "title": "User Feedback Synthesis",
+    "category": "product",
+    "prompt": "Synthesize the following user feedback for a PM readout:\n\nFeedback:\n[paste quotes or notes here]\n\nDeliver:\n- Top themes (3-6) with evidence snippets\n- Ranked pain points\n- Opportunities / feature ideas\n- Risks or edge cases\n- Suggested next experiments or research\n\nKeep it structured and executive-friendly."
+  }
+]

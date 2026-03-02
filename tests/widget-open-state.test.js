@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 const assert = require('node:assert/strict');
 
+const { test } = require('./test-utils');
+
 function computeWidgetOpenState(state) {
   const panelOpen = Boolean(state.panelOpen) && !Boolean(state.panelAriaHidden);
   const panelVisible = state.panelActuallyVisible !== false;
@@ -18,16 +20,6 @@ function computeWidgetOpenState(state) {
 
 function shouldCloseMenuFromWidgetTransition(previousOpen, currentOpen) {
   return Boolean(previousOpen) && !Boolean(currentOpen);
-}
-
-function test(name, fn) {
-  try {
-    fn();
-    process.stdout.write(`PASS ${name}\n`);
-  } catch (err) {
-    process.stderr.write(`FAIL ${name}\n${err.stack}\n`);
-    process.exitCode = 1;
-  }
 }
 
 test('closed when panel is closed even if overlay says visible', () => {

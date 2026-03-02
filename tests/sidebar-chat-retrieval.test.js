@@ -2,16 +2,7 @@
 const assert = require('node:assert/strict');
 
 const core = require('../api/sidebar-chat-core');
-
-function test(name, fn) {
-  try {
-    fn();
-    process.stdout.write(`PASS ${name}\n`);
-  } catch (error) {
-    process.stderr.write(`FAIL ${name}\n${error.stack}\n`);
-    process.exitCode = 1;
-  }
-}
+const { test } = require('./test-utils');
 
 core._resetCacheForTests();
 const corpus = core.buildCorpus();

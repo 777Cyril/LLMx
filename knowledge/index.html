@@ -49,32 +49,8 @@
     </footer>
   </div>
 
-  <!-- Data and rendering -->
+  <!-- Data and rendering (fetch from knowledge.json) -->
   <script src="/knowledge/knowledge.js"></script>
-  <script>
-    function renderResources() {
-      const grid = document.getElementById('resources-grid');
-
-      resources.forEach(resource => {
-        const card = document.createElement('a');
-        card.href = resource.url;
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'resource-card';
-
-        card.innerHTML = `
-          <span class="resource-category">${resource.category}</span>
-          <h2>${resource.title}</h2>
-          <p class="resource-caption">${resource.caption}</p>
-        `;
-
-        grid.appendChild(card);
-      });
-    }
-
-    // Render on load
-    document.addEventListener('DOMContentLoaded', renderResources);
-  </script>
 
   <!-- Shared script for dark mode -->
   <script src="/scripts.js"></script>
