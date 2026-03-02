@@ -1320,7 +1320,8 @@
     }
 
     /* ── Email capture widget ──────────────────────────────────────────── */
-    .ask-llmx__email-capture {
+    .ask-llmx__email-capture { display: none; }
+    .ask-llmx__email-capture:not([hidden]) {
         padding: 0.625rem 1rem;
         border-top: 1px solid rgba(128,128,128,0.15);
         display: flex;
