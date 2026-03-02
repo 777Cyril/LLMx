@@ -838,52 +838,158 @@
             });
         });
 
-        // Dictation
+        // Dictation — MediaRecorder + Whisper (user-selectable device)
         const micBtn = document.getElementById('ask-llmx-mic');
-        if (micBtn) {
-            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SR) {
-                micBtn.style.display = 'none';
-            } else {
-                const recognition = new SR();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'en-US';
-                let listening = false;
+        if (micBtn && navigator.mediaDevices?.getUserMedia) {
+            let selectedDeviceId = sessionStorage.getItem('llmx-mic-device') || null;
+            let mediaRecorder    = null;
+            let audioChunks      = [];
+            let isRecording      = false;
+            let isTranscribing   = false;
+            let longPressTimer   = null;
 
-                function micSetListening(on) {
-                    listening = on;
-                    micBtn.classList.toggle('listening', on);
-                }
+            function micSetListening(on) {
+                isRecording = on;
+                micBtn.classList.toggle('listening', on);
+            }
+            function micSetTranscribing(on) {
+                isTranscribing = on;
+                micBtn.classList.toggle('transcribing', on);
+            }
 
-                micBtn.addEventListener('click', () => {
-                    expandModal();
-                    if (listening) {
-                        try { recognition.stop(); } catch (_) {}
-                    } else {
-                        try { recognition.start(); } catch (_) {}
-                    }
+            // Enumerate audio inputs (requests permission first to get labels)
+            async function getMicDevices() {
+                try {
+                    const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    s.getTracks().forEach(t => t.stop());
+                } catch (_) { return []; }
+                const all = await navigator.mediaDevices.enumerateDevices();
+                return all.filter(d => d.kind === 'audioinput');
+            }
+
+            // Floating picker above the mic button
+            function showMicPicker(devices) {
+                document.getElementById('llmx-mic-picker')?.remove();
+                const picker = document.createElement('div');
+                picker.id = 'llmx-mic-picker';
+                picker.className = 'llmx-mic-picker';
+
+                const lbl = document.createElement('p');
+                lbl.className = 'llmx-mic-picker__label';
+                lbl.textContent = 'Choose microphone:';
+                picker.appendChild(lbl);
+
+                devices.forEach(device => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'llmx-mic-picker__option' +
+                        (device.deviceId === selectedDeviceId ? ' llmx-mic-picker__option--active' : '');
+                    btn.textContent = device.label || `Microphone (${device.deviceId.slice(0, 6)}…)`;
+                    btn.addEventListener('click', () => {
+                        selectedDeviceId = device.deviceId;
+                        sessionStorage.setItem('llmx-mic-device', selectedDeviceId);
+                        picker.remove();
+                        startRecording();
+                    });
+                    picker.appendChild(btn);
                 });
 
-                recognition.onstart = () => micSetListening(true);
+                micBtn.parentElement.appendChild(picker);
 
-                recognition.onresult = (e) => {
-                    let transcript = '';
-                    for (let i = 0; i < e.results.length; i++) {
-                        if (e.results[i].isFinal) {
-                            transcript += e.results[i][0].transcript;
+                // Close on outside click
+                setTimeout(() => {
+                    document.addEventListener('click', function closePicker(e) {
+                        if (!picker.contains(e.target) && e.target !== micBtn) {
+                            picker.remove();
+                            document.removeEventListener('click', closePicker);
                         }
-                    }
-                    if (transcript.trim()) {
-                        input.value = transcript.trim();
-                        input.focus();
-                        updateFormState(); // show send button after dictation
-                    }
-                };
-
-                recognition.onerror = () => micSetListening(false);
-                recognition.onend   = () => micSetListening(false);
+                    });
+                }, 10);
             }
+
+            async function startRecording() {
+                try {
+                    const constraints = {
+                        audio: selectedDeviceId ? { deviceId: { exact: selectedDeviceId } } : true
+                    };
+                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    const mimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4']
+                        .find(t => MediaRecorder.isTypeSupported(t)) || '';
+
+                    mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+                    audioChunks = [];
+                    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+
+                    mediaRecorder.onstop = async () => {
+                        stream.getTracks().forEach(t => t.stop());
+                        micSetListening(false);
+                        micSetTranscribing(true);
+                        try {
+                            const blob   = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+                            const b64    = await new Promise(resolve => {
+                                const r = new FileReader();
+                                r.onloadend = () => resolve(r.result.split(',')[1]);
+                                r.readAsDataURL(blob);
+                            });
+                            const res  = await fetch('/api/transcribe', {
+                                method:  'POST',
+                                headers: { 'content-type': 'application/json' },
+                                body:    JSON.stringify({ audio: b64, mimeType: mediaRecorder.mimeType })
+                            });
+                            const data = await res.json();
+                            if (data.text?.trim()) {
+                                input.value = data.text.trim();
+                                input.focus();
+                                updateFormState();
+                            }
+                        } catch (err) {
+                            console.error('[dictation]', err);
+                        } finally {
+                            micSetTranscribing(false);
+                        }
+                    };
+
+                    mediaRecorder.start();
+                    micSetListening(true);
+                    expandModal();
+                } catch (err) {
+                    console.error('[dictation] getUserMedia failed:', err);
+                    // Device no longer available — clear stored ID and let user re-pick
+                    if (selectedDeviceId) {
+                        selectedDeviceId = null;
+                        sessionStorage.removeItem('llmx-mic-device');
+                    }
+                }
+            }
+
+            micBtn.addEventListener('click', async () => {
+                if (isTranscribing) return;
+
+                if (isRecording) {
+                    if (mediaRecorder?.state !== 'inactive') mediaRecorder.stop();
+                    return;
+                }
+
+                // Long-press resets device selection — show picker again
+                if (!selectedDeviceId) {
+                    const devices = await getMicDevices();
+                    if (devices.length > 1) { showMicPicker(devices); return; }
+                }
+                startRecording();
+            });
+
+            // Long-press (600 ms) to re-pick mic device
+            micBtn.addEventListener('pointerdown', () => {
+                longPressTimer = setTimeout(async () => {
+                    longPressTimer = null;
+                    selectedDeviceId = null;
+                    sessionStorage.removeItem('llmx-mic-device');
+                    const devices = await getMicDevices();
+                    if (devices.length) showMicPicker(devices);
+                }, 600);
+            });
+            micBtn.addEventListener('pointerup',     () => clearTimeout(longPressTimer));
+            micBtn.addEventListener('pointerleave',  () => clearTimeout(longPressTimer));
         }
     }
 
