@@ -2029,83 +2029,9 @@ html.darkmode .theme-toggle__label {
     animation: mic-pulse 1s ease-in-out infinite;
 }
 
-.ask-llmx__mic.transcribing {
-    opacity: 0.6;
-    cursor: wait;
-    animation: mic-pulse 0.6s ease-in-out infinite;
-}
-
 @keyframes mic-pulse {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.5; }
-}
-
-/* ── Mic device picker ───────────────────────────────────────────────── */
-.llmx-mic-picker {
-    position: absolute;
-    bottom: calc(100% + 0.5rem);
-    right: 0;
-    z-index: 1100;
-    background: rgba(18, 18, 18, 0.96);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 6px;
-    padding: 0.6rem;
-    min-width: 220px;
-    max-width: 320px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-:root:not(.darkmode) .llmx-mic-picker {
-    background: rgba(245, 245, 245, 0.97);
-    border-color: rgba(0, 0, 0, 0.12);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-}
-
-.llmx-mic-picker__label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    opacity: 0.45;
-    margin: 0 0 0.2rem 0;
-    padding: 0 0.3rem;
-}
-
-.llmx-mic-picker__option {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--ink);
-    background: none;
-    border: none;
-    border-radius: 4px;
-    padding: 0.45rem 0.55rem;
-    text-align: left;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: background 0.12s ease, color 0.12s ease;
-}
-
-.llmx-mic-picker__option:hover {
-    background: rgba(255, 0, 0, 0.08);
-    color: #ff0000;
-}
-
-.llmx-mic-picker__option--active {
-    color: #ff0000;
-    opacity: 0.85;
-}
-
-/* Picker needs relative parent on the form */
-.ask-llmx__form {
-    position: relative;
 }
 
 /* ── Screen-reader utility ───────────────────────────────────────────── */
