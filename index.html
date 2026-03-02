@@ -601,10 +601,10 @@
         const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal || !modal.classList.contains('ask-llmx-modal--collapsed')) return;
         modal.classList.remove('ask-llmx-modal--collapsed');
-        // Backdrop + scroll-lock only kick in once the full modal opens
         if (backdrop) {
             backdrop.removeAttribute('hidden');
             backdrop.removeAttribute('aria-hidden');
+            backdrop.classList.remove('ask-llmx-backdrop--collapsed');
         }
         document.body.style.overflow = 'hidden';
     }
@@ -613,12 +613,13 @@
         const modal = document.getElementById('ask-llmx-modal');
         const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal) return;
-        // Collapsed: modal container is chromeless, but backdrop dims the page
+        // Collapsed: command-line style, lighter backdrop
         modal.classList.add('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
         if (backdrop) {
             backdrop.removeAttribute('hidden');
             backdrop.removeAttribute('aria-hidden');
+            backdrop.classList.add('ask-llmx-backdrop--collapsed');
         }
         document.body.style.overflow = 'hidden';
     }
@@ -631,9 +632,10 @@
         if (backdrop) {
             backdrop.setAttribute('hidden', '');
             backdrop.setAttribute('aria-hidden', 'true');
+            backdrop.classList.remove('ask-llmx-backdrop--collapsed');
         }
         document.body.style.overflow = '';
-        // Reset to collapsed so next open always starts bare
+        // Reset to collapsed so next open always starts in command-line mode
         modal.classList.add('ask-llmx-modal--collapsed');
     }
 

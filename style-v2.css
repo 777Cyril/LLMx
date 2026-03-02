@@ -1844,7 +1844,69 @@ html.darkmode .theme-toggle__label {
 }
 
 .ask-llmx-modal--collapsed .ask-llmx__chips {
-    margin-bottom: 0.6rem;
+    gap: 0.1rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.1rem;
+}
+
+/* Collapsed: chips as plain borderless monospace text */
+.ask-llmx-modal--collapsed .ask-llmx__chip {
+    background: none;
+    border: none;
+    opacity: 0.55;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0;
+}
+.ask-llmx-modal--collapsed .ask-llmx__chip:hover {
+    background: none;
+    border: none;
+    opacity: 1;
+    color: #ff0000;
+}
+
+/* Collapsed: input as command-line bar — red left border, square, opaque */
+.ask-llmx-modal--collapsed .ask-llmx__input {
+    border: none;
+    border-left: 3px solid #ff0000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0;
+    background: rgba(10, 10, 10, 0.88);
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    min-height: 48px;
+}
+:root:not(.darkmode) .ask-llmx-modal--collapsed .ask-llmx__input {
+    background: rgba(245, 245, 245, 0.94);
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+}
+.ask-llmx-modal--collapsed .ask-llmx__input:focus {
+    outline: none;
+    background: rgba(15, 15, 15, 0.92);
+    border-left-color: #ff0000;
+}
+:root:not(.darkmode) .ask-llmx-modal--collapsed .ask-llmx__input:focus {
+    background: rgba(250, 250, 250, 0.97);
+}
+
+/* Collapsed: mic — square, matches input */
+.ask-llmx-modal--collapsed .ask-llmx__mic {
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    background: rgba(10, 10, 10, 0.88);
+    padding: 0.7rem 0.9rem;
+}
+:root:not(.darkmode) .ask-llmx-modal--collapsed .ask-llmx__mic {
+    background: rgba(245, 245, 245, 0.94);
+    border-left-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Lighter backdrop in collapsed (command line) mode */
+.ask-llmx-backdrop.ask-llmx-backdrop--collapsed {
+    background: rgba(0, 0, 0, 0.50);
+    backdrop-filter: blur(4px) saturate(120%);
+    -webkit-backdrop-filter: blur(4px) saturate(120%);
 }
 
 /* ── Seed chips ──────────────────────────────────────────────────────── */
