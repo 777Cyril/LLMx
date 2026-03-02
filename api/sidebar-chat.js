@@ -257,7 +257,7 @@ async function handler(req, res) {
     return json(res, 503, { error: 'temporarily_unavailable', detail: claudeError.message });
   }
 
-  const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly/i;
+  const BOOKING_INTENT = /book a call|book directly|sanity.check fit|get started|calendly|booking link|drop your email|leave your email|send you.*summary|send.*sprint/i;
   const isBookingIntent = BOOKING_INTENT.test(reply);
 
   let sources = [];
