@@ -1413,7 +1413,8 @@
             flips[1].classList.add('is-active');
             startTimer();
 
-            // Mouse enter or leave → always advance one state
+            // Mouse enter → always advance one state, pause auto-cycle
+            // Mouse leave → resume auto-cycle from wherever hover landed, no extra advance
             wrapper.addEventListener('mouseenter', function () {
                 isHovered = true;
                 clearInterval(timerId);
@@ -1422,7 +1423,6 @@
 
             wrapper.addEventListener('mouseleave', function () {
                 isHovered = false;
-                advance();
                 startTimer();
             });
         }
