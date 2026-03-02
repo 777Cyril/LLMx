@@ -933,6 +933,26 @@ footer {
     pointer-events: auto;
 }
 
+/* Inside the JS-cycled wrapper, CSS :hover must not flip the face — JS
+   owns face state via .is-flipped.  Reset :hover to neutral, then let
+   .is-flipped (same specificity, declared after) override when set. */
+.footer-flips .footer-flip:hover .footer-flip__front {
+    transform: translateY(0);
+    opacity: 1;
+}
+.footer-flips .footer-flip:hover .footer-flip__back {
+    transform: translateY(100%);
+    opacity: 0;
+}
+.footer-flips .footer-flip.is-flipped .footer-flip__front {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.footer-flips .footer-flip.is-flipped .footer-flip__back {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 /* Reset <button> styles so .footer-flip--book matches <a> appearance */
 .footer-flip--book {
     background: none;
