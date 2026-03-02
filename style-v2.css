@@ -1850,6 +1850,20 @@ html.darkmode .theme-toggle__label {
 
 .ask-llmx-modal--collapsed .ask-llmx__chips {
     margin-bottom: 0.5rem;
+    justify-content: center;
+}
+
+@media (max-width: 640px) {
+    .ask-llmx-modal--collapsed .ask-llmx__chips {
+        flex-wrap: nowrap;
+        gap: 0.3rem;
+        justify-content: flex-start;
+    }
+    .ask-llmx-modal--collapsed .ask-llmx__chip {
+        font-size: 0.62rem;
+        padding: 0.22rem 0.38rem;
+        white-space: nowrap;
+    }
 }
 
 /* Softer backdrop in collapsed mode — page content stays more readable */
