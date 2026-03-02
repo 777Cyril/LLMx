@@ -1102,7 +1102,7 @@ footer {
 
     .hero-header { padding: 2rem; flex-direction: column; }
     .llm-viz-container { display: none; }
-    h1 { font-size: 3rem; }
+    h1 { font-size: clamp(1.75rem, 7.5vw, 3rem); white-space: nowrap; }
     .trusted-by {
         grid-template-columns: 1fr;
         gap: 0.4rem;
