@@ -615,15 +615,18 @@
         const modal = document.getElementById('ask-llmx-modal');
         const backdrop = document.getElementById('ask-llmx-backdrop');
         if (!modal) return;
-        // Collapsed: command-line style, lighter backdrop
-        modal.classList.add('ask-llmx-modal--collapsed');
+        // Open fully expanded — no collapsed command-line mode
+        modal.classList.remove('ask-llmx-modal--collapsed');
         modal.removeAttribute('hidden');
         if (backdrop) {
             backdrop.removeAttribute('hidden');
             backdrop.removeAttribute('aria-hidden');
-            backdrop.classList.add('ask-llmx-backdrop--collapsed');
+            backdrop.classList.remove('ask-llmx-backdrop--collapsed');
         }
         document.body.style.overflow = 'hidden';
+        // Focus the input immediately
+        const input = document.getElementById('ask-llmx-input');
+        if (input) setTimeout(() => input.focus(), 50);
     }
 
     function closeGptModal() {
@@ -637,8 +640,6 @@
             backdrop.classList.remove('ask-llmx-backdrop--collapsed');
         }
         document.body.style.overflow = '';
-        // Reset to collapsed so next open always starts in command-line mode
-        modal.classList.add('ask-llmx-modal--collapsed');
     }
 
     function askLlmxSetStatus(isThinking) {
