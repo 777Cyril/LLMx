@@ -263,7 +263,7 @@ async function handler(req, res) {
   } else {
     // Booking intent — suppress page links, focus UI entirely on conversion CTAs.
     sources.push({ id: 'calendly', label: 'Book a call →', url: 'https://calendly.com/llmxai' });
-    sources.push({ id: 'email', label: 'Email us', url: 'mailto:cyril@llmxai.co' });
+    sources.push({ id: 'email', label: 'Email us', url: 'mailto:team@llmxai.co' });
   }
 
   return json(res, 200, { reply, sources });
