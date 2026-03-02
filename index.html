@@ -1381,8 +1381,9 @@
             function goTo(idx) {
                 var s = STATES[idx];
                 if (s.f !== activeFlip) {
-                    // Sliding to a different flip element
-                    flips[activeFlip].classList.remove('is-flipped');
+                    // Sliding to a different flip element.
+                    // Do NOT unflip the outgoing element — let it slide away showing its
+                    // current face so there's no flash of the front face mid-transition.
                     // Snap incoming below, then release to let transition run
                     flips[s.f].style.transition = 'none';
                     flips[s.f].style.transform = 'translateY(100%)';
@@ -1413,8 +1414,7 @@
             flips[1].classList.add('is-active');
             startTimer();
 
-            // Mouse enter → always advance one state, pause auto-cycle
-            // Mouse leave → resume auto-cycle from wherever hover landed, no extra advance
+            // Mouse enter or leave → always advance one state
             wrapper.addEventListener('mouseenter', function () {
                 isHovered = true;
                 clearInterval(timerId);
@@ -1423,6 +1423,7 @@
 
             wrapper.addEventListener('mouseleave', function () {
                 isHovered = false;
+                advance();
                 startTimer();
             });
         }
