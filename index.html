@@ -14,6 +14,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/style-v2.css">
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="grid-container">
@@ -593,7 +594,8 @@
     const ASK_LLMX_MAX_HISTORY = 10;
     const askLlmxState = {
         messages: [],
-        pending: false
+        pending: false,
+        assistantReplies: 0
     };
 
     function expandModal() {
@@ -704,6 +706,15 @@
         askLlmxSetStatus(isThinking);
     }
 
+    function askLlmxMaybeShowEmailCapture(should) {
+        if (!should) return;
+        if (sessionStorage.getItem('llmxEmailCaptureSeen')) return;
+        const el = document.getElementById('ask-llmx-email-capture');
+        if (!el || !el.hidden) return;
+        el.removeAttribute('hidden');
+        sessionStorage.setItem('llmxEmailCaptureSeen', '1');
+    }
+
     function askLlmxPushMessage(message) {
         askLlmxState.messages.push(message);
         if (askLlmxState.messages.length > ASK_LLMX_MAX_HISTORY * 2) {
@@ -767,6 +778,8 @@
                 source_count: Array.isArray(data.sources) ? data.sources.length : 0,
                 page: 'home'
             });
+            askLlmxState.assistantReplies++;
+            askLlmxMaybeShowEmailCapture(data.showEmailCapture || askLlmxState.assistantReplies >= 2);
         } catch (err) {
             console.error('[askLlmx] send failed:', err);
             askLlmxPushMessage({
@@ -882,6 +895,35 @@
                 recognition.onerror = () => micSetListening(false);
                 recognition.onend   = () => micSetListening(false);
             }
+        }
+
+        // ── Email capture form ──────────────────────────────────────────
+        const emailCaptureForm    = document.getElementById('ask-llmx-email-form');
+        const emailCaptureInput   = document.getElementById('ask-llmx-email-input');
+        const emailCaptureSuccess = document.getElementById('ask-llmx-email-success');
+
+        if (emailCaptureForm) {
+            emailCaptureForm.addEventListener('submit', async (evt) => {
+                evt.preventDefault();
+                const email = (emailCaptureInput?.value || '').trim();
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+
+                const submitBtn = emailCaptureForm.querySelector('.ask-llmx__email-submit');
+                if (submitBtn) submitBtn.disabled = true;
+                if (emailCaptureInput) emailCaptureInput.disabled = true;
+
+                try {
+                    await fetch('/api/capture-email', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                } catch (_) {}
+
+                emailCaptureForm.hidden = true;
+                if (emailCaptureSuccess) emailCaptureSuccess.removeAttribute('hidden');
+                trackEvent('ask_llmx_email_captured', { page: 'home' });
+            });
         }
     }
 
@@ -1276,6 +1318,62 @@
         line-height: 1.35 !important;
         -webkit-text-size-adjust: 100%;
     }
+
+    /* ── Email capture widget ──────────────────────────────────────────── */
+    .ask-llmx__email-capture {
+        padding: 0.625rem 1rem;
+        border-top: 1px solid rgba(128,128,128,0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+    .ask-llmx__email-prompt {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        opacity: 0.55;
+        margin: 0;
+        letter-spacing: 0.02em;
+    }
+    .ask-llmx__email-form {
+        display: flex;
+        gap: 0.375rem;
+    }
+    .ask-llmx__email-input {
+        flex: 1;
+        min-width: 0;
+        background: transparent;
+        border: 1px solid rgba(128,128,128,0.25);
+        border-radius: 0;
+        color: inherit;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        padding: 0.35rem 0.5rem;
+        outline: none;
+        -webkit-appearance: none;
+    }
+    .ask-llmx__email-input:focus {
+        border-color: rgba(128,128,128,0.55);
+    }
+    .ask-llmx__email-input::placeholder { opacity: 0.4; }
+    .ask-llmx__email-submit {
+        background: transparent;
+        border: 1px solid rgba(128,128,128,0.25);
+        color: inherit;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        padding: 0.35rem 0.65rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.15s;
+    }
+    .ask-llmx__email-submit:hover:not(:disabled) { background: rgba(128,128,128,0.08); }
+    .ask-llmx__email-submit:disabled { opacity: 0.4; cursor: default; }
+    .ask-llmx__email-success {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        opacity: 0.55;
+        margin: 0;
+    }
 </style>
 
 <!-- LLMx Modal -->
@@ -1291,6 +1389,15 @@
     <div class="ask-llmx__body">
         <div class="ask-llmx__messages" id="ask-llmx-messages" aria-live="polite"></div>
         <div class="ask-llmx__thinking" id="ask-llmx-thinking" hidden>Thinking…</div>
+    </div>
+    <div class="ask-llmx__email-capture" id="ask-llmx-email-capture" hidden>
+        <p class="ask-llmx__email-prompt">Want a Sprint summary in your inbox?</p>
+        <form class="ask-llmx__email-form" id="ask-llmx-email-form" novalidate>
+            <input type="email" class="ask-llmx__email-input" id="ask-llmx-email-input"
+                   placeholder="your@email.com" autocomplete="email">
+            <button type="submit" class="ask-llmx__email-submit">Send →</button>
+        </form>
+        <p class="ask-llmx__email-success" id="ask-llmx-email-success" hidden>Sent — check your inbox.</p>
     </div>
     <div class="ask-llmx__chips" id="ask-llmx-chips">
         <button type="button" class="ask-llmx__chip" data-seed-question="What does LLMx do?">What does LLMx do?</button>

@@ -284,7 +284,7 @@ async function handler(req, res) {
     sources.push({ id: 'email', label: 'Email us', url: 'mailto:team@llmxai.co' });
   }
 
-  return json(res, 200, { reply, sources });
+  return json(res, 200, { reply, sources, showEmailCapture: isBookingIntent });
 }
 
 handler._internal = {
