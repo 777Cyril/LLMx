@@ -335,6 +335,7 @@ html.darkmode .sidebar-open-tab { color: var(--ink); }
     opacity: 0.6;
 }
 
+/* Mobile / tablet: absolute dropdown below the nav item */
 .resources-flyout {
     position: absolute;
     left: 100%;
@@ -357,6 +358,31 @@ html.darkmode .sidebar-open-tab { color: var(--ink); }
     transform: translateX(0);
 }
 
+/* Desktop: in-sidebar submenu — expands in-place below Library.
+   Sidebar has overflow:hidden which clips the left:100% flyout. */
+@media (min-width: 1025px) {
+    .resources-flyout {
+        position: static;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transform: none;
+        border: none;
+        border-top: var(--border-width) solid var(--line-color);
+        min-width: auto;
+        background: transparent;
+        transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+
+    .nav-resources:hover .resources-flyout {
+        max-height: 200px;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+    }
+}
+
 .flyout-link {
     padding: 0.85rem 1.5rem;
     text-decoration: none;
@@ -375,6 +401,19 @@ html.darkmode .sidebar-open-tab { color: var(--ink); }
 
 .flyout-link:hover {
     background: white;
+}
+
+/* Desktop flyout links: indent to show hierarchy */
+@media (min-width: 1025px) {
+    .flyout-link {
+        padding-left: 2rem;
+        font-size: 0.88rem;
+        opacity: 0.85;
+        border-bottom: var(--border-width) solid var(--line-color);
+    }
+    .flyout-link:last-child {
+        border-bottom: none;
+    }
 }
 
 /* Footer contact link */
@@ -685,7 +724,7 @@ h1 {
     background-position: center;
     z-index: 0;
     filter: grayscale(100%) contrast(110%);
-    transition: filter 0.4s ease;
+    transition: filter 0.4s ease, box-shadow 0.4s ease;
 }
 
 .cs-tiffany .cs-image {
@@ -694,19 +733,32 @@ h1 {
 }
 
 .cs-apple .cs-image {
-    background-image: url('/assets/cs02-bg.jpg');
+    background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2560&auto=format&fit=crop');
     background-position: center center;
-    box-shadow: inset 0 0 0 2000px rgba(20, 30, 40, 0.55);
+    box-shadow: inset 0 0 0 2000px rgba(43, 58, 74, 0.7);
 }
 
 .cs-wc .cs-image {
-    background-image: url('/assets/cs03-bg.jpg');
+    background-image: url('https://images.unsplash.com/photo-1481487196290-c152efe083f5?q=80&w=2562&auto=format&fit=crop');
     background-position: center center;
-    box-shadow: inset 0 0 0 2000px rgba(120, 100, 90, 0.45);
+    box-shadow: inset 0 0 0 2000px rgba(43, 58, 74, 0.7);
 }
 
 .case-study:hover .cs-image {
     filter: grayscale(0%) contrast(100%);
+}
+
+/* Desktop: distinct hover accent colors per card */
+@media (min-width: 1025px) {
+    .cs-tiffany:hover .cs-image {
+        box-shadow: inset 0 0 0 2000px rgba(43, 58, 74, 0.45);
+    }
+    .cs-apple:hover .cs-image {
+        box-shadow: inset 0 0 0 2000px rgba(160, 75, 20, 0.45);
+    }
+    .cs-wc:hover .cs-image {
+        box-shadow: inset 0 0 0 2000px rgba(50, 20, 100, 0.45);
+    }
 }
 
 .cs-spine-text {
